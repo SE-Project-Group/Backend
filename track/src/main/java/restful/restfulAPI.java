@@ -15,17 +15,14 @@ import javax.ws.rs.core.Response;
 import service.AppService;
 import util.SpringContextUtil;
 
-@Path("/")
 public class restfulAPI {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
-	@GET
-	@Produces("text/html")
-	public Response getStartingPage()
-	{
-		String output = "<h1>DOES THIS WORK?<h1>";
-		return Response.status(200).entity(output).build();
-	}
-	
+	@GET  
+	@Path("/test")
+    @Produces(MediaType.TEXT_PLAIN)  
+    public String sayHello() {  
+        return "Hello Jersey";  
+    }  
 	@GET
 	@Path("/clientLogin")
 	@Produces(MediaType.APPLICATION_JSON)
