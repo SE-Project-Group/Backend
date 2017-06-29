@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="model.Manager" table="administrator">
+		<id name="admin_ID" type="int">
+			<column name="admin_ID" />
+			<generator class="assigned" />
+		</id>
+		<property name="admin_name" type="java.lang.String">
+			<column name="admin_name" />
+		</property>
+		<property name="password" type="java.lang.String">
+			<column name="password" />
+		</property>
+	</class>
+</hibernate-mapping>
