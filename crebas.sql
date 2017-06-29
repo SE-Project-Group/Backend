@@ -16,7 +16,7 @@ drop table if exists Client;
 /*==============================================================*/
 create table Client
 (
-   user_ID              int not null,
+   user_ID              int not null AUTO INCREMENT,
    phone                char(20),
    gender               char(20),
    birthday             date,
