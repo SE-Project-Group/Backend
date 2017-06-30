@@ -61,4 +61,12 @@ public class ClientDaoImpl extends HibernateDaoSupport implements ClientDao{
 		else return 2;
 	}
 
+	@Override
+	public Client getClientByUser_name(String user_name) {
+		String hql="from Client as c where c.user_name=?";
+		List<Client> clients=(List<Client>)getHibernateTemplate().find(hql,new String[]{user_name});
+		Client client = clients.size() > 0 ? clients.get(0) : null;
+		return client;
+	}
+
 }
