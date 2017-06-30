@@ -34,6 +34,7 @@ public class HelloResource {
     public String sayanotherHello() {  
         return "AnotherHello Jersey";  
     }  
+   //用户登录
     @GET
 	@Path("/clientLogin")
     @Produces(MediaType.TEXT_PLAIN)  
@@ -72,6 +73,7 @@ public class HelloResource {
 		 }
 		 else return res;
     }*/
+  //用户注册
 	@POST
     @Path("/clientSignup")
 	 //@Produces(MediaType.APPLICATION_JSON)
@@ -93,4 +95,23 @@ public class HelloResource {
 		
 	 return res;
     }
+//用户注销	
+@POST
+@Path("/clentLogoff")
+@Consumes(MediaType.APPLICATION_JSON)  
+@Produces("text/html")
+public String clientLogoff(String sign) throws JSONException{
+	//String temp1[] =signinformation.split(",");
+	 JSONObject signinformation = new JSONObject(sign);
+String username=((String) signinformation.get("user_name"));
+	
+	Client client= appService.getClientByUser_name(username);
+	// appService.insertClient(client);
+	appService.deleteClient(client);
+	 String res= "success";
+	
+ return res;
+}
+
+	
 }
