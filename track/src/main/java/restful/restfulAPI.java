@@ -14,11 +14,11 @@ import javax.ws.rs.core.Response;
 
 import service.AppService;
 import util.SpringContextUtil;
-
+@Path("/app")
 public class restfulAPI {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
 	@GET  
-	@Path("/test")
+
     @Produces(MediaType.TEXT_PLAIN)  
     public String sayHello() {  
         return "Hello Jersey";  
