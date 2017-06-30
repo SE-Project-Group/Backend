@@ -1,5 +1,7 @@
 package restful;
 
+
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -9,7 +11,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
+import org.codehaus.jettison.json.JSONString;
+
 import model.Client;
+import netscape.javascript.JSObject;
 import service.AppService;
 import util.SpringContextUtil;
 
@@ -39,12 +46,14 @@ public class HelloResource {
 	  String res=Boolean.toString(result);
 	    return  res;
 	}
-    @POST
+    
+ //浏览器版本用URL注册的客户注册函数   
+/*    @GET
     @Path("/clientSignup")
 	 //@Produces(MediaType.APPLICATION_JSON)
 	 //@Consumes(MediaType.APPLICATION_OCTET_STREAM)
-	 @Consumes(MediaType.APPLICATION_JSON)
-	 @Produces("text/html")
+
+    @Produces(MediaType.TEXT_PLAIN)  
 	//return 0:ok   1:phone  2:user_name  3:phone&username
     public String clientSignup(
     		@QueryParam("user_name") String user_name,
@@ -62,5 +71,26 @@ public class HelloResource {
 			 return res;
 		 }
 		 else return res;
+    }*/
+	@POST
+    @Path("/clientSignup")
+	 //@Produces(MediaType.APPLICATION_JSON)
+	 //@Consumes(MediaType.APPLICATION_OCTET_STREAM)
+
+    @Consumes(MediaType.APPLICATION_JSON)  
+	 @Produces("text/html")
+	//return 0:ok   1:phone  2:user_name  3:phone&username
+    public String clientSignup(String sign) throws JSONException{
+		//String temp1[] =signinformation.split(",");
+		 JSONObject signinformation = new JSONObject(sign);
+		Client client=new Client();
+		 client.setUser_name((String) signinformation.get("user_name"));
+		 client.setPassword((String) signinformation.get("password"));
+		 client.setPhone((String) signinformation.get("phone"));
+		 appService.insertClient(client);
+		// appService.insertClient(client);
+		 String res= "success";
+		
+	 return res;
     }
 }
