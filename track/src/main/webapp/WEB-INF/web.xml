@@ -11,8 +11,19 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	<servlet>  
-  <servlet-name>Jersey REST Service</servlet-name>  
+	
+ 	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/track/*</url-pattern>
+	</filter-mapping> 
+	
+		<servlet>  
+  <servlet-name>Jersey REST Service</servlet-name>
 <servlet-class>  
   com.sun.jersey.spi.container.servlet.ServletContainer  
 </servlet-class>  
@@ -23,18 +34,9 @@
   <load-on-startup>1</load-on-startup>  
 </servlet>  
 <servlet-mapping>  
-  <servlet-name>Jersey REST Service</servlet-name>  
+  <servlet-name>Jersey REST Service</servlet-name>
   <url-pattern>/rest/*</url-pattern>  
 </servlet-mapping>
- <filter>
-		<filter-name>struts2</filter-name>
-		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>struts2</filter-name>
-		<url-pattern>/track/*</url-pattern>
-	</filter-mapping> 
 	
 	 <welcome-file-list>  
         <welcome-file>index.jsp</welcome-file>  

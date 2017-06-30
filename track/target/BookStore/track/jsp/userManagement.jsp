@@ -10,12 +10,12 @@
 <%
 	String path = request.getContextPath();
 %>
-<link href="<%=path%>/track/css/bootstrap.min.css" rel="stylesheet">
-<link href="<%=path%>/track/css/dataTables.bootstrap.css"
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/dataTables.bootstrap.css"
 	rel="stylesheet">
-<link href="<%=path%>/track/css/dataTables.responsive.css"
+<link href="../css/dataTables.responsive.css"
 	rel="stylesheet">
-<link href="<%=path%>/v/css/font-awesome.min.css"
+<link href="../css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
 </head>
 
@@ -86,11 +86,12 @@
 											<td><%=client.getBirthday()%></td>
 											<td>
 												<button class="btn btn-default delete" type="button"
-													data-user_ID="<%=client.getUser_ID()%>">
+													data-userid="<%=client.getUser_ID()%>"
+													>
 													<i class="fa fa-trash"></i>
 												</button>
 												<button class="btn btn-default edit" type="button"
-													data-user_ID="<%=client.getUser_ID()%>"
+													data-userid="<%=client.getUser_ID()%>"
 													data-user_name="<%=client.getUser_name()%>"
 													data-password="<%=client.getPassword()%>"
 													data-phone="<%=client.getPhone()%>"
@@ -153,7 +154,7 @@
 									<label>Gender</label> <input class="form-control" name="gender">
 								</div>
 								<div class="form-group">
-									<label>Birthday</label> <input class="form-control" name="gender">
+									<label>Birthday</label> <input class="form-control" name="birthday">
 								</div>
 							</form>
 						</div>
@@ -171,10 +172,10 @@
 	<script src="<%=path%>/track/js/bootstrap.min.js"></script>
 	<script src="<%=path%>/track/js/jquery.dataTables.min.js"></script>
 	<script src="<%=path%>/track/js/dataTables.bootstrap.min.js"></script>
-	<script src="<%=path%>/track/js/track.js"></script>
+	<script src="<%=path%>/track/js/track2.js"></script>
 	<script src="<%=path%>/track/js/bootbox.min.js"></script>
 
-	<script src="<%=path%>/track/js/client.js"></script>
+	<script src="<%=path%>/track/js/client2.1.js"></script>
 
 	<script>
 		$(document).ready(function() {
@@ -183,7 +184,6 @@
 			});
 		});
 	</script>
-<h2>welcome!</h2>
 
 </body>
 

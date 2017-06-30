@@ -11,6 +11,8 @@
 	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<!-- Bean -->
+	<bean id="SpringContextUtil" class="util.SpringContextUtil" scope="singleton"></bean>
+	
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" p:driverClass="com.mysql.jdbc.Driver"
 		p:jdbcUrl="jdbc:mysql://localhost:3306/track" p:user="root"
