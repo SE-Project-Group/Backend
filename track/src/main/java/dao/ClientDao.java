@@ -13,4 +13,5 @@ public interface ClientDao {
 	public List<Client> getAllClients();
 	public boolean checkLogin(String client_name,String password);
 	public int checkSignup(String client_name,String password,String phone);
+	public Client getClientByUser_name(String user_name);
 }

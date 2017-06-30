@@ -70,6 +70,11 @@ public class AppServiceImpl implements AppService{
 		return clientDao.checkSignup(client_name, password, phone);
 	}
 	
+	@Override
+	public Client getClientByUser_name(String user_name) {
+		return clientDao.getClientByUser_name(user_name);
+	}
+	
 	
 	/*
 	 * 
@@ -80,6 +85,8 @@ public class AppServiceImpl implements AppService{
 	public boolean managerLogin(String admin_name, String password) {
 		return managerDao.checkLogin(admin_name, password);
 	}
+
+	
 
 	
 

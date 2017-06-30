@@ -18,7 +18,8 @@ public interface AppService {
 	public List<Client> getAllClients();
 	public boolean clientLogin(String client_name,String password);
 	public int checkSignup(String client_name,String password,String phone);	//return 0:ok   1:phone  2:user_name  3:phone&username
-
+	public Client getClientByUser_name(String user_name);
+	
 	/*
 	 * 
 	 * Admin
