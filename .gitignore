@@ -1,2 +1,4 @@
 
 track/src/main/resources/applicationContext.xml
+track/.classpath
+track/target
