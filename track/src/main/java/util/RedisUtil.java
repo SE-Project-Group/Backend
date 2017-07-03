@@ -10,15 +10,15 @@ public class RedisUtil {
 	        if (key==null || "".equals(key)) {  
 	            return;  
 	        }  
-	        redisTemplate.opsForHash().put(key, key, value);            
+	        redisTemplate.opsForValue().set(key, value);            
 	 }
 	 
 	 public void put(int key, String value) {  
-	        redisTemplate.opsForHash().put(String.valueOf(key), String.valueOf(key), value);            
+	        redisTemplate.opsForValue().set(String.valueOf(key), value);            
 	 }
 	 
 	 public String get(String key) {  
-	        Object obj = redisTemplate.opsForHash().get(key, key);  
+	        Object obj = redisTemplate.opsForValue().get(key);  
 	        if(obj == null){  
 	            return null;  
 	        }else{  
@@ -27,7 +27,7 @@ public class RedisUtil {
 	 }  
 	 
 	 public String get(int key) {  
-	        Object obj = redisTemplate.opsForHash().get(String.valueOf(key), String.valueOf(key));  
+	        Object obj = redisTemplate.opsForValue().get(String.valueOf(key));  
 	        if(obj == null){  
 	            return null;  
 	        }else{  
