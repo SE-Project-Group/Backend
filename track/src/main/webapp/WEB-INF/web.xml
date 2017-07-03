@@ -5,8 +5,7 @@
 	version="3.0" id="WebApp_1498632673754">
   	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext.xml,
-		classpath:redis.xml
+		<param-value>classpath:applicationContext.xml
 		</param-value>
 	</context-param>
 

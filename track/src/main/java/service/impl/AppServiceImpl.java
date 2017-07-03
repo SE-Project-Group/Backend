@@ -5,14 +5,21 @@ import java.util.List;
 
 import dao.ClientDao;
 import dao.ManagerDao;
+import dao.TokenDao;
 import model.Client;
+import model.Token;
+import redis.clients.jedis.Jedis;
 import service.AppService;
+
+import java.util.UUID;
 
 public class AppServiceImpl implements AppService{
 	
 	private ClientDao clientDao;
 	
 	private ManagerDao managerDao;
+	
+	private TokenDao tokenDao;
 
 	public ClientDao getClientDao() {
 		return clientDao;
@@ -28,6 +35,14 @@ public class AppServiceImpl implements AppService{
 
 	public void setManagerDao(ManagerDao managerDao) {
 		this.managerDao = managerDao;
+	}
+	
+	public TokenDao getTokenDao() {
+		return tokenDao;
+	}
+
+	public void setTokenDao(TokenDao tokenDao) {
+		this.tokenDao = tokenDao;
 	}
 
 	/*
@@ -61,8 +76,12 @@ public class AppServiceImpl implements AppService{
 	}
 	
 	@Override
-	public boolean clientLogin(String client_name, String password) {
-		return clientDao.checkLogin(client_name, password);
+	public Token clientLogin(String user_name, String password) {
+		if(clientDao.checkLogin(user_name, password)){
+			Client client=clientDao.getClientByUser_name(user_name);
+			return tokenDao.createToken(client.getUser_ID());
+		}
+		return null;
 	}
 
 	@Override
@@ -85,6 +104,10 @@ public class AppServiceImpl implements AppService{
 	public boolean managerLogin(String admin_name, String password) {
 		return managerDao.checkLogin(admin_name, password);
 	}
+
+
+
+
 
 	
 

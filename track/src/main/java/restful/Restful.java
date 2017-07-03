@@ -1,8 +1,9 @@
 package restful;
 
 import model.Client;
+import model.Token;
 
-import java.sql.Date;
+import java.text.ParseException;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,6 +13,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import org.codehaus.jackson.annotate.JsonValue;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 import service.AppService;
 import util.SpringContextUtil;
@@ -30,16 +36,13 @@ public class Restful {
 	
 	@GET
 	@Path("/clientLogin")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("text/html")
+	@Produces(MediaType.TEXT_PLAIN)
 	public String clientLogin(
 			@QueryParam("user_name") String user_name,
-			@QueryParam("password") String password)
+    		@QueryParam("password") String password) 
 	{
-		if(appService.clientLogin(user_name, password)){
-			return "success";
-		}
-		else return "error";
+		Token token=appService.clientLogin(user_name,password);
+		return "SUCCESS";
 	}
 	
 	@POST
@@ -68,40 +71,30 @@ public class Restful {
 	
 	@GET
 	@Path("/query_personal_info")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("text/html")
+	@Produces(MediaType.APPLICATION_JSON)
 	public String query_personal_info(
 			@QueryParam("user_name") String user_name)
 	{
-		Client client=appService.getClientByUser_name(user_name);
-		if(client==null){
-			return "username error!";
-		}
-		else return "success";
+		return "success";
 	}
 	
 	@PUT
 	@Path("/modify_personal_info")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
-	public String modify_personal_info(
-			@QueryParam("user_name") String user_name,
-			@QueryParam("password") String password,
-			@QueryParam("birthday") Date birthday,
-			@QueryParam("gender") String gender,
-			@QueryParam("phone") String phone,
-			@QueryParam("email") String email)
+	public String modify_personal_info(String message) throws JSONException, ParseException
 	{
-		Client client=appService.getClientByUser_name(user_name);
+		JSONObject obj=new JSONObject(message);
+		Client client=appService.getClientByUser_name(obj.getString("user_name"));
 		if(client==null){
 			return "username error!";
 		}
-		else {
-			client.setBirthday(birthday);
-			client.setEmail(email);
-			client.setGender(gender);
-			client.setPassword(password);
-			client.setPhone(phone);
+		else { 
+			client.setBirthday(java.sql.Date.valueOf(obj.getString("birthday")));
+			client.setEmail(obj.getString("email"));
+			client.setGender(obj.getString("gender"));
+			client.setPassword(obj.getString("password"));
+			client.setPhone(obj.getString("phone"));
 			appService.updateClient(client);
 			return "success";
 		}
