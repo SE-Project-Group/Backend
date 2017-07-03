@@ -12,6 +12,14 @@
 
 	<!-- Bean -->
 	<bean id="SpringContextUtil" class="util.SpringContextUtil" scope="singleton"></bean>
+<<<<<<< HEAD
+=======
+	
+	<bean id="redisUtil" class="util.RedisUtil">
+		<property name="redisTemplate" ref="redisTemplate" />
+	</bean>
+	
+>>>>>>> 83f8ba64daaf6e54ba7d83f1336f83d569fc7f24
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" p:driverClass="com.mysql.jdbc.Driver"
 		p:jdbcUrl="jdbc:mysql://localhost:3306/track" p:user="root"
@@ -45,6 +53,12 @@
 	<bean id="managerDao" class="dao.impl.ManagerDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+<<<<<<< HEAD
+=======
+	<bean id="tokenDao" class="dao.impl.TokenDaoImpl">
+		<property name="redisUtil" ref="redisUtil" />
+	</bean>
+>>>>>>> 83f8ba64daaf6e54ba7d83f1336f83d569fc7f24
  
 
 	<!-- Service -->

@@ -5,16 +5,21 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class RedisUtil {
 	
 	 private StringRedisTemplate redisTemplate;
-	
+
+	public StringRedisTemplate getRedisTemplate() {
+		return redisTemplate;
+	}
+
+	public void setRedisTemplate(StringRedisTemplate redisTemplate) {
+		this.redisTemplate = redisTemplate;
+	}
+	 
 	 public void put(String key, String value) {  
-	        if (key==null || "".equals(key)) {  
-	            return;  
-	        }  
-	        redisTemplate.opsForValue().set(key, value);            
+		 redisTemplate.opsForValue().set(key, value);
 	 }
 	 
 	 public void put(int key, String value) {  
-	        redisTemplate.opsForValue().set(String.valueOf(key), value);            
+	     redisTemplate.opsForValue().set(String.valueOf(key), value);            
 	 }
 	 
 	 public String get(String key) {  
@@ -34,4 +39,6 @@ public class RedisUtil {
 	            return String.valueOf(obj);  
 	        }  
 	 }  
+	
+	
 }
