@@ -17,13 +17,13 @@ public class Reis {
         RedisService rs= (RedisService) factory.getBean("redisService");  
         if(rs!=null){  
          System.out.println("RedisService : "+rs);  
-         if(rs.check("lwj", "123456789000")){ //</span><span style="font-family: Î¢ÈíÑÅºÚ;">lwj</span><span style="font-family: Î¢ÈíÑÅºÚ;">ÒÑÊÂÏÈÐ´½øredisµÄÊý¾Ý</span><span style="font-family:Î¢ÈíÑÅºÚ;">  
+         if(rs.check("testtt", "123456789000")){ //</span><span style="font-family: Î¢ÈíÑÅºÚ;">lwj</span><span style="font-family: Î¢ÈíÑÅºÚ;">ÒÑÊÂÏÈÐ´½øredisµÄÊý¾Ý</span><span style="font-family:Î¢ÈíÑÅºÚ;">  
       System.out.println("redis has contianed ");
           System.out.println("add one new key-value : lwj 1234567 expire 15000");  
           rs.set("lwj", "123456", 15000);  
          }else{  
           System.out.println("add one new key-value : lwj 123456 expire 15000");  
-          rs.set("lwj", "123456789000", 15000);  
+          rs.set("testtt", "123456789000", 15000);  
          }  
            
          

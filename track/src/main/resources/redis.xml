@@ -32,8 +32,6 @@
   <property name="usePool" value="true"></property> 
   <property name="hostName" value="${redis.host}" /> 
   <property name="port" value="${redis.port}" /> 
-  <property name="timeout" value="${redis.timeout}" /> 
-  <property name="database" value="${redis.default.db}"></property> 
   <constructor-arg index="0" ref="jedisPoolConfig" /> 
  </bean>
  
