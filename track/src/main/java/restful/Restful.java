@@ -2,6 +2,7 @@ package restful;
 
 import model.Client;
 import model.Token;
+import net.sf.json.JSONObject;
 
 import java.text.ParseException;
 
@@ -14,10 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.codehaus.jackson.annotate.JsonValue;
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+
 
 import service.AppService;
 import util.SpringContextUtil;
@@ -36,13 +35,17 @@ public class Restful {
 	
 	@GET
 	@Path("/clientLogin")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON)
 	public String clientLogin(
 			@QueryParam("user_name") String user_name,
     		@QueryParam("password") String password) 
 	{
 		Token token=appService.clientLogin(user_name,password);
-		return "SUCCESS";
+		if(token==null){
+			return "ERROR";
+		}
+		JSONObject json = JSONObject.fromObject(token);
+		return json.toString();
 	}
 	
 	@POST
@@ -75,7 +78,11 @@ public class Restful {
 	public String query_personal_info(
 			@QueryParam("user_name") String user_name)
 	{
-		return "success";
+		Client client=appService.getClientByUser_name(user_name);
+		if(client==null)return null;
+		JSONObject json = JSONObject.fromObject(client);
+		System.out.println(json.toString());
+		return json.toString();
 	}
 	
 	@PUT
@@ -84,7 +91,7 @@ public class Restful {
 	@Produces("text/html")
 	public String modify_personal_info(String message) throws JSONException, ParseException
 	{
-		JSONObject obj=new JSONObject(message);
+		JSONObject obj=JSONObject.fromObject(message);
 		Client client=appService.getClientByUser_name(obj.getString("user_name"));
 		if(client==null){
 			return "username error!";

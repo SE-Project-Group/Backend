@@ -33,7 +33,9 @@
 	<!-- Bean -->
 	<bean id="SpringContextUtil" class="util.SpringContextUtil" scope="singleton"></bean>
 	
-	<bean id="RedisUtil" class="util.RedisUtil"></bean>
+	<bean id="redisUtil" class="util.RedisUtil">
+		<property name="redisTemplate" ref="redisTemplate" />
+	</bean>
 	
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" p:driverClass="com.mysql.jdbc.Driver"
@@ -69,7 +71,7 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="tokenDao" class="dao.impl.TokenDaoImpl">
-		<property name="redisUtil" ref="RedisUtil" />
+		<property name="redisUtil" ref="redisUtil" />
 	</bean>
  
 
