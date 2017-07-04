@@ -39,6 +39,14 @@ public class RedisUtil {
 	            return String.valueOf(obj);  
 	        }  
 	 }  
+	 
+	 public void delete(int key){
+		 redisTemplate.delete(String.valueOf(key));
+	 }
+	 
+	 public void delete(String key){
+		 redisTemplate.delete(key);
+	 }
 	
 	
 }

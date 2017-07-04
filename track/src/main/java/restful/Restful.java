@@ -5,10 +5,12 @@ import model.Token;
 import net.sf.json.JSONObject;
 import net.sf.json.processors.JsonValueProcessor;
 
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,6 +32,8 @@ import util.SpringContextUtil;
 @Path("/app")
 public class Restful {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
+	private HttpServletRequest request;
+	
 	@GET  
 	@Path("/hello")
 
@@ -51,6 +55,22 @@ public class Restful {
 		}
 		JSONObject json=JSONObject.fromObject(token);
 		return json.toString();
+	}
+	
+	@GET
+	@Path("/clientLogout")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String clientLogout(
+			@QueryParam("user_ID") int user_ID,
+			@QueryParam("sign") String sign) throws NoSuchAlgorithmException 
+	{
+		String uri="rest/app/clientLogout";
+		if(sign==null)return null;
+		if(appService.checkSign(user_ID,uri,sign)){
+			appService.logout(user_ID);
+			return "success";
+		}
+		return "error";
 	}
 	
 	@POST
@@ -81,9 +101,15 @@ public class Restful {
 	@Path("/query_personal_info")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String query_personal_info(
-			@QueryParam("user_name") String user_name) throws ClassNotFoundException
+			@QueryParam("user_ID") int user_ID,
+			@QueryParam("sign") String sign) throws ClassNotFoundException, NoSuchAlgorithmException
 	{
-		Client client=appService.getClientByUser_name(user_name);
+		String uri="rest/app/query_personal_info";
+		if(sign==null)return null;
+		if(!appService.checkSign(user_ID,uri,sign)){
+			return null;
+		}
+		Client client=appService.getClientByID(user_ID);
 		if(client==null)return null;
 		String shortFormat = "yyyy-MM-dd";  
 		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  

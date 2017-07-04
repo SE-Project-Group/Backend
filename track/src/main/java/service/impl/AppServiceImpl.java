@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 
@@ -94,6 +95,14 @@ public class AppServiceImpl implements AppService{
 		return clientDao.getClientByUser_name(user_name);
 	}
 	
+	public boolean checkSign(int user_ID,String uri,String token) throws NoSuchAlgorithmException{
+		if(tokenDao.checkSign(user_ID, uri,token))return true;
+		return false;
+	}
+	
+	public void logout(int user_ID){
+		tokenDao.deleteToken(user_ID);
+	}
 	
 	/*
 	 * 

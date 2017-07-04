@@ -1,5 +1,7 @@
 package dao;
 
+import java.security.NoSuchAlgorithmException;
+
 import model.Token;
 
 public interface TokenDao {
@@ -15,18 +17,11 @@ public interface TokenDao {
      * @param model token
      * @return 是否有效
      */
-    public boolean checkToken(Token token);
-
-    /**
-     * 从字符串中解析token
-     * @param authentication 加密后的字符串
-     * @return
-     */
-    public Token getToken(String authentication);
+    public boolean checkSign(int user_ID, String uri ,String sign)throws NoSuchAlgorithmException;
 
     /**
      * 清除token
      * @param userId 登录用户的id
      */
-    public void deleteToken(int userId);
+    public void deleteToken(int user_ID);
 }
