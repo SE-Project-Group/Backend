@@ -32,7 +32,7 @@
 
 		<ognl.version>3.0</ognl.version>
 
-		<spring.core.version>3.0.5.RELEASE</spring.core.version>
+		<spring.core.version>4.2.4.RELEASE</spring.core.version>
 
 		<struts.core.version>2.2.1</struts.core.version>
 
@@ -310,6 +310,30 @@
 			<version>${javax.servlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- json -->
+		<dependency>
+	        <groupId>net.sf.json-lib</groupId>
+	        <artifactId>json-lib</artifactId>
+	        <classifier>jdk15</classifier>
+	        <version>2.2.3</version>
+        </dependency>
+<<<<<<< HEAD
+=======
+        
+        <!-- mongodb -->
+		
+         <dependency>  
+            <groupId>org.mongodb</groupId>  
+            <artifactId>mongo-java-driver</artifactId>  
+            <version>3.3.0</version>  
+        </dependency> 
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>1.7.1.RELEASE</version>
+        </dependency>
+>>>>>>> 556b088679ec02c3ac07e8d90f7521b6a1db242e
 
 	</dependencies>
 	<build>
