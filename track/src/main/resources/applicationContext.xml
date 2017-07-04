@@ -77,6 +77,9 @@
 	<bean id="tokenDao" class="dao.impl.TokenDaoImpl">
 		<property name="redisUtil" ref="redisUtil" />
 	</bean>
+	<bean id="feedRepository" class="dao.impl.FeedRepositoryImpl">
+	<property name="mongoTemplate" ref="mongoTemplate" />
+	</bean>
  
 
 	<!-- Service -->
@@ -85,6 +88,7 @@
 		<property name="clientDao" ref="clientDao"></property>
 		<property name="managerDao" ref="managerDao"></property>
 		<property name="tokenDao" ref="tokenDao"></property>
+		<property name="feedRepository" ref="feedRepository"></property>
 	</bean>	
 	
 	<!-- HibernateTransactionManager -->

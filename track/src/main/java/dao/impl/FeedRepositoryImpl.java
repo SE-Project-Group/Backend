@@ -42,23 +42,23 @@ public class FeedRepositoryImpl implements FeedRepository{
 	@Override
 	public void removeOne(String user_id, long time) {
 		// TODO Auto-generated method stub
-		 Criteria criteria = Criteria.where("user_id").in(user_id).and("time").in(time);   
-	        if(criteria == null){   
-	             Query query = new Query(criteria);   
-	             if(query != null && mongoTemplate.findOne(query, Feed.class) != null)   
-	                 mongoTemplate.remove(mongoTemplate.findOne(query, Feed.class));   
+		Query query = Query.query(Criteria.where("user_id").is(user_id).and("time").is(time));
+		mongoTemplate.remove(query, Feed.class);
 	        }   
-	}
+	
 
 	@Override
 	public void removeAll() {
 		// TODO Auto-generated method stub
-		 List<Feed> list = this.findAll();   
+		/* List<Feed> list = this.findAll();   
 	        if(list != null){   
 	            for(Feed feed : list){   
+	            	String pstring= feed.toString();
+	            	 System.out.println(pstring);
 	               mongoTemplate.remove(feed);   
 	            }   
-	        }   
+	        }   */
+		mongoTemplate.dropCollection(Feed.class);
 	}
 
 	@Override
@@ -81,5 +81,15 @@ public class FeedRepositoryImpl implements FeedRepository{
 			 .set("mentionList", nmentionList)
 			 , Feed.class);
 	}
+	 public MongoTemplate getMongoTemplate() {
+	        return mongoTemplate;
+	    }
+
+	    /**
+	     * @param mongoTemplate the mongoTemplate to set
+	     */
+	    public void setMongoTemplate(MongoTemplate mongoTemplate) {
+	        this.mongoTemplate = mongoTemplate;
+	    }
 
 }

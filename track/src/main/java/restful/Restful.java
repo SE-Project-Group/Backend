@@ -1,6 +1,7 @@
 package restful;
 
 import model.Client;
+import model.Feed;
 import model.Token;
 import net.sf.json.JSONObject;
 import net.sf.json.processors.JsonValueProcessor;
@@ -54,8 +55,7 @@ public class Restful {
 		JSONObject json=JSONObject.fromObject(token);
 		return json.toString();
 	}
-<<<<<<< HEAD
-=======
+
 	
 	@GET
 	@Path("/clientLogout")
@@ -73,7 +73,7 @@ public class Restful {
 		return "error";
 	}
 	
->>>>>>> a26d4eb860206b0ef775fd767103da4054d4096f
+
 	@POST
 	    @Path("/clientSignup")
 		 //@Produces(MediaType.APPLICATION_JSON)
@@ -175,9 +175,11 @@ public class Restful {
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
 	//return 0:ok   1:phone  2:user_name  3:phone&username
-	 public String NewFeed(String feed) throws JSONException{
+	 public String NewFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
-		 JSONObject newfeed = JSONObject.fromObject(feed);
+		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
+		 Feed feed=new Feed();
+		 appService.NewFeed(feed);
 		/*Client client=new Client();
 		 client.setUser_name((String) signinformation.get("user_name"));
 		 client.setPassword((String) signinformation.get("password"));

@@ -5,9 +5,11 @@ import java.util.List;
 
 
 import dao.ClientDao;
+import dao.FeedRepository;
 import dao.ManagerDao;
 import dao.TokenDao;
 import model.Client;
+import model.Feed;
 import model.Token;
 import redis.clients.jedis.Jedis;
 import service.AppService;
@@ -21,6 +23,8 @@ public class AppServiceImpl implements AppService{
 	private ManagerDao managerDao;
 	
 	private TokenDao tokenDao;
+	private FeedRepository feedRepository;
+	
 
 	public ClientDao getClientDao() {
 		return clientDao;
@@ -45,7 +49,13 @@ public class AppServiceImpl implements AppService{
 	public void setTokenDao(TokenDao tokenDao) {
 		this.tokenDao = tokenDao;
 	}
+	public FeedRepository getFeedRepository() {
+		return feedRepository;
+	}
 
+	public void setFeedRepository(FeedRepository feedRepository) {
+		this.feedRepository = feedRepository;
+	}
 	/*
 	 * 
 	 * 
@@ -102,6 +112,13 @@ public class AppServiceImpl implements AppService{
 	
 	public void logout(int user_ID){
 		tokenDao.deleteToken(user_ID);
+	}
+	/*
+	 * 
+	 * feed
+	 */
+	public void NewFeed(Feed feed){
+		feedRepository.insert(feed);
 	}
 	
 	/*

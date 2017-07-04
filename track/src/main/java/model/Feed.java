@@ -95,5 +95,9 @@ public class Feed implements Serializable {
     public void setMentionList(List<String> mentionList) {
         this.mentionList = mentionList;
     }
-
+    public String toString() {   
+        return "Feed[user_id="+user_id+",time="+time+",text="+text+",showLocation="+showLocation+
+        		",latitude="+latitude+",longtitude="+longtitude+",shareArea="+shareArea+"]";   
+    }
+    /*showLocation,latitude,longtitude; ,shareArea;*/
 }

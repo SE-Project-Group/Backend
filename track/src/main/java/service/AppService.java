@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import model.Client;
+import model.Feed;
 import model.Token;
 
 public interface AppService {
@@ -23,7 +24,11 @@ public interface AppService {
 	public Client getClientByUser_name(String user_name);
 	public boolean checkSign(int user_ID,String uri,String token)throws NoSuchAlgorithmException;
 	public void logout(int user_ID);
-	
+	/*
+	 * 
+	 * Feed
+	 */
+	public void NewFeed(Feed feed);
 	/*
 	 * 
 	 * Admin
