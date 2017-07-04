@@ -5,6 +5,7 @@ import model.Token;
 import net.sf.json.JSONObject;
 import net.sf.json.processors.JsonValueProcessor;
 
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,7 @@ import util.SpringContextUtil;
 @Path("/app")
 public class Restful {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
+	
 	@GET  
 	@Path("/hello")
 
@@ -52,6 +54,26 @@ public class Restful {
 		JSONObject json=JSONObject.fromObject(token);
 		return json.toString();
 	}
+<<<<<<< HEAD
+=======
+	
+	@GET
+	@Path("/clientLogout")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String clientLogout(
+			@QueryParam("user_ID") int user_ID,
+			@QueryParam("sign") String sign) throws NoSuchAlgorithmException 
+	{
+		String uri="rest/app/clientLogout";
+		if(sign==null)return null;
+		if(appService.checkSign(user_ID,uri,sign)){
+			appService.logout(user_ID);
+			return "success";
+		}
+		return "error";
+	}
+	
+>>>>>>> a26d4eb860206b0ef775fd767103da4054d4096f
 	@POST
 	    @Path("/clientSignup")
 		 //@Produces(MediaType.APPLICATION_JSON)
@@ -101,9 +123,15 @@ public class Restful {
 	@Path("/query_personal_info")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String query_personal_info(
-			@QueryParam("user_name") String user_name) throws ClassNotFoundException
+			@QueryParam("user_ID") int user_ID,
+			@QueryParam("sign") String sign) throws ClassNotFoundException, NoSuchAlgorithmException
 	{
-		Client client=appService.getClientByUser_name(user_name);
+		String uri="rest/app/query_personal_info";
+		if(sign==null)return null;
+		if(!appService.checkSign(user_ID,uri,sign)){
+			return null;
+		}
+		Client client=appService.getClientByID(user_ID);
 		if(client==null)return null;
 		String shortFormat = "yyyy-MM-dd";  
 		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
@@ -115,9 +143,16 @@ public class Restful {
 	@PUT
 	@Path("/modify_personal_info")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("text/html")
-	public String modify_personal_info(String message) throws JSONException, ParseException
+	@Produces(MediaType.TEXT_PLAIN)
+	public String modify_personal_info(String message,
+			@QueryParam("user_ID") int user_ID,
+			@QueryParam("sign") String sign) throws JSONException, ParseException, NoSuchAlgorithmException
 	{
+		String uri="rest/app/modify_personal_info";
+		if(sign==null)return null;
+		if(!appService.checkSign(user_ID,uri,sign)){
+			return null;
+		}
 		JSONObject obj=JSONObject.fromObject(message);
 		Client client=appService.getClientByUser_name(obj.getString("user_name"));
 		if(client==null){

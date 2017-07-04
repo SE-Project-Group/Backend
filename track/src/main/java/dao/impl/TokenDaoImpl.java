@@ -1,10 +1,14 @@
 package dao.impl;
 
 import dao.TokenDao;
+
 import model.Token;
 import util.RedisUtil;
 
 import java.util.UUID;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class TokenDaoImpl implements TokenDao{
 
@@ -21,27 +25,27 @@ public class TokenDaoImpl implements TokenDao{
 	@Override
 	public Token createToken(int user_ID) {
 		String s = UUID.randomUUID().toString(); 
-		Token token = new Token(user_ID,s);
-		redisUtil.put(user_ID, s);
+		String tokenStr=s.substring(0,8)+s.substring(9,13)+s.substring(14,18)+s.substring(19,23)+s.substring(24); 
+		Token token = new Token(user_ID,tokenStr);
+		redisUtil.put(user_ID, tokenStr);
 		return token;
 	}
 
 	@Override
-	public boolean checkToken(Token token) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean checkSign(int user_ID, String uri,String sign) throws NoSuchAlgorithmException{
+		String token=redisUtil.get(user_ID);
+		MessageDigest md=MessageDigest.getInstance("MD5");
+		byte[] bs = md.digest((uri+"?token="+token).getBytes());
+		String rightSign=bs.toString();
+		if(sign.equals(rightSign)){
+			return true;
+		}
+		else return false;
 	}
 
 	@Override
-	public Token getToken(String authentication) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteToken(int userId) {
-		// TODO Auto-generated method stub
-		
+	public void deleteToken(int user_ID) {
+		redisUtil.delete(user_ID);
 	}
 
 
