@@ -3,8 +3,11 @@ package restful;
 import model.Client;
 import model.Token;
 import net.sf.json.JSONObject;
+import net.sf.json.processors.JsonValueProcessor;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,6 +22,8 @@ import org.codehaus.jettison.json.JSONException;
 
 
 import service.AppService;
+import util.JSONUtil;
+import util.SQLDateProcessor;
 import util.SpringContextUtil;
 
 
@@ -44,7 +49,7 @@ public class Restful {
 		if(token==null){
 			return "ERROR";
 		}
-		JSONObject json = JSONObject.fromObject(token);
+		JSONObject json=JSONObject.fromObject(token);
 		return json.toString();
 	}
 	
@@ -76,12 +81,14 @@ public class Restful {
 	@Path("/query_personal_info")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String query_personal_info(
-			@QueryParam("user_name") String user_name)
+			@QueryParam("user_name") String user_name) throws ClassNotFoundException
 	{
 		Client client=appService.getClientByUser_name(user_name);
 		if(client==null)return null;
-		JSONObject json = JSONObject.fromObject(client);
-		System.out.println(json.toString());
+		String shortFormat = "yyyy-MM-dd";  
+		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
+		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 
+		JSONObject json = JSONUtil.toJson(client,processors);
 		return json.toString();
 	}
 	
