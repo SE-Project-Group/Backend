@@ -31,6 +31,7 @@ public interface AppService {
 	public void NewFeed(Feed feed);
 	public void UpdateFeed(Feed feed);
 	public void removeFeed(String user_id, long time);
+	public List<Feed>findFeedByUser_id(String user_id);
 	/*
 	 * 
 	 * Admin

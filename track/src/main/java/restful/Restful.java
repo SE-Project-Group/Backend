@@ -3,6 +3,7 @@ package restful;
 import model.Client;
 import model.Feed;
 import model.Token;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.processors.JsonValueProcessor;
 
@@ -238,6 +239,17 @@ public class Restful {
 		
 	 return res;
      }
-	
+	@GET
+	@Path("/MyFeed")
+	 @Produces("text/html")
+	public  String MyFeed(@QueryParam("user_id") String user_id)throws JSONException
+	{
+		
+		
+		 List<Feed> list=appService.findFeedByUser_id(user_id);
+		 JSONArray newfeed = JSONArray.fromObject(list);
+		
+	 return newfeed.toString();
+	}
 }
 

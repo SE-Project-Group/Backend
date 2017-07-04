@@ -126,6 +126,9 @@ public class AppServiceImpl implements AppService{
 	public void removeFeed(String user_id, long time){
 		feedRepository.removeOne(user_id, time);
 	}
+	public List<Feed>findFeedByUser_id(String user_id){
+		return feedRepository.findByUser_id(user_id);
+	}
 	/*
 	 * 
 	 * Admin
