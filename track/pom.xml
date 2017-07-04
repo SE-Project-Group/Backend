@@ -334,7 +334,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>BookStore</finalName>
+		<finalName>Track</finalName>
 
 		<plugins>
 			<plugin>

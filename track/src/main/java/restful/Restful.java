@@ -52,8 +52,28 @@ public class Restful {
 		JSONObject json=JSONObject.fromObject(token);
 		return json.toString();
 	}
-	
 	@POST
+	    @Path("/clientSignup")
+		 //@Produces(MediaType.APPLICATION_JSON)
+		 //@Consumes(MediaType.APPLICATION_OCTET_STREAM)
+	
+	   @Consumes(MediaType.APPLICATION_JSON)  
+		 @Produces("text/html")
+		//return 0:ok   1:phone  2:user_name  3:phone&username
+	    public String clientSignup(String sign) throws JSONException{
+			//String temp1[] =signinformation.split(",");
+			 JSONObject signinformation = JSONObject.fromObject(sign);
+			Client client=new Client();
+			 client.setUser_name((String) signinformation.get("user_name"));
+			 client.setPassword((String) signinformation.get("password"));
+			 client.setPhone((String) signinformation.get("phone"));
+			 appService.insertClient(client);
+			// appService.insertClient(client);
+			 String res= "success";
+			
+		 return res;
+	     }
+	/*@POST
     @Path("/clientSignup")
 	 //@Produces(MediaType.APPLICATION_JSON)
 	 //@Consumes(MediaType.APPLICATION_OCTET_STREAM)
@@ -76,7 +96,7 @@ public class Restful {
 		 }
 		 else return flag;
     }
-	
+	*/
 	@GET
 	@Path("/query_personal_info")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -113,6 +133,26 @@ public class Restful {
 			return "success";
 		}
 	}
+	@POST
+    @Path("/NewFeed")
+	 //@Produces(MediaType.APPLICATION_JSON)
+	 //@Consumes(MediaType.APPLICATION_OCTET_STREAM)
+	 @Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/html")
+	//return 0:ok   1:phone  2:user_name  3:phone&username
+	 public String NewFeed(String feed) throws JSONException{
+		//String temp1[] =signinformation.split(",");
+		 JSONObject newfeed = JSONObject.fromObject(feed);
+		/*Client client=new Client();
+		 client.setUser_name((String) signinformation.get("user_name"));
+		 client.setPassword((String) signinformation.get("password"));
+		 client.setPhone((String) signinformation.get("phone"));
+		 appService.insertClient(client);*/
+		// appService.insertClient(client);
+		 String res= "success";
+		
+	 return res;
+     }
 
 }
 

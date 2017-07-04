@@ -18,6 +18,7 @@
 	http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd">
 
 	<context:property-placeholder location="classpath:redis.properties" />  
+
   
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">  
         <property name="maxIdle" value="${redis.maxIdle}" />  
@@ -39,11 +40,11 @@
 	<bean id="redisUtil" class="util.RedisUtil">
 		<property name="redisTemplate" ref="redisTemplate" />
 	</bean>
-	
+		<context:property-placeholder location="classpath:mysql.properties" />  
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" p:driverClass="com.mysql.jdbc.Driver"
-		p:jdbcUrl="jdbc:mysql://localhost:3306/track" p:user="root"
-		p:password="123456" p:maxPoolSize="40" p:minPoolSize="1"
+		p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/track" p:user="root"
+		p:password="password" p:maxPoolSize="40" p:minPoolSize="1"
 		p:initialPoolSize="1" p:maxIdleTime="20" />
 
 	<bean id="sessionFactory"
@@ -117,7 +118,7 @@
     <mongo:db-factory dbname="test" mongo-ref="mongo"/> 
     <!-- mongo模板操作对象 -->
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>   
     </bean>
 
 </beans>
