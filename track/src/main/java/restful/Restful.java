@@ -10,7 +10,6 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -32,7 +31,6 @@ import util.SpringContextUtil;
 @Path("/app")
 public class Restful {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
-	private HttpServletRequest request;
 	
 	@GET  
 	@Path("/hello")
@@ -121,9 +119,16 @@ public class Restful {
 	@PUT
 	@Path("/modify_personal_info")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces("text/html")
-	public String modify_personal_info(String message) throws JSONException, ParseException
+	@Produces(MediaType.TEXT_PLAIN)
+	public String modify_personal_info(String message,
+			@QueryParam("user_ID") int user_ID,
+			@QueryParam("sign") String sign) throws JSONException, ParseException, NoSuchAlgorithmException
 	{
+		String uri="rest/app/modify_personal_info";
+		if(sign==null)return null;
+		if(!appService.checkSign(user_ID,uri,sign)){
+			return null;
+		}
 		JSONObject obj=JSONObject.fromObject(message);
 		Client client=appService.getClientByUser_name(obj.getString("user_name"));
 		if(client==null){
