@@ -120,7 +120,12 @@ public class AppServiceImpl implements AppService{
 	public void NewFeed(Feed feed){
 		feedRepository.insert(feed);
 	}
-	
+	public void UpdateFeed(Feed feed){
+		feedRepository.update(feed);
+	}
+	public void removeFeed(String user_id, long time){
+		feedRepository.removeOne(user_id, time);
+	}
 	/*
 	 * 
 	 * Admin

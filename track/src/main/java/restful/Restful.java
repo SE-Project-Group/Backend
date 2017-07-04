@@ -9,6 +9,7 @@ import net.sf.json.processors.JsonValueProcessor;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -170,26 +171,73 @@ public class Restful {
 	}
 	@POST
     @Path("/NewFeed")
-	 //@Produces(MediaType.APPLICATION_JSON)
-	 //@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
 	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String NewFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
+		 String list=newfeed.getString("mentionList");
+		 String[] mention=list.split(",");
+		 List<String> mentionlist = java.util.Arrays.asList(mention);
 		 Feed feed=new Feed();
+		 feed.setLongtitude(newfeed.getString("longtitude"));
+		 feed.setMentionList(mentionlist);
+		 feed.setUser_id(newfeed.getString("user_id"));
+		 feed.setTime(System.currentTimeMillis());
+		 feed.setLatitude(newfeed.getString("latitude"));
+		 feed.setShareArea(newfeed.getString("shareArea"));
+		 feed.setShowLocation(newfeed.getString("showLocation"));
+		 feed.setText(newfeed.getString("text"));
+		
 		 appService.NewFeed(feed);
-		/*Client client=new Client();
-		 client.setUser_name((String) signinformation.get("user_name"));
-		 client.setPassword((String) signinformation.get("password"));
-		 client.setPhone((String) signinformation.get("phone"));
-		 appService.insertClient(client);*/
-		// appService.insertClient(client);
 		 String res= "success";
 		
 	 return res;
      }
-
+	@POST
+    @Path("/UpdateFeed")
+	 @Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/html")
+	//return 0:ok   1:phone  2:user_name  3:phone&username
+	 public String UpdateFeed(String feedinfo) throws JSONException{
+		//String temp1[] =signinformation.split(",");
+		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
+		 String list=newfeed.getString("mentionList");
+		 String[] mention=list.split(",");
+		 List<String> mentionlist = java.util.Arrays.asList(mention);
+		 Feed feed=new Feed();
+		 feed.setLongtitude(newfeed.getString("longtitude"));
+		 feed.setMentionList(mentionlist);
+		 feed.setUser_id(newfeed.getString("user_id"));
+		 feed.setTime(System.currentTimeMillis());
+		 feed.setLatitude(newfeed.getString("latitude"));
+		 feed.setShareArea(newfeed.getString("shareArea"));
+		 feed.setShowLocation(newfeed.getString("showLocation"));
+		 feed.setText(newfeed.getString("text"));
+		
+		 appService.UpdateFeed(feed);
+		 String res= "success";
+		
+	 return res;
+     }
+	@POST
+    @Path("/RemoveFeed")
+	 @Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/html")
+	//return 0:ok   1:phone  2:user_name  3:phone&username
+	 public String RemoveFeed(String feedinfo) throws JSONException{
+		//String temp1[] =signinformation.split(",");
+		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
+		 String user_id=newfeed.getString("user_id");
+		 long time= Long.parseLong(newfeed.getString("time"));
+		 
+		
+		 appService.removeFeed(user_id,time);
+		 String res= "success";
+		
+	 return res;
+     }
+	
 }
 

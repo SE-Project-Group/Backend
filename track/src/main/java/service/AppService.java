@@ -29,6 +29,8 @@ public interface AppService {
 	 * Feed
 	 */
 	public void NewFeed(Feed feed);
+	public void UpdateFeed(Feed feed);
+	public void removeFeed(String user_id, long time);
 	/*
 	 * 
 	 * Admin
