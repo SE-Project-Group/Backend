@@ -3,6 +3,7 @@ package restful;
 import model.Client;
 import model.Feed;
 import model.Token;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.processors.JsonValueProcessor;
 
@@ -22,12 +23,18 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jettison.json.JSONException;
-
+import org.springframework.data.geo.Circle;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.query.Criteria;  
+import org.springframework.data.mongodb.core.query.Query;
 
 import service.AppService;
 import util.JSONUtil;
 import util.SQLDateProcessor;
 import util.SpringContextUtil;
+
 
 
 @Path("/app")
@@ -176,7 +183,7 @@ public class Restful {
 	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String NewFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
-		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
+		 /*JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 String list=newfeed.getString("mentionList");
 		 String[] mention=list.split(",");
 		 List<String> mentionlist = java.util.Arrays.asList(mention);
@@ -190,7 +197,7 @@ public class Restful {
 		 feed.setShowLocation(newfeed.getString("showLocation"));
 		 feed.setText(newfeed.getString("text"));
 		
-		 appService.NewFeed(feed);
+		 appService.NewFeed(feed);*/
 		 String res= "success";
 		
 	 return res;
@@ -202,7 +209,7 @@ public class Restful {
 	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String UpdateFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
-		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
+/*		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 String list=newfeed.getString("mentionList");
 		 String[] mention=list.split(",");
 		 List<String> mentionlist = java.util.Arrays.asList(mention);
@@ -216,7 +223,7 @@ public class Restful {
 		 feed.setShowLocation(newfeed.getString("showLocation"));
 		 feed.setText(newfeed.getString("text"));
 		
-		 appService.UpdateFeed(feed);
+		 appService.UpdateFeed(feed);*/
 		 String res= "success";
 		
 	 return res;
@@ -235,6 +242,28 @@ public class Restful {
 		 String res= "success";
 	 return res;
      }
+	@GET
+	@Path("/MyFeed")
+	 @Produces("text/html")
+	public  String MyFeed(@QueryParam("user_id") String user_id)throws JSONException
+	{
+		
+		
+		 List<Feed> list=appService.findFeedByUser_id(user_id);
+		 JSONArray newfeed = JSONArray.fromObject(list);
+		
+	 return newfeed.toString();
+	}
 	
+	@GET
+	@Path("/feedAround")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String feedAround(
+			@QueryParam("longitude") double longitude,
+			@QueryParam("latitude") double latitude,
+			@QueryParam("radius") double radius ){
+		List<Point>points=appService.findPointAround(longitude, latitude, radius);
+		return JSONArray.fromObject(points).toString();
+	}
 }
 

@@ -1,6 +1,7 @@
 package service.impl;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,6 +16,13 @@ import redis.clients.jedis.Jedis;
 import service.AppService;
 
 import java.util.UUID;
+
+import org.springframework.data.geo.Circle;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 public class AppServiceImpl implements AppService{
 	
@@ -125,6 +133,21 @@ public class AppServiceImpl implements AppService{
 	}
 	public void removeFeed(String user_id, long time){
 		feedRepository.removeOne(user_id, time);
+	}
+	public List<Feed>findFeedByUser_id(String user_id){
+		return feedRepository.findByUser_id(user_id);
+	}
+	public List<Point>findPointAround(double longitude,double latitude,double radius){
+		Point point = new Point(longitude,latitude);   
+        Distance distance = new Distance(radius/1000,Metrics.KILOMETERS);  
+        Circle circle = new Circle(point,distance);   
+        List<Feed>feeds= feedRepository.findFeedsAround(circle);
+        List<Point>points=new ArrayList<>();
+		for(int i=0;i<feeds.size();i++){
+			Point cur=new Point(feeds.get(i).getLocation().get("longitude"),feeds.get(i).getLocation().get("latitude"));
+			points.add(cur);
+		}
+		return points;
 	}
 	/*
 	 * 

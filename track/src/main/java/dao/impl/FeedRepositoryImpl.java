@@ -2,6 +2,7 @@ package dao.impl;
 
 import java.util.List;
 
+import org.springframework.data.geo.Circle;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -12,6 +13,14 @@ import model.Feed;
 
 public class FeedRepositoryImpl implements FeedRepository{
 	 private MongoTemplate mongoTemplate; 
+	 
+	 public MongoTemplate getMongoTemplate() {
+	     return mongoTemplate;
+	 }
+	 
+	 public void setMongoTemplate(MongoTemplate mongoTemplate) {
+	     this.mongoTemplate = mongoTemplate;
+	 }
 	 
 	
 	 @Override
@@ -64,7 +73,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 	@Override
 	public void update(Feed feed) {
 		// TODO Auto-generated method stub
-		String id=feed.getUser_id();
+		/*String id=feed.getUser_id();
 		long itime=feed.getTime();
 	    String ntext=feed.getText();   
 	    String nshowLocation=feed.getShowLocation();
@@ -79,17 +88,17 @@ public class FeedRepositoryImpl implements FeedRepository{
 			 .set("longtitude",nlongtitude)
 			 .set("nshareArea",nshareArea)
 			 .set("mentionList", nmentionList)
-			 , Feed.class);
+			 , Feed.class);*/
 	}
-	 public MongoTemplate getMongoTemplate() {
-	        return mongoTemplate;
-	    }
 
-	    /**
-	     * @param mongoTemplate the mongoTemplate to set
-	     */
-	    public void setMongoTemplate(MongoTemplate mongoTemplate) {
-	        this.mongoTemplate = mongoTemplate;
-	    }
+	@Override
+	public List<Feed> findFeedsAround(Circle circle) {
+		Query query=Query.query(Criteria.where("location").withinSphere(circle));
+		List<Feed>feeds=mongoTemplate.find(query,Feed.class);
+		return feeds;
+	}
+	 
+
+		
 
 }
