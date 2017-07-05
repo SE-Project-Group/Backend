@@ -2,6 +2,7 @@ package restful;
 
 import model.Client;
 import model.Feed;
+import model.Location;
 import model.Token;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -183,21 +184,24 @@ public class Restful {
 	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String NewFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
-		 /*JSONObject newfeed = JSONObject.fromObject(feedinfo);
-		 String list=newfeed.getString("mentionList");
+		 JSONObject obj = JSONObject.fromObject(feedinfo);
+		 String list=obj.getString("mentionList");
 		 String[] mention=list.split(",");
 		 List<String> mentionlist = java.util.Arrays.asList(mention);
+		 String locationString=obj.getString("location");
+		 System.out.println(locationString);
+		 JSONObject  jasonObject = JSONObject.fromObject(locationString);
+		 Location location=new Location(Double.valueOf(jasonObject.getString("longitude")),Double.valueOf(jasonObject.getString("latitude")));
 		 Feed feed=new Feed();
-		 feed.setLongtitude(newfeed.getString("longtitude"));
+		 feed.setLocation(location);
 		 feed.setMentionList(mentionlist);
-		 feed.setUser_id(newfeed.getString("user_id"));
+		 feed.setUser_id(obj.getString("user_id"));
 		 feed.setTime(System.currentTimeMillis());
-		 feed.setLatitude(newfeed.getString("latitude"));
-		 feed.setShareArea(newfeed.getString("shareArea"));
-		 feed.setShowLocation(newfeed.getString("showLocation"));
-		 feed.setText(newfeed.getString("text"));
+		 feed.setShareArea(obj.getString("shareArea"));
+		 feed.setShowLocation(obj.getString("showLocation"));
+		 feed.setText(obj.getString("text"));
 		
-		 appService.NewFeed(feed);*/
+		 appService.NewFeed(feed);
 		 String res= "success";
 		
 	 return res;
@@ -209,21 +213,24 @@ public class Restful {
 	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String UpdateFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
-/*		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
+		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 String list=newfeed.getString("mentionList");
 		 String[] mention=list.split(",");
+		 
 		 List<String> mentionlist = java.util.Arrays.asList(mention);
+		 String locationString=newfeed.getString("location");
+		 JSONObject  jasonObject = JSONObject.fromObject(locationString);
+		 Location location=new Location(jasonObject.getDouble("longitude"),jasonObject.getDouble("latitude"));
 		 Feed feed=new Feed();
-		 feed.setLongtitude(newfeed.getString("longtitude"));
+		 feed.setLocation(location);
 		 feed.setMentionList(mentionlist);
 		 feed.setUser_id(newfeed.getString("user_id"));
 		 feed.setTime(System.currentTimeMillis());
-		 feed.setLatitude(newfeed.getString("latitude"));
 		 feed.setShareArea(newfeed.getString("shareArea"));
 		 feed.setShowLocation(newfeed.getString("showLocation"));
 		 feed.setText(newfeed.getString("text"));
 		
-		 appService.UpdateFeed(feed);*/
+		 appService.UpdateFeed(feed);
 		 String res= "success";
 		
 	 return res;
@@ -262,8 +269,8 @@ public class Restful {
 			@QueryParam("longitude") double longitude,
 			@QueryParam("latitude") double latitude,
 			@QueryParam("radius") double radius ){
-		List<Point>points=appService.findPointAround(longitude, latitude, radius);
-		return JSONArray.fromObject(points).toString();
+		List<Location>locations=appService.findPointAround(longitude, latitude, radius);
+		return JSONArray.fromObject(locations).toString();
 	}
 }
 

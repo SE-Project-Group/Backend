@@ -11,6 +11,7 @@ import dao.ManagerDao;
 import dao.TokenDao;
 import model.Client;
 import model.Feed;
+import model.Location;
 import model.Token;
 import redis.clients.jedis.Jedis;
 import service.AppService;
@@ -137,17 +138,17 @@ public class AppServiceImpl implements AppService{
 	public List<Feed>findFeedByUser_id(String user_id){
 		return feedRepository.findByUser_id(user_id);
 	}
-	public List<Point>findPointAround(double longitude,double latitude,double radius){
+	public List<Location>findPointAround(double longitude,double latitude,double radius){
 		Point point = new Point(longitude,latitude);   
         Distance distance = new Distance(radius/1000,Metrics.KILOMETERS);  
         Circle circle = new Circle(point,distance);   
         List<Feed>feeds= feedRepository.findFeedsAround(circle);
-        List<Point>points=new ArrayList<>();
+        List<Location>locations=new ArrayList<>();
 		for(int i=0;i<feeds.size();i++){
-			Point cur=new Point(feeds.get(i).getLocation().get("longitude"),feeds.get(i).getLocation().get("latitude"));
-			points.add(cur);
+			Location location=new Location(feeds.get(i).getLocation().getLongitude(),feeds.get(i).getLocation().getLatitude());
+			locations.add(location);
 		}
-		return points;
+		return locations;
 	}
 	/*
 	 * 

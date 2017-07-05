@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import model.Location;
 
 
 
@@ -17,9 +18,7 @@ public class Feed implements Serializable {
     private long time;
     private String text;   
     private String showLocation;
-    private Map<String,Double>location;
-   // private String latitude;
-    //private String longtitude; 
+    private Location location;
     private String shareArea;
     private List<String> mentionList;
     
@@ -69,25 +68,7 @@ public class Feed implements Serializable {
     public void setTime(long time) {
         this.time = time;
     }
-   /* public String getLatitude() {
-        return latitude;
-    }
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
     
-    public String getLongtitude() {
-        return longtitude;
-    }
-    public void setLongtitude(String longtitude) {
-        this.longtitude = longtitude;
-    }*/
-    public Map<String,Double> getLocation(){
-    	return location;
-    }
-    public void setLocation(Map<String,Double> location) {
-        this.location = location;
-    }
     
     public String getShareArea() {
         return shareArea;
@@ -102,9 +83,15 @@ public class Feed implements Serializable {
     public void setMentionList(List<String> mentionList) {
         this.mentionList = mentionList;
     }
-    public String toString() {   
+    /*public String toString() {   
         return "Feed[user_id="+user_id+",time="+time+",text="+text+",showLocation="+showLocation+
         		",latitude="+location.get("latitude")+",longtitude="+location.get("longtitude")+",shareArea="+shareArea+"]";   
-    }
+    }*/
     /*showLocation,latitude,longtitude; ,shareArea;*/
+	public Location getLocation() {
+		return location;
+	}
+	public void setLocation(Location location) {
+		this.location = location;
+	}
 }

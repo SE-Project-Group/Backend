@@ -1,7 +1,6 @@
 package dao.impl;
 
 import java.util.List;
-
 import org.springframework.data.geo.Circle;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -10,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import dao.FeedRepository;
 import model.Feed;
+import model.Location;
 
 public class FeedRepositoryImpl implements FeedRepository{
 	 private MongoTemplate mongoTemplate; 
@@ -73,22 +73,23 @@ public class FeedRepositoryImpl implements FeedRepository{
 	@Override
 	public void update(Feed feed) {
 		// TODO Auto-generated method stub
-		/*String id=feed.getUser_id();
+		String id=feed.getUser_id();
 		long itime=feed.getTime();
 	    String ntext=feed.getText();   
 	    String nshowLocation=feed.getShowLocation();
-	    String nlatitude=feed.getLatitude();
-	    String nlongtitude=feed.getLongtitude(); 
+	    Location nlocation=feed.getLocation();
+	   // String nlatitude=feed.getLatitude();
+	    //String nlongtitude=feed.getLongtitude(); 
 	    String nshareArea=feed.getShareArea();
 	    List<String> nmentionList=feed.getMentionList();
 	 mongoTemplate.upsert(new Query(Criteria.where("user_id").is(id).and("time").is(itime)), 
 			 new Update().set("text", ntext)
 			 .set("showLocation", nshowLocation)
-			 .set("latitude", nlatitude)
-			 .set("longtitude",nlongtitude)
+			 .set("location", nlocation)
+			/* .set("longtitude",nlongtitude)*/
 			 .set("nshareArea",nshareArea)
 			 .set("mentionList", nmentionList)
-			 , Feed.class);*/
+			 , Feed.class);
 	}
 
 	@Override

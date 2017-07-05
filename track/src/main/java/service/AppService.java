@@ -7,6 +7,7 @@ import org.springframework.data.geo.Point;
 
 import model.Client;
 import model.Feed;
+import model.Location;
 import model.Token;
 
 public interface AppService {
@@ -34,7 +35,7 @@ public interface AppService {
 	public void UpdateFeed(Feed feed);
 	public void removeFeed(String user_id, long time);
 	public List<Feed>findFeedByUser_id(String user_id);
-	public List<Point>findPointAround(double longitude,double latitude,double radius);
+	public List<Location>findPointAround(double longitude,double latitude,double radius);
 	/*
 	 * 
 	 * Admin
