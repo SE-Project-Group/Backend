@@ -1,6 +1,7 @@
 package dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -68,15 +69,16 @@ public class FeedRepositoryImpl implements FeedRepository{
 		long itime=feed.getTime();
 	    String ntext=feed.getText();   
 	    String nshowLocation=feed.getShowLocation();
-	    String nlatitude=feed.getLatitude();
-	    String nlongtitude=feed.getLongtitude(); 
+	    Map<String,Double> nlocation=feed.getLocation();
+	   // String nlatitude=feed.getLatitude();
+	    //String nlongtitude=feed.getLongtitude(); 
 	    String nshareArea=feed.getShareArea();
 	    List<String> nmentionList=feed.getMentionList();
 	 mongoTemplate.upsert(new Query(Criteria.where("user_id").is(id).and("time").is(itime)), 
 			 new Update().set("text", ntext)
 			 .set("showLocation", nshowLocation)
-			 .set("latitude", nlatitude)
-			 .set("longtitude",nlongtitude)
+			 .set("location", nlocation)
+			/* .set("longtitude",nlongtitude)*/
 			 .set("nshareArea",nshareArea)
 			 .set("mentionList", nmentionList)
 			 , Feed.class);

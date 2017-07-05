@@ -181,12 +181,14 @@ public class Restful {
 		 String list=newfeed.getString("mentionList");
 		 String[] mention=list.split(",");
 		 List<String> mentionlist = java.util.Arrays.asList(mention);
+		 String map=newfeed.getString("location");
+		 JSONObject  jasonObject = JSONObject.fromObject(map);
+		 Map<String,Double> location=(Map)jasonObject;
 		 Feed feed=new Feed();
-		 feed.setLongtitude(newfeed.getString("longtitude"));
+		 feed.setLocation(location);
 		 feed.setMentionList(mentionlist);
 		 feed.setUser_id(newfeed.getString("user_id"));
 		 feed.setTime(System.currentTimeMillis());
-		 feed.setLatitude(newfeed.getString("latitude"));
 		 feed.setShareArea(newfeed.getString("shareArea"));
 		 feed.setShowLocation(newfeed.getString("showLocation"));
 		 feed.setText(newfeed.getString("text"));
@@ -206,13 +208,17 @@ public class Restful {
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 String list=newfeed.getString("mentionList");
 		 String[] mention=list.split(",");
+		 
 		 List<String> mentionlist = java.util.Arrays.asList(mention);
+		 String map=newfeed.getString("location");
+		 JSONObject  jasonObject = JSONObject.fromObject(map);
+		 Map<String,Double> location=(Map)jasonObject;
 		 Feed feed=new Feed();
-		 feed.setLongtitude(newfeed.getString("longtitude"));
+		 feed.setLocation(location);
 		 feed.setMentionList(mentionlist);
 		 feed.setUser_id(newfeed.getString("user_id"));
 		 feed.setTime(System.currentTimeMillis());
-		 feed.setLatitude(newfeed.getString("latitude"));
+/*		 feed.setLatitude(newfeed.getString("latitude"));*/
 		 feed.setShareArea(newfeed.getString("shareArea"));
 		 feed.setShowLocation(newfeed.getString("showLocation"));
 		 feed.setText(newfeed.getString("text"));

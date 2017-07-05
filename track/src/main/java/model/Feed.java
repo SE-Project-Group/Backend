@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -17,8 +18,9 @@ public class Feed implements Serializable {
     private long time;
     private String text;   
     private String showLocation;
-    private String latitude;
-    private String longtitude; 
+    private Map<String,Double>location;
+   // private String latitude;
+    //private String longtitude; 
     private String shareArea;
     private List<String> mentionList;
     
@@ -68,7 +70,7 @@ public class Feed implements Serializable {
     public void setTime(long time) {
         this.time = time;
     }
-    public String getLatitude() {
+   /* public String getLatitude() {
         return latitude;
     }
     public void setLatitude(String latitude) {
@@ -80,6 +82,12 @@ public class Feed implements Serializable {
     }
     public void setLongtitude(String longtitude) {
         this.longtitude = longtitude;
+    }*/
+    public Map<String,Double> getLocation(){
+    	return location;
+    }
+    public void setLocation(Map<String,Double> location) {
+        this.location = location;
     }
     
     public String getShareArea() {
@@ -97,7 +105,7 @@ public class Feed implements Serializable {
     }
     public String toString() {   
         return "Feed[user_id="+user_id+",time="+time+",text="+text+",showLocation="+showLocation+
-        		",latitude="+latitude+",longtitude="+longtitude+",shareArea="+shareArea+"]";   
+        		",latitude="+location.get("latitude")+",longtitude="+location.get("longtitude")+",shareArea="+shareArea+"]";   
     }
     /*showLocation,latitude,longtitude; ,shareArea;*/
 }

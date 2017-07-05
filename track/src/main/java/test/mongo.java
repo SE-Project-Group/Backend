@@ -1,5 +1,7 @@
 package test;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -26,9 +28,14 @@ public class mongo {
 
         Feed feed=new Feed();
         List list=null;
+        Map<String,Double> location=new  HashMap<String,Double>();
+        location.put("longtitude", 33.33);
+        location.put("latitude", 22.22);
+        
        feed.setUser_id("1");
-       feed.setLatitude("1");
-       feed.setLongtitude("2");
+       feed.setLocation(location);
+     /*  feed.setLocation(location);*/
+/*       feed.setLongtitude("2");*/
        feed.setMentionList(list);
        feed.setShareArea("public");
        feed.setText("hello");
@@ -94,9 +101,9 @@ public class mongo {
     public void start(){
         init();
 //update();
-        //insert();
+        insert();
         //listAll();
-remove();
+//remove();
         //findOne();
     }
 
