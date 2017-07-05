@@ -231,11 +231,8 @@ public class Restful {
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 String user_id=newfeed.getString("user_id");
 		 long time= Long.parseLong(newfeed.getString("time"));
-		 
-		
 		 appService.removeFeed(user_id,time);
 		 String res= "success";
-		
 	 return res;
      }
 	
