@@ -202,7 +202,7 @@ public class Restful {
 	 public String RemoveFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
-		 String user_id=newfeed.getString("user_id");
+		 int user_id=newfeed.getInt("user_id");
 		 String time= newfeed.getString("time");
 		 appService.removeFeed(user_id,time);
 		 String res= "success";
@@ -211,7 +211,7 @@ public class Restful {
 	@GET
 	@Path("/MyFeed")
 	 @Produces("text/html")
-	public  String MyFeed(@QueryParam("user_id") String user_id)throws JSONException
+	public  String MyFeed(@QueryParam("user_id") int user_id)throws JSONException
 	{
 		
 		
@@ -257,7 +257,7 @@ public class Restful {
 	 public String incLikeFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
-		 String user_id=newfeed.getString("user_id");
+		 int user_id=newfeed.getInt("user_id");
 		 String time= newfeed.getString("time");
 		 appService.incLikeFeed(user_id,time);
 		 String res= "success";

@@ -31,7 +31,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 	}
 
 	@Override
-	public Feed findOne(String user_id, String time) {
+	public Feed findOne(int user_id, String time) {
 		// TODO Auto-generated method stub
 		 return mongoTemplate.findOne(new Query(Criteria.where("user_id").is(user_id).and("time").is(time)), Feed.class);   
 		
@@ -44,13 +44,13 @@ public class FeedRepositoryImpl implements FeedRepository{
 	}
 
 	@Override
-	public List<Feed> findByUser_id(String user_id) {
+	public List<Feed> findByUser_id(int user_id) {
 		// TODO Auto-generated method stub
         return  mongoTemplate.find(new Query(Criteria.where("user_id").is(user_id)), Feed.class);
 	}
 
 	@Override
-	public void removeOne(String user_id, String time) {
+	public void removeOne(int user_id, String time) {
 		// TODO Auto-generated method stub
 		Query query = Query.query(Criteria.where("user_id").is(user_id).and("time").is(time));
 		mongoTemplate.remove(query, Feed.class);
