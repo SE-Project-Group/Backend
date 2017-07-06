@@ -156,6 +156,16 @@ public class AppServiceImpl implements AppService{
 		return managerDao.checkLogin(admin_name, password);
 	}
 
+	@Override
+	public int incLikeFeed(String user_id, Timestamp time) {
+		// TODO Auto-generated method stub
+		Feed feed=feedRepository.findOne(user_id, time);
+		int likeCount=feed.getLikeCount()+1;
+		feed.setLikeCount(likeCount);
+		feedRepository.update(feed);
+		return 0;
+	}
+
 
 
 
