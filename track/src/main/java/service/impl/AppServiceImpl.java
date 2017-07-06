@@ -134,10 +134,10 @@ public class AppServiceImpl implements AppService{
 	public void UpdateFeed(Feed feed){
 		feedRepository.update(feed);
 	}
-	public void removeFeed(String user_id, String time){
+	public void removeFeed(int user_id, String time){
 		feedRepository.removeOne(user_id, time);
 	}
-	public List<Feed>findFeedByUser_id(String user_id){
+	public List<Feed>findFeedByUser_id(int user_id){
 		return feedRepository.findByUser_id(user_id);
 	}
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius){
@@ -158,7 +158,7 @@ public class AppServiceImpl implements AppService{
 	}
 
 	@Override
-	public int incLikeFeed(String user_id, String time) {
+	public int incLikeFeed(int user_id, String time) {
 		// TODO Auto-generated method stub
 		Feed feed=feedRepository.findOne(user_id, time);
 		int likeCount=feed.getLikeCount()+1;
