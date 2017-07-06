@@ -22,7 +22,7 @@ public class Feed implements Serializable {
     private boolean showLocation;
     private Location location;
     private String shareArea;
-    private List<String> mentionList;
+    private List<Integer> mentionList;
     private List<Integer> picList;
     private int shareCount;
     private int commentCount;
@@ -87,10 +87,10 @@ public class Feed implements Serializable {
         this.shareArea = shareArea;
     }
     
-    public List<String> getMentionList() {
+    public List<Integer> getMentionList() {
         return mentionList;
     }
-    public void setMentionList(List<String> mentionList) {
+    public void setMentionList(List<Integer> mentionList) {
         this.mentionList = mentionList;
     }
 	public Location getLocation() {

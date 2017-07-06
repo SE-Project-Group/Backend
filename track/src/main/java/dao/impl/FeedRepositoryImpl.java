@@ -83,7 +83,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 	    boolean nshowLocation=feed.getShowLocation();
 	    Location nlocation=feed.getLocation();
 	    String nshareArea=feed.getShareArea();
-	    List<String> nmentionList=feed.getMentionList();
+	    List<Integer> nmentionList=feed.getMentionList();
 	    List<Integer> npicList=feed.getPicList();
 	    int nshareCount=feed.getShareCount();
 	    int ncommentCount=feed.getCommentCount();

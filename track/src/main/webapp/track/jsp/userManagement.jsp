@@ -148,13 +148,13 @@
 								</div>
 								<div class="form-group">
 									<label>Email</label> <input class="form-control"
-										name="email">
+										type="email" name="email">
 								</div>
 								<div class="form-group">
 									<label>Gender</label> <input class="form-control" name="gender">
 								</div>
 								<div class="form-group">
-									<label>Birthday</label> <input class="form-control" name="birthday">
+									<label>Birthday</label> <input class="form-control" type="date" name="birthday">
 								</div>
 							</form>
 						</div>

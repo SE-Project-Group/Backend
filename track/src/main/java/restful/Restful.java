@@ -209,6 +209,7 @@ public class Restful {
 		for(int i=0;i<feeds.size();i++){
 			Feed curFeed=feeds.get(i);
 			ReturnFeed returnFeed=new ReturnFeed();
+			System.out.print(curFeed.getUser_id());
 			String feed_owner=appService.getClientByID(curFeed.getUser_id()).getUser_name();
 			returnFeed.setComment_cnt(curFeed.getCommentCount());
 			returnFeed.setFeed_owner(feed_owner);
