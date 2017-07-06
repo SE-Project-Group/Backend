@@ -4,13 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-<<<<<<< HEAD
 
-
-
-
-=======
->>>>>>> a7c61a78b953a52bcbc4cef4bac415766e6d9897
 import model.Location;
 
 

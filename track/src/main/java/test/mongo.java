@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import dao.FeedRepository;
 import model.Feed;
+import net.sf.json.JSONObject;
 public class mongo {
 
   
@@ -48,10 +49,11 @@ public class mongo {
 
     public void listAll(){
 
-        List<Feed> list=pr.findByUser_id("2");
+        List<Feed> list=pr.findByUser_id(2);
 
         for (Feed p:list){
-        	String pstring=  p.toString();
+        	String pstring=  JSONObject.fromObject(p).toString();
+        	
             System.out.println(pstring);
         }
 
