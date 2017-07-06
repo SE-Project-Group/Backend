@@ -46,9 +46,9 @@ public class mongo {
 */
 
 
-    /*public void listAll(){
+    public void listAll(){
 
-        List<Feed> list=pr.findByUser_id("1");
+        List<Feed> list=pr.findByUser_id("2");
 
         for (Feed p:list){
         	String pstring=  p.toString();
@@ -56,7 +56,7 @@ public class mongo {
         }
 
 
-    }*/
+    }
 /*public void update(){
 	Feed feed=new Feed();
     List list=null;
@@ -93,7 +93,8 @@ public class mongo {
    public void start(){
         init();
 //update();
-        //insert();        //listAll();
+        //insert();        
+        listAll();
 /*remove();*/
         //findOne();
     }
