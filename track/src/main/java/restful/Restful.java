@@ -173,22 +173,9 @@ public class Restful {
 	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String UpdateFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
-		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
-		 String list=newfeed.getString("mentionList");
-		 String[] mention=list.split(",");
+		 Gson gson=new Gson();
+		 Feed feed=gson.fromJson(feedinfo,Feed.class);
 		 
-		 List<String> mentionlist = java.util.Arrays.asList(mention);
-		 String locationString=newfeed.getString("location");
-		 JSONObject  jasonObject = JSONObject.fromObject(locationString);
-		 Location location=new Location(jasonObject.getDouble("longitude"),jasonObject.getDouble("latitude"));
-		 Feed feed=new Feed();
-		 feed.setLocation(location);
-		 feed.setMentionList(mentionlist);
-		 feed.setUser_id(newfeed.getInt("user_id"));
-		 feed.setShareArea(newfeed.getString("shareArea"));
-		 feed.setShowLocation(newfeed.getBoolean("showLocation"));
-		 feed.setText(newfeed.getString("text"));
-		 feed.setTime(newfeed.getString("time"));
 		 appService.UpdateFeed(feed);
 		 String res= "success";
 		
@@ -202,9 +189,9 @@ public class Restful {
 	 public String RemoveFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
-		 int user_id=newfeed.getInt("user_id");
-		 String time= newfeed.getString("time");
-		 appService.removeFeed(user_id,time);
+		 
+		 String _id= newfeed.getString("_id");
+		 appService.removeFeed(_id);
 		 String res= "success";
 	 return res;
      }
@@ -257,9 +244,9 @@ public class Restful {
 	 public String incLikeFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
-		 int user_id=newfeed.getInt("user_id");
-		 String time= newfeed.getString("time");
-		 appService.incLikeFeed(user_id,time);
+
+		 String _id= newfeed.getString("_id");
+		 appService.incLikeFeed(_id);
 		 String res= "success";
 	 return res;
      }

@@ -10,17 +10,19 @@ public interface FeedRepository {
 
 public void insert(Feed feed); 
 
-public Feed findOne(int user_id,String time);   
+public Feed findOne(String _id);   
 
 public List<Feed> findAll();   
 
 public List<Feed> findByUser_id(int user_id);
 
-public void removeOne(int user_id,String time);   
+public void removeOne(String _id);   
 
 public void removeAll();   
 
 public void update(Feed feed);   
 
 public List<Feed> findFeedsAround(Circle circle);
+
+
 }
