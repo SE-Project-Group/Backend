@@ -84,21 +84,17 @@ public class Restful {
 
 	@POST
 	    @Path("/clientSignup")
-		 //@Produces(MediaType.APPLICATION_JSON)
-		 //@Consumes(MediaType.APPLICATION_OCTET_STREAM)
-	
 	   @Consumes(MediaType.APPLICATION_JSON)  
 		 @Produces("text/html")
-		//return 0:ok   1:phone  2:user_name  3:phone&username
+		
 	    public String clientSignup(String sign) throws JSONException{
-			//String temp1[] =signinformation.split(",");
+
 			 JSONObject signinformation = JSONObject.fromObject(sign);
 			Client client=new Client();
 			 client.setUser_name((String) signinformation.get("user_name"));
 			 client.setPassword((String) signinformation.get("password"));
 			 client.setPhone((String) signinformation.get("phone"));
 			 appService.insertClient(client);
-			// appService.insertClient(client);
 			 String res= "success";
 			
 		 return res;
@@ -157,9 +153,7 @@ public class Restful {
     @Path("/NewFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String NewFeed(String feedinfo) throws JSONException{
-		//String temp1[] =signinformation.split(",");
 		 Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedinfo,Feed.class);
 		 appService.NewFeed(feed);
@@ -170,9 +164,7 @@ public class Restful {
     @Path("/UpdateFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String UpdateFeed(String feedinfo) throws JSONException{
-		//String temp1[] =signinformation.split(",");
 		 Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedinfo,Feed.class);
 		 
@@ -185,9 +177,7 @@ public class Restful {
     @Path("/RemoveFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String RemoveFeed(String feedinfo) throws JSONException{
-		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 
 		 String _id= newfeed.getString("_id");
@@ -240,9 +230,7 @@ public class Restful {
     @Path("/incLikeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String incLikeFeed(String feedinfo) throws JSONException{
-		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 
 		 String _id= newfeed.getString("_id");
