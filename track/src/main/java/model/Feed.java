@@ -4,13 +4,6 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-<<<<<<< HEAD
-import java.util.Map;
-
-import org.bson.types.ObjectId;
-
-=======
->>>>>>> ffcb056120642493cedb634780413988f37f3d48
 import model.Location;
 
 
