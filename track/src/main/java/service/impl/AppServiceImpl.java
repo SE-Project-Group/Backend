@@ -1,6 +1,7 @@
 package service.impl;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,23 +133,18 @@ public class AppServiceImpl implements AppService{
 	public void UpdateFeed(Feed feed){
 		feedRepository.update(feed);
 	}
-	public void removeFeed(String user_id, long time){
+	public void removeFeed(String user_id, Timestamp time){
 		feedRepository.removeOne(user_id, time);
 	}
 	public List<Feed>findFeedByUser_id(String user_id){
 		return feedRepository.findByUser_id(user_id);
 	}
-	public List<Location>findPointAround(double longitude,double latitude,double radius){
+	public List<Feed>findFeedAround(double longitude,double latitude,double radius){
 		Point point = new Point(longitude,latitude);   
-        Distance distance = new Distance(radius/1000,Metrics.KILOMETERS);  
+        Distance distance = new Distance(radius,Metrics.KILOMETERS);  
         Circle circle = new Circle(point,distance);   
         List<Feed>feeds= feedRepository.findFeedsAround(circle);
-        List<Location>locations=new ArrayList<>();
-		for(int i=0;i<feeds.size();i++){
-			Location location=new Location(feeds.get(i).getLocation().getLongitude(),feeds.get(i).getLocation().getLatitude());
-			locations.add(location);
-		}
-		return locations;
+        return feeds;
 	}
 	/*
 	 * 

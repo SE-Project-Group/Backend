@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import model.Location;
@@ -14,28 +15,37 @@ public class Feed implements Serializable {
      */
     private static final long serialVersionUID = 3617931430808763429L;
 
-    private String user_id;
-    private long time;
+    private int user_id;
+    private Timestamp time;
     private String text;   
-    private String showLocation;
+    private boolean showLocation;
     private Location location;
     private String shareArea;
     private List<String> mentionList;
+    private List<Integer> picList;
+    private int shareCount;
+    private int commentCount;
+    private int likeCount;
+    private String position;
+    
     
     
    public Feed(){
-    	this.time=System.currentTimeMillis();
+    	this.time=new Timestamp(System.currentTimeMillis());
+    	this.shareCount=0;
+    	this.commentCount=0;
+    	this.likeCount=0;
     }
     /**
      * @return the user_id
      */
-    public String getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
     /**
      * @param user_id the user_id to set
      */
-    public void setUser_id(String user_id) {
+    public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
     /**
@@ -53,19 +63,19 @@ public class Feed implements Serializable {
     /**
      * @return the showLocation
      */
-    public String getShowLocation() {
+    public boolean getShowLocation() {
         return showLocation;
     }
     /**
      * @param showLocation the showLocation to set
      */
-    public void setShowLocation(String showLocation) {
+    public void setShowLocation(boolean showLocation) {
         this.showLocation = showLocation;
     }
-    public long getTime() {
+    public Timestamp getTime() {
         return time;
     }
-    public void setTime(long time) {
+    public void setTime(Timestamp time) {
         this.time = time;
     }
     
@@ -93,5 +103,35 @@ public class Feed implements Serializable {
 	}
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+	public List<Integer> getPicList() {
+		return picList;
+	}
+	public void setPicList(List<Integer> picList) {
+		this.picList = picList;
+	}
+	public int getShareCount() {
+		return shareCount;
+	}
+	public void setShareCount(int shareCount) {
+		this.shareCount = shareCount;
+	}
+	public int getCommentCount() {
+		return commentCount;
+	}
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+	public int getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
 	}
 }

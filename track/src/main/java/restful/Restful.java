@@ -3,13 +3,16 @@ package restful;
 import model.Client;
 import model.Feed;
 import model.Location;
+import model.ReturnFeed;
 import model.Token;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.processors.JsonValueProcessor;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,12 +27,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jettison.json.JSONException;
-import org.springframework.data.geo.Circle;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.Metrics;
-import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.query.Criteria;  
-import org.springframework.data.mongodb.core.query.Query;
+
+
+import com.google.gson.Gson;
 
 import service.AppService;
 import util.JSONUtil;
@@ -184,23 +184,8 @@ public class Restful {
 	//return 0:ok   1:phone  2:user_name  3:phone&username
 	 public String NewFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
-		 JSONObject obj = JSONObject.fromObject(feedinfo);
-		 String list=obj.getString("mentionList");
-		 String[] mention=list.split(",");
-		 List<String> mentionlist = java.util.Arrays.asList(mention);
-		 String locationString=obj.getString("location");
-		 System.out.println(locationString);
-		 JSONObject  jasonObject = JSONObject.fromObject(locationString);
-		 Location location=new Location(Double.valueOf(jasonObject.getString("longitude")),Double.valueOf(jasonObject.getString("latitude")));
-		 Feed feed=new Feed();
-		 feed.setLocation(location);
-		 feed.setMentionList(mentionlist);
-		 feed.setUser_id(obj.getString("user_id"));
-		 feed.setTime(System.currentTimeMillis());
-		 feed.setShareArea(obj.getString("shareArea"));
-		 feed.setShowLocation(obj.getString("showLocation"));
-		 feed.setText(obj.getString("text"));
-		
+		 Gson gson=new Gson();
+		 Feed feed=gson.fromJson(feedinfo,Feed.class);	
 		 appService.NewFeed(feed);
 		 String res= "success";
 		
@@ -224,10 +209,9 @@ public class Restful {
 		 Feed feed=new Feed();
 		 feed.setLocation(location);
 		 feed.setMentionList(mentionlist);
-		 feed.setUser_id(newfeed.getString("user_id"));
-		 feed.setTime(System.currentTimeMillis());
+		 feed.setUser_id(newfeed.getInt("user_id"));
 		 feed.setShareArea(newfeed.getString("shareArea"));
-		 feed.setShowLocation(newfeed.getString("showLocation"));
+		 feed.setShowLocation(newfeed.getBoolean("showLocation"));
 		 feed.setText(newfeed.getString("text"));
 		
 		 appService.UpdateFeed(feed);
@@ -244,7 +228,7 @@ public class Restful {
 		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 String user_id=newfeed.getString("user_id");
-		 long time= Long.parseLong(newfeed.getString("time"));
+		 Timestamp time= Timestamp.valueOf(newfeed.getString("time"));
 		 appService.removeFeed(user_id,time);
 		 String res= "success";
 	 return res;
@@ -267,10 +251,27 @@ public class Restful {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String feedAround(
 			@QueryParam("longitude") double longitude,
-			@QueryParam("latitude") double latitude,
-			@QueryParam("radius") double radius ){
-		List<Location>locations=appService.findPointAround(longitude, latitude, radius);
-		return JSONArray.fromObject(locations).toString();
+			@QueryParam("latitude") double latitude ){
+		List<Feed>feeds=appService.findFeedAround(longitude, latitude, 10);
+		List<ReturnFeed> res=new ArrayList<ReturnFeed>();
+		for(int i=0;i<feeds.size();i++){
+			Feed curFeed=feeds.get(i);
+			ReturnFeed returnFeed=new ReturnFeed();
+			String feed_owner=appService.getClientByID(curFeed.getUser_id()).getUser_name();
+			returnFeed.setComment_cnt(curFeed.getCommentCount());
+			returnFeed.setFeed_owner(feed_owner);
+			returnFeed.setLatitude(curFeed.getLocation().getLatitude());
+			returnFeed.setLongitude(curFeed.getLocation().getLongitude());
+			returnFeed.setLike_cnt(curFeed.getLikeCount());
+			returnFeed.setPic_id_list(curFeed.getPicList());
+			returnFeed.setPosition(curFeed.getPosition());
+			returnFeed.setShare_cnt(curFeed.getShareCount());
+			returnFeed.setText(curFeed.getText());
+			returnFeed.setTimestamp(curFeed.getTime());
+			returnFeed.setUser_ID(curFeed.getUser_id());
+			res.add(returnFeed);
+		}
+		return JSONArray.fromObject(res).toString();
 	}
 }
 
