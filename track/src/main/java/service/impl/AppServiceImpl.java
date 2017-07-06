@@ -134,8 +134,8 @@ public class AppServiceImpl implements AppService{
 	public void UpdateFeed(Feed feed){
 		feedRepository.update(feed);
 	}
-	public void removeFeed(int user_id, String time){
-		feedRepository.removeOne(user_id, time);
+	public void removeFeed(String _id){
+		feedRepository.removeOne(_id);
 	}
 	public List<Feed>findFeedByUser_id(int user_id){
 		return feedRepository.findByUser_id(user_id);
@@ -158,9 +158,9 @@ public class AppServiceImpl implements AppService{
 	}
 
 	@Override
-	public int incLikeFeed(int user_id, String time) {
+	public int incLikeFeed(String _id) {
 		// TODO Auto-generated method stub
-		Feed feed=feedRepository.findOne(user_id, time);
+		Feed feed=feedRepository.findOne(_id);
 		int likeCount=feed.getLikeCount()+1;
 		feed.setLikeCount(likeCount);
 		feedRepository.update(feed);

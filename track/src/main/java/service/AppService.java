@@ -35,11 +35,11 @@ public interface AppService {
 	 */
 	public void NewFeed(Feed feed);
 	public void UpdateFeed(Feed feed);
-	public void removeFeed(int user_id, String time);
+	public void removeFeed(String _id);
 	public List<Feed>findFeedByUser_id(int user_id);
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius);
 	/*like*/
-	public int incLikeFeed(int user_id, String time);
+	public int incLikeFeed(String _id);
 	/*
 	 * 
 	 * Admin

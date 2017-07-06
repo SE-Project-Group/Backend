@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import dao.FeedRepository;
 import model.Feed;
+import net.sf.json.JSONObject;
 public class mongo {
 
   
@@ -46,12 +47,13 @@ public class mongo {
 */
 
 
-    /*public void listAll(){
+   /* public void listAll(){
 
-        List<Feed> list=pr.findByUser_id("1");
+        List<Feed> list=pr.findByUser_id(2);
 
         for (Feed p:list){
-        	String pstring=  p.toString();
+        	String pstring=  JSONObject.fromObject(p).toString();
+        	
             System.out.println(pstring);
         }
 
@@ -78,10 +80,10 @@ public class mongo {
          System.out.println(pstring);
      }
 }*/
-   /* public void remove(){
-    	 long  time=1499153959024L;
-    	pr.removeOne("1",time);
-        List<Feed> list=pr.findByUser_id("2");
+   public void remove(){
+    	
+    	pr.removeOne("595d9fa3b9350a2658fa6298");
+        List<Feed> list=pr.findByUser_id(2);
 
         for (Feed p:list){
         	String pstring=  p.toString();
@@ -89,12 +91,13 @@ public class mongo {
         }
 
 
-    }*/
+    }
    public void start(){
         init();
 //update();
-        //insert();        //listAll();
-/*remove();*/
+        //insert();        
+        //listAll();
+remove();
         //findOne();
     }
 

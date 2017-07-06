@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.geo.Circle;
@@ -31,9 +32,9 @@ public class FeedRepositoryImpl implements FeedRepository{
 	}
 
 	@Override
-	public Feed findOne(int user_id, String time) {
+	public Feed findOne(String _id) {
 		// TODO Auto-generated method stub
-		 return mongoTemplate.findOne(new Query(Criteria.where("user_id").is(user_id).and("time").is(time)), Feed.class);   
+		 return mongoTemplate.findOne(new Query(Criteria.where("_id").is(_id)), Feed.class);   
 		
 	}
 
@@ -50,9 +51,9 @@ public class FeedRepositoryImpl implements FeedRepository{
 	}
 
 	@Override
-	public void removeOne(int user_id, String time) {
+	public void removeOne(String _id) {
 		// TODO Auto-generated method stub
-		Query query = Query.query(Criteria.where("user_id").is(user_id).and("time").is(time));
+		Query query = Query.query(Criteria.where("_id").is(_id));
 		mongoTemplate.remove(query, Feed.class);
 	        }   
 	
@@ -73,22 +74,38 @@ public class FeedRepositoryImpl implements FeedRepository{
 
 	@Override
 	public void update(Feed feed) {
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 String itime=	df.format(new Date(System.currentTimeMillis()));
 		// TODO Auto-generated method stub
+		String n_id=feed.get_id();
 		int id=feed.getUser_id();
-		String itime=feed.getTime();
 	    String ntext=feed.getText();   
 	    boolean nshowLocation=feed.getShowLocation();
 	    Location nlocation=feed.getLocation();
 	    String nshareArea=feed.getShareArea();
 	    List<String> nmentionList=feed.getMentionList();
-	    mongoTemplate.upsert(new Query(Criteria.where("user_id").is(id).and("time").is(itime)), 
-			 new Update().set("text", ntext)
+	    List<Integer> npicList=feed.getPicList();
+	    int nshareCount=feed.getShareCount();
+	    int ncommentCount=feed.getCommentCount();
+	    int nlikeCount=feed.getLikeCount();
+	    String nposition=feed.getPosition();
+	    mongoTemplate.upsert(new Query(Criteria.where("_id").is(n_id)), 
+			 new Update()
+			 .set("user_id", id)
+			 .set("time", itime)
+			 .set("text", ntext)
 			 .set("showLocation", nshowLocation)
 			 .set("location", nlocation)
 			/* .set("longtitude",nlongtitude)*/
 			 .set("nshareArea",nshareArea)
 			 .set("mentionList", nmentionList)
+			 .set("picList", npicList)
+			 .set("shareCount", nshareCount)
+			 .set("commentCount", ncommentCount)
+			 .set("likeCount", nlikeCount)
+			 .set("position", nposition)
 			 , Feed.class);
+	
 	}
 
 	@Override
