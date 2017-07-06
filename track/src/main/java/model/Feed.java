@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+
+import org.bson.types.ObjectId;
+
 import model.Location;
 
 
@@ -14,7 +17,7 @@ public class Feed implements Serializable {
      * 
      */
     private static final long serialVersionUID = 3617931430808763429L;
-
+ 
     private int user_id;
     private Timestamp time;
     private String text;   
@@ -36,6 +39,10 @@ public class Feed implements Serializable {
     	this.commentCount=0;
     	this.likeCount=0;
     }
+   /**
+    * @return the user_id
+    */
+ 
     /**
      * @return the user_id
      */
