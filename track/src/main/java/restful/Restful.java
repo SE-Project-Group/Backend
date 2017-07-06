@@ -103,30 +103,7 @@ public class Restful {
 			
 		 return res;
 	     }
-	/*@POST
-    @Path("/clientSignup")
-	 //@Produces(MediaType.APPLICATION_JSON)
-	 //@Consumes(MediaType.APPLICATION_OCTET_STREAM)
-	 @Consumes(MediaType.APPLICATION_JSON)
-	 @Produces("text/html")
-	//return 0:ok   1:phone  2:user_name  3:phone&username
-    public int clientSignup(
-    		@QueryParam("user_name") String user_name,
-    		@QueryParam("password") String password,
-    		@QueryParam("phone") String phone){
-		 System.out.println("addclient");
-		 int flag=appService.checkSignup(user_name,password,phone);
-		 if(flag==0){
-			 Client client=new Client();
-			 client.setUser_name(user_name);
-			 client.setPassword(password);
-			 client.setPhone(phone);
-			 appService.insertClient(client);
-			 return 0;
-		 }
-		 else return flag;
-    }
-	*/
+	
 	@GET
 	@Path("/query_personal_info")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -212,7 +189,6 @@ public class Restful {
 		 feed.setShowLocation(newfeed.getBoolean("showLocation"));
 		 feed.setText(newfeed.getString("text"));
 		 feed.setTime(newfeed.getString("time"));
-		
 		 appService.UpdateFeed(feed);
 		 String res= "success";
 		
@@ -272,5 +248,21 @@ public class Restful {
 		}
 		return JSONArray.fromObject(res).toString();
 	}
+	
+	@POST
+    @Path("/incLikeFeed")
+	 @Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/html")
+	//return 0:ok   1:phone  2:user_name  3:phone&username
+	 public String incLikeFeed(String feedinfo) throws JSONException{
+		//String temp1[] =signinformation.split(",");
+		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
+		 String user_id=newfeed.getString("user_id");
+		 String time= newfeed.getString("time");
+		 appService.incLikeFeed(user_id,time);
+		 String res= "success";
+	 return res;
+     }
+	
 }
 

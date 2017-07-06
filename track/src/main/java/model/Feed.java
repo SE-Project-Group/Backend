@@ -31,7 +31,7 @@ public class Feed implements Serializable {
     
     
    public Feed(){
-	   SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	this.setTime(df.format(new Date(System.currentTimeMillis())));
     	this.shareCount=0;
     	this.commentCount=0;
