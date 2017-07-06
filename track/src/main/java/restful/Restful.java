@@ -10,7 +10,6 @@ import net.sf.json.JSONObject;
 import net.sf.json.processors.JsonValueProcessor;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -162,11 +161,10 @@ public class Restful {
 	 public String NewFeed(String feedinfo) throws JSONException{
 		//String temp1[] =signinformation.split(",");
 		 Gson gson=new Gson();
-		 Feed feed=gson.fromJson(feedinfo,Feed.class);	
+		 Feed feed=gson.fromJson(feedinfo,Feed.class);
 		 appService.NewFeed(feed);
 		 String res= "success";
-		
-	 return res;
+		 return res;
      }
 	@POST
     @Path("/UpdateFeed")
@@ -190,9 +188,7 @@ public class Restful {
 		 feed.setShareArea(newfeed.getString("shareArea"));
 		 feed.setShowLocation(newfeed.getBoolean("showLocation"));
 		 feed.setText(newfeed.getString("text"));
-		 String timeString=newfeed.getString("time");
-		 Timestamp time= Timestamp.valueOf(timeString);
-		 feed.setTime(time);
+		 feed.setTime(newfeed.getString("time"));
 		 appService.UpdateFeed(feed);
 		 String res= "success";
 		
@@ -207,7 +203,7 @@ public class Restful {
 		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 String user_id=newfeed.getString("user_id");
-		 Timestamp time= Timestamp.valueOf(newfeed.getString("time"));
+		 String time= newfeed.getString("time");
 		 appService.removeFeed(user_id,time);
 		 String res= "success";
 	 return res;
@@ -246,7 +242,7 @@ public class Restful {
 			returnFeed.setPosition(curFeed.getPosition());
 			returnFeed.setShare_cnt(curFeed.getShareCount());
 			returnFeed.setText(curFeed.getText());
-			returnFeed.setTimestamp(curFeed.getTime());
+			returnFeed.setDate(curFeed.getTime());
 			returnFeed.setUser_ID(curFeed.getUser_id());
 			res.add(returnFeed);
 		}
@@ -262,7 +258,7 @@ public class Restful {
 		//String temp1[] =signinformation.split(",");
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 String user_id=newfeed.getString("user_id");
-		 Timestamp time= Timestamp.valueOf(newfeed.getString("time"));
+		 String time= newfeed.getString("time");
 		 appService.incLikeFeed(user_id,time);
 		 String res= "success";
 	 return res;

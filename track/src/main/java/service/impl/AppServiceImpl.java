@@ -3,6 +3,7 @@ package service.impl;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -133,7 +134,7 @@ public class AppServiceImpl implements AppService{
 	public void UpdateFeed(Feed feed){
 		feedRepository.update(feed);
 	}
-	public void removeFeed(String user_id, Timestamp time){
+	public void removeFeed(String user_id, String time){
 		feedRepository.removeOne(user_id, time);
 	}
 	public List<Feed>findFeedByUser_id(String user_id){
@@ -157,7 +158,7 @@ public class AppServiceImpl implements AppService{
 	}
 
 	@Override
-	public int incLikeFeed(String user_id, Timestamp time) {
+	public int incLikeFeed(String user_id, String time) {
 		// TODO Auto-generated method stub
 		Feed feed=feedRepository.findOne(user_id, time);
 		int likeCount=feed.getLikeCount()+1;

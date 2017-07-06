@@ -1,11 +1,10 @@
 package model;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public class ReturnFeed {
 	private String feed_owner;
-	private Timestamp timestamp;
+	private String date;
 	private String text;
 	private int like_cnt;
 	private int share_cnt;
@@ -22,12 +21,6 @@ public class ReturnFeed {
 	}
 	public void setFeed_owner(String feed_owner) {
 		this.feed_owner = feed_owner;
-	}
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
 	}
 	public String getText() {
 		return text;
@@ -83,4 +76,11 @@ public class ReturnFeed {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
 }
