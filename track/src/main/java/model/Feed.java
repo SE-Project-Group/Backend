@@ -1,9 +1,9 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import model.Location;
 
 
@@ -16,7 +16,7 @@ public class Feed implements Serializable {
     private static final long serialVersionUID = 3617931430808763429L;
 
     private int user_id;
-    private Timestamp time;
+    private String time;
     private String text;   
     private boolean showLocation;
     private Location location;
@@ -31,7 +31,8 @@ public class Feed implements Serializable {
     
     
    public Feed(){
-    	this.time=new Timestamp(System.currentTimeMillis());
+	   SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	this.setTime(df.format(new Date(System.currentTimeMillis())));
     	this.shareCount=0;
     	this.commentCount=0;
     	this.likeCount=0;
@@ -72,14 +73,6 @@ public class Feed implements Serializable {
     public void setShowLocation(boolean showLocation) {
         this.showLocation = showLocation;
     }
-    public Timestamp getTime() {
-        return time;
-    }
-    public void setTime(Timestamp time) {
-        this.time = time;
-    }
-    
-    
     public String getShareArea() {
         return shareArea;
     }
@@ -93,11 +86,6 @@ public class Feed implements Serializable {
     public void setMentionList(List<String> mentionList) {
         this.mentionList = mentionList;
     }
-    /*public String toString() {   
-        return "Feed[user_id="+user_id+",time="+time+",text="+text+",showLocation="+showLocation+
-        		",latitude="+location.get("latitude")+",longtitude="+location.get("longtitude")+",shareArea="+shareArea+"]";   
-    }*/
-    /*showLocation,latitude,longtitude; ,shareArea;*/
 	public Location getLocation() {
 		return location;
 	}
@@ -133,5 +121,11 @@ public class Feed implements Serializable {
 	}
 	public void setPosition(String position) {
 		this.position = position;
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
 	}
 }

@@ -2,6 +2,7 @@ package service;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.geo.Point;
@@ -34,7 +35,7 @@ public interface AppService {
 	 */
 	public void NewFeed(Feed feed);
 	public void UpdateFeed(Feed feed);
-	public void removeFeed(String user_id, Timestamp time);
+	public void removeFeed(String user_id, String time);
 	public List<Feed>findFeedByUser_id(String user_id);
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius);
 	/*
