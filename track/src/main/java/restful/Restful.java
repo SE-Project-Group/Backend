@@ -153,7 +153,10 @@ public class Restful {
     @Path("/NewFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String NewFeed(String feedinfo) throws JSONException{
+	 public String NewFeed(String feedinfo,
+			 @QueryParam("user_ID") int user_ID,
+			 @QueryParam("sign") String sign) throws JSONException, NoSuchAlgorithmException{
+		 if(!appService.checkSign(user_ID, "rest/app/NewFeed", sign))return "error";
 		 Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedinfo,Feed.class);
 		 appService.NewFeed(feed);

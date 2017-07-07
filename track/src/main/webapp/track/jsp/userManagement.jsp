@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="model.Client"%>
+<%@ page import="java.sql.Date" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -74,7 +75,9 @@
 									<tbody>
 										<%
 											for (int i = 0; i < clientList.size(); i++) {
-																				Client client = clientList.get(i);
+												Client client = clientList.get(i);
+												Date birthday=null;
+												if(client.getBirthday()!=null)birthday=client.getBirthday();
 										%>
 										<tr>
 										    <td><%=client.getUser_ID()%></td>
@@ -83,7 +86,7 @@
 											<td><%=client.getPhone()%></td>
 											<td><%=client.getEmail()%></td>
 											<td><%=client.getGender()%></td>
-											<td><%=client.getBirthday()%></td>
+											<td><%=birthday%> </td>
 											<td>
 												<button class="btn btn-default delete" type="button"
 													data-userid="<%=client.getUser_ID()%>"
@@ -154,7 +157,7 @@
 									<label>Gender</label> <input class="form-control" name="gender">
 								</div>
 								<div class="form-group">
-									<label>Birthday</label> <input class="form-control" name="birthday">
+									<label>Birthday</label> <input class="form-control" type="date" name="birthday">
 								</div>
 							</form>
 						</div>

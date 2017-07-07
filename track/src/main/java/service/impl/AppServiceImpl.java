@@ -116,8 +116,8 @@ public class AppServiceImpl implements AppService{
 		return clientDao.getClientByUser_name(user_name);
 	}
 	
-	public boolean checkSign(int user_ID,String uri,String token) throws NoSuchAlgorithmException{
-		if(tokenDao.checkSign(user_ID, uri,token))return true;
+	public boolean checkSign(int user_ID,String uri,String sign) throws NoSuchAlgorithmException{
+		if(tokenDao.checkSign(user_ID, uri,sign))return true;
 		return false;
 	}
 	
