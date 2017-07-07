@@ -39,7 +39,9 @@ public interface AppService {
 	public List<Feed>findFeedByUser_id(int user_id);
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius);
 	/*like*/
-	public int incLikeFeed(String _id);
+	public int incLikeFeed(String _id,int user_id);
+	/*comment*/
+	public int NewComment(String _id,int user_id,String text,int reply_id);
 	/*
 	 * 
 	 * Admin

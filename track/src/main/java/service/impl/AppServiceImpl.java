@@ -13,6 +13,8 @@ import dao.ManagerDao;
 import dao.TokenDao;
 import model.Client;
 import model.Feed;
+import model.Like;
+import model.Comment;
 import model.Location;
 import model.Token;
 import redis.clients.jedis.Jedis;
@@ -158,13 +160,35 @@ public class AppServiceImpl implements AppService{
 	}
 
 	@Override
-	public int incLikeFeed(String _id) {
+	public int incLikeFeed(String _id,int user_id) {
 		// TODO Auto-generated method stub
 		Feed feed=feedRepository.findOne(_id);
 		int likeCount=feed.getLikeCount()+1;
 		feed.setLikeCount(likeCount);
+		List<Like> likelist=feed.getLikeList();
+		Like newlike=new Like();
+		newlike.setUser_id(user_id);
+		likelist.add(newlike);
+		feed.setLikeList(likelist);
 		feedRepository.update(feed);
-		return 0;
+		return 1;
+	}
+
+	@Override
+	public int NewComment(String _id,int user_id, String text, int reply_id) {
+		// TODO Auto-generated method stub
+		Feed feed=feedRepository.findOne(_id);
+		int commentcount=feed.getCommentCount()+1;
+		feed.setCommentCount(commentcount);
+		List<Comment> commentList=feed.getCommentList();
+		Comment newcomment=new Comment(user_id,reply_id,text);
+		newcomment.setComment_id(feed.getCommentCount());
+		commentList.add(newcomment);
+		feed.setCommentList(commentList);
+		feedRepository.update(feed);
+		
+		
+		return 1;
 	}
 
 

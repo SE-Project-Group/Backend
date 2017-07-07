@@ -41,13 +41,13 @@ import util.SpringContextUtil;
 public class Restful {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
 	
-	@GET  
+	/*@GET  
 	@Path("/hello")
 
     @Produces(MediaType.TEXT_PLAIN)  
     public String sayHello() {  
         return "Hello Jersey";  
-    }  
+    }  */
 	
 	@GET
 	@Path("/clientLogin")
@@ -222,23 +222,41 @@ public class Restful {
 			returnFeed.setText(curFeed.getText());
 			returnFeed.setDate(curFeed.getTime());
 			returnFeed.setUser_ID(curFeed.getUser_id());
+			returnFeed.setLikeList(curFeed.getLikeList());
+			returnFeed.setCommentList(curFeed.getCommentList());
 			res.add(returnFeed);
 		}
 		return JSONArray.fromObject(res).toString();
 	}
 	
 	@POST
-    @Path("/incLikeFeed")
+    @Path("/IncLikeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String incLikeFeed(String feedinfo) throws JSONException{
+	 public String IncLikeFeed(String feedinfo) throws JSONException{
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 
 		 String _id= newfeed.getString("_id");
-		 appService.incLikeFeed(_id);
+		int user_id=newfeed.getInt("user_id");
+		 appService.incLikeFeed(_id,user_id);
 		 String res= "success";
 	 return res;
      }
+	
+	@POST
+	@Path("/NewComment")
+	@Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/html")
+	public String NewComment(String commentinfo)throws JSONException{
+		JSONObject newfeed=JSONObject.fromObject(commentinfo);
+		String _id= newfeed.getString("_id");
+		int user_id=newfeed.getInt("user_id");
+		String text=newfeed.getString("text");
+		int reply_id=newfeed.getInt("reply_id");
+		 appService.NewComment( _id, user_id, text,  reply_id);
+		 String res= "success";
+	 return res;
+	}
 	
 }
 

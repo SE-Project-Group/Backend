@@ -14,6 +14,8 @@ public class ReturnFeed {
 	private String position;
 	private double latitude;
 	private double longitude;
+	private List<Like> likeList;
+	private List<Comment> commentList;
 	
 	
 	public String getFeed_owner() {
@@ -81,6 +83,18 @@ public class ReturnFeed {
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public List<Like> getLikeList() {
+		return likeList;
+	}
+	public void setLikeList(List<Like> likeList) {
+		this.likeList = likeList;
+	}
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
 	}
 	
 }

@@ -10,7 +10,9 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import dao.FeedRepository;
+import model.Comment;
 import model.Feed;
+import model.Like;
 import model.Location;
 
 public class FeedRepositoryImpl implements FeedRepository{
@@ -60,15 +62,6 @@ public class FeedRepositoryImpl implements FeedRepository{
 
 	@Override
 	public void removeAll() {
-		// TODO Auto-generated method stub
-		/* List<Feed> list = this.findAll();   
-	        if(list != null){   
-	            for(Feed feed : list){   
-	            	String pstring= feed.toString();
-	            	 System.out.println(pstring);
-	               mongoTemplate.remove(feed);   
-	            }   
-	        }   */
 		mongoTemplate.dropCollection(Feed.class);
 	}
 
@@ -89,21 +82,29 @@ public class FeedRepositoryImpl implements FeedRepository{
 	    int ncommentCount=feed.getCommentCount();
 	    int nlikeCount=feed.getLikeCount();
 	    String nposition=feed.getPosition();
-	    mongoTemplate.upsert(new Query(Criteria.where("_id").is(n_id)), 
+	    List<Like> nlikeList=feed.getLikeList();
+	    List<Comment> ncommentList=feed.getCommentList();
+	    /*Query query=Query.query(Criteria.where("_id").is(n_id));
+	    mongoTemplate.upsert(newQuery(Criteria.where("onumber").is("001")),
+	    		newUpdate().set("cname", "zcy"), collectionName); */
+	    mongoTemplate.upsert(
+	    		new Query(Criteria.where("_id").is(n_id)), 
 			 new Update()
+			 .set("_id", n_id)
 			 .set("user_id", id)
 			 .set("time", itime)
 			 .set("text", ntext)
 			 .set("showLocation", nshowLocation)
 			 .set("location", nlocation)
-			/* .set("longtitude",nlongtitude)*/
-			 .set("nshareArea",nshareArea)
+			 .set("shareArea",nshareArea)
 			 .set("mentionList", nmentionList)
 			 .set("picList", npicList)
 			 .set("shareCount", nshareCount)
 			 .set("commentCount", ncommentCount)
 			 .set("likeCount", nlikeCount)
 			 .set("position", nposition)
+			 .set("likeList", nlikeList)
+			 .set("commentList", ncommentList)
 			 , Feed.class);
 	
 	}
