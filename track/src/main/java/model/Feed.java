@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,8 @@ public class Feed implements Serializable {
     private int commentCount;
     private int likeCount;
     private String position;
-    
+    private List<Like> likeList;
+    private List<Comment> commentList;
     
     
    public Feed(){
@@ -37,6 +39,8 @@ public class Feed implements Serializable {
     	this.shareCount=0;
     	this.commentCount=0;
     	this.likeCount=0;
+    	this.likeList=new ArrayList<Like>();
+    	this.commentList=new ArrayList<Comment>();
     }
    public String get_id() {
        return _id;
@@ -134,5 +138,17 @@ public class Feed implements Serializable {
 	}
 	public void setTime(String time) {
 		this.time = time;
+	}
+	public List<Like> getLikeList() {
+		return likeList;
+	}
+	public void setLikeList(List<Like> likeList) {
+		this.likeList = likeList;
+	}
+	public List<Comment> getCommentList() {
+		return commentList;
+	}
+	public void setCommentList(List<Comment> commentList) {
+		this.commentList = commentList;
 	}
 }

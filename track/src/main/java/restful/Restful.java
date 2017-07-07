@@ -42,13 +42,13 @@ import util.SpringContextUtil;
 public class Restful {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
 	
-	@GET  
+	/*@GET  
 	@Path("/hello")
 
     @Produces(MediaType.TEXT_PLAIN)  
     public String sayHello() {  
         return "Hello Jersey";  
-    }  
+    }  */
 	
 	@GET
 	@Path("/clientLogin")
@@ -83,22 +83,18 @@ public class Restful {
 	
 
 	@POST
-	    @Path("/clientSignup")
-	   @Consumes(MediaType.APPLICATION_JSON)  
-		 @Produces("text/html")
-		
-	    public String clientSignup(String sign) throws JSONException{
-
-			 JSONObject signinformation = JSONObject.fromObject(sign);
-			Client client=new Client();
-			 client.setUser_name((String) signinformation.get("user_name"));
-			 client.setPassword((String) signinformation.get("password"));
-			 client.setPhone((String) signinformation.get("phone"));
-			 appService.insertClient(client);
-			 String res= "success";
-			
-		 return res;
-	     }
+	@Path("/clientSignup")
+	@Consumes(MediaType.APPLICATION_JSON)  
+	@Produces("text/html")
+	public String clientSignup(String message) throws JSONException{
+		JSONObject obj = JSONObject.fromObject(message);
+		Client client=new Client();
+		int flag=appService.signup((String)obj.get("user_name"),(String)obj.get("password"),(String)obj.get("phone"));
+		if(flag==0)return "success";
+		else if(flag==1)return "existing phone";
+		else if(flag==2)return "existing user name";
+		else return "existing phone and user name";
+	}
 	
 	@GET
 	@Path("/query_personal_info")
@@ -225,23 +221,41 @@ public class Restful {
 			returnFeed.setText(curFeed.getText());
 			returnFeed.setDate(curFeed.getTime());
 			returnFeed.setUser_ID(curFeed.getUser_id());
+			returnFeed.setLikeList(curFeed.getLikeList());
+			returnFeed.setCommentList(curFeed.getCommentList());
 			res.add(returnFeed);
 		}
 		return JSONArray.fromObject(res).toString();
 	}
 	
 	@POST
-    @Path("/incLikeFeed")
+    @Path("/IncLikeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String incLikeFeed(String feedinfo) throws JSONException{
+	 public String IncLikeFeed(String feedinfo) throws JSONException{
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 
 		 String _id= newfeed.getString("_id");
-		 appService.incLikeFeed(_id);
+		int user_id=newfeed.getInt("user_id");
+		 appService.incLikeFeed(_id,user_id);
 		 String res= "success";
 	 return res;
      }
+	
+	@POST
+	@Path("/NewComment")
+	@Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/html")
+	public String NewComment(String commentinfo)throws JSONException{
+		JSONObject newfeed=JSONObject.fromObject(commentinfo);
+		String _id= newfeed.getString("_id");
+		int user_id=newfeed.getInt("user_id");
+		String text=newfeed.getString("text");
+		int reply_id=newfeed.getInt("reply_id");
+		 appService.NewComment( _id, user_id, text,  reply_id);
+		 String res= "success";
+	 return res;
+	}
 	
 }
 
