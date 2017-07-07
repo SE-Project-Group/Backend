@@ -9,6 +9,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.processors.JsonValueProcessor;
 
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -70,9 +71,9 @@ public class Restful {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String clientLogout(
 			@QueryParam("user_ID") int user_ID,
-			@QueryParam("sign") String sign) throws NoSuchAlgorithmException 
+			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException 
 	{
-		String uri="rest/app/clientLogout";
+		String uri="track/rest/app/clientLogout";
 		if(sign==null)return null;
 		if(appService.checkSign(user_ID,uri,sign)){
 			appService.logout(user_ID);
@@ -105,9 +106,9 @@ public class Restful {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String query_personal_info(
 			@QueryParam("user_ID") int user_ID,
-			@QueryParam("sign") String sign) throws ClassNotFoundException, NoSuchAlgorithmException
+			@QueryParam("sign") String sign) throws ClassNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-		String uri="rest/app/query_personal_info";
+		String uri="track/rest/app/query_personal_info";
 		if(sign==null)return null;
 		if(!appService.checkSign(user_ID,uri,sign)){
 			return null;
@@ -127,9 +128,9 @@ public class Restful {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String modify_personal_info(String message,
 			@QueryParam("user_ID") int user_ID,
-			@QueryParam("sign") String sign) throws JSONException, ParseException, NoSuchAlgorithmException
+			@QueryParam("sign") String sign) throws JSONException, ParseException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-		String uri="rest/app/modify_personal_info";
+		String uri="track/rest/app/modify_personal_info";
 		if(sign==null)return null;
 		if(!appService.checkSign(user_ID,uri,sign)){
 			return null;
@@ -155,8 +156,8 @@ public class Restful {
 	 @Produces("text/html")
 	 public String NewFeed(String feedinfo,
 			 @QueryParam("user_ID") int user_ID,
-			 @QueryParam("sign") String sign) throws JSONException, NoSuchAlgorithmException{
-		 if(!appService.checkSign(user_ID, "rest/app/NewFeed", sign))return "error";
+			 @QueryParam("sign") String sign) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		 if(!appService.checkSign(user_ID, "track/rest/app/NewFeed", sign))return "error";
 		 Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedinfo,Feed.class);
 		 appService.NewFeed(feed);
