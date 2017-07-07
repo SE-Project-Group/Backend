@@ -6,7 +6,7 @@ import model.Token;
 import util.RedisUtil;
 
 import java.util.UUID;
-
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -32,11 +32,11 @@ public class TokenDaoImpl implements TokenDao{
 	}
 
 	@Override
-	public boolean checkSign(int user_ID, String uri,String sign) throws NoSuchAlgorithmException{
+	public boolean checkSign(int user_ID, String uri,String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		String token=redisUtil.get(user_ID);
 		MessageDigest md=MessageDigest.getInstance("MD5");
-		byte[] bs = md.digest((uri+"?token="+token).getBytes());
-		String rightSign=bs.toString();
+		byte[] bs = md.digest((uri+"?token="+token).getBytes("UTF-8"));
+		String rightSign=new String(bs,"UTF-8");
 		if(sign.equals(rightSign)){
 			return true;
 		}

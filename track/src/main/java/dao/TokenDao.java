@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
 import model.Token;
@@ -17,7 +18,7 @@ public interface TokenDao {
      * @param model token
      * @return 是否有效
      */
-    public boolean checkSign(int user_ID, String uri ,String sign)throws NoSuchAlgorithmException;
+    public boolean checkSign(int user_ID, String uri ,String sign)throws NoSuchAlgorithmException,UnsupportedEncodingException;
 
     /**
      * 清除token

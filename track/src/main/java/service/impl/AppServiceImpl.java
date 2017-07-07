@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -118,8 +119,8 @@ public class AppServiceImpl implements AppService{
 		return clientDao.getClientByUser_name(user_name);
 	}
 	
-	public boolean checkSign(int user_ID,String uri,String token) throws NoSuchAlgorithmException{
-		if(tokenDao.checkSign(user_ID, uri,token))return true;
+	public boolean checkSign(int user_ID,String uri,String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(tokenDao.checkSign(user_ID, uri,sign))return true;
 		return false;
 	}
 	
