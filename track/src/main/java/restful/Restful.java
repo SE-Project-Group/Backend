@@ -74,7 +74,6 @@ public class Restful {
 			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException 
 	{
 		String uri="track/rest/app/clientLogout";
-		if(sign==null)return null;
 		if(appService.checkSign(user_ID,uri,sign)){
 			appService.logout(user_ID);
 			return "success";
@@ -157,7 +156,7 @@ public class Restful {
 	 public String NewFeed(String feedinfo,
 			 @QueryParam("user_ID") int user_ID,
 			 @QueryParam("sign") String sign) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		 if(!appService.checkSign(user_ID, "track/rest/app/NewFeed", sign))return "error";
+		 if(!appService.checkSign(user_ID, "track/rest/app/NewFeed", sign))return "Status wrong";
 		 Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedinfo,Feed.class);
 		 appService.NewFeed(feed);
