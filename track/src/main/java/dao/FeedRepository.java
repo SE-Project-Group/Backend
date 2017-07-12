@@ -1,5 +1,7 @@
 package dao;
 
+
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.geo.Circle;
@@ -23,5 +25,5 @@ public void update(Feed feed);
 
 public List<Feed> findFeedsAround(Circle circle);
 
-
+public List<Feed> findPublicFeedsByTime(Timestamp time);
 }

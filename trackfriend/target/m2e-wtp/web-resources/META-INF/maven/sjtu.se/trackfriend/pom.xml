@@ -7,15 +7,87 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>trackfriend Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  
+  <properties>
+  		<javax.servlet-api.version>2.5</javax.servlet-api.version>
+  
+  		<maven.compiler.plugin.version>2.3.2</maven.compiler.plugin.version>
+		<jdk.version>1.8</jdk.version>
+  
+  		<tomcat.version>2.2</tomcat.version>
+		<port>8080</port>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+  </properties>
+  
+  
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
+  
+  	  <dependency>   
+         <groupId> org.springframework.data </groupId>
+         <artifactId> spring-data-neo4j </artifactId>
+         <version> 3.1.2.RELEASE </version>
+      </dependency>
+      
+      <dependency>
+         <groupId> org.neo4j </groupId>
+         <artifactId> neo4j-kernel </artifactId>
+         <version> 2.1.3 </version>
+      </dependency>  
+      
+      <dependency>
+         <groupId> javax.transaction </groupId>
+         <artifactId> jta </artifactId>
+         <version> 1.1 </version>
+      </dependency>
+      
+      <dependency>
+         <groupId>javax.validation</groupId>
+         <artifactId>validation-api</artifactId>
+         <version>1.0.0.GA</version>
+      </dependency>
+  
+  
+	    <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>3.8.1</version>
+	      <scope>test</scope>
+	    </dependency>
+    
+    <!-- Javax Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>${javax.servlet-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
   </dependencies>
   <build>
     <finalName>trackfriend</finalName>
+    		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.plugin.version}</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>${tomcat.version}</version>
+				<configuration>
+					<port>${port}</port>
+					<path>/${project.artifactId}</path>
+					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
+					<server>tomcat7</server>
+				</configuration>
+			</plugin>
+
+		</plugins>
   </build>
 </project>

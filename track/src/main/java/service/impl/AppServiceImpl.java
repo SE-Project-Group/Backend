@@ -158,7 +158,11 @@ public class AppServiceImpl implements AppService{
         List<Feed>feeds= feedRepository.findFeedsAround(circle);
         return feeds;
 	}
-	/*
+	public List<Feed> findPublicFeedsByTime(Timestamp time){
+		 List<Feed>feeds= feedRepository.findPublicFeedsByTime(time);
+		 return feeds;
+	}
+		/*
 	 * 
 	 * Admin
 	 */

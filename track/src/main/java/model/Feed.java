@@ -41,6 +41,7 @@ public class Feed implements Serializable {
     	this.likeCount=0;
     	this.likeList=new ArrayList<Like>();
     	this.commentList=new ArrayList<Comment>();
+    	this.picList=new ArrayList<Integer>();
     }
    public String get_id() {
        return _id;
