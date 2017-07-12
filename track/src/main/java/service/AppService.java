@@ -39,6 +39,7 @@ public interface AppService {
 	public void removeFeed(String _id);
 	public List<Feed>findFeedByUser_id(int user_id);
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius);
+	public List<Feed> findPublicFeedsByTime(Timestamp time);
 	/*like*/
 	public int incLikeFeed(String _id,int user_id);
 	/*comment*/

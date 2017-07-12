@@ -11,6 +11,7 @@ import net.sf.json.processors.JsonValueProcessor;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,7 +52,7 @@ public class Restful {
     }  */
 	
 	@GET
-	@Path("/clientLogin")
+	@Path("/ClientLogin")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String clientLogin(
 			@QueryParam("user_name") String user_name,
@@ -67,7 +68,7 @@ public class Restful {
 
 	
 	@GET
-	@Path("/clientLogout")
+	@Path("/ClientLogout")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String clientLogout(
 			@QueryParam("user_ID") int user_ID,
@@ -83,7 +84,7 @@ public class Restful {
 	
 
 	@POST
-	@Path("/clientSignup")
+	@Path("/ClientSignup")
 	@Consumes(MediaType.APPLICATION_JSON)  
 	@Produces("text/html")
 	public String clientSignup(String message) throws JSONException{
@@ -97,7 +98,7 @@ public class Restful {
 	}
 	
 	@GET
-	@Path("/query_personal_info")
+	@Path("/QueryPersonalInfo")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String query_personal_info(
 			@QueryParam("user_ID") int user_ID,
@@ -106,10 +107,10 @@ public class Restful {
 		String uri="track/rest/app/query_personal_info";
 		if(sign==null)return null;
 		if(!appService.checkSign(user_ID,uri,sign)){
-			return null;
+			return "no sign";
 		}
 		Client client=appService.getClientByID(user_ID);
-		if(client==null)return null;
+		if(client==null)return "no such client";
 		String shortFormat = "yyyy-MM-dd";  
 		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
 		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 
@@ -118,7 +119,7 @@ public class Restful {
 	}
 	
 	@PUT
-	@Path("/modify_personal_info")
+	@Path("/ModifyPersonalInfo")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String modify_personal_info(String message,
@@ -163,8 +164,11 @@ public class Restful {
     @Path("/UpdateFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String UpdateFeed(String feedinfo) throws JSONException{
-		 Gson gson=new Gson();
+	 public String UpdateFeed(String feedinfo,
+			 @QueryParam("user_ID") int user_ID,
+			 @QueryParam("sign") String sign ) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		 if(!appService.checkSign(user_ID, "track/rest/app/UpdateFeed", sign))return "Status wrong"; 
+		Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedinfo,Feed.class);
 		 
 		 appService.UpdateFeed(feed);
@@ -176,8 +180,11 @@ public class Restful {
     @Path("/RemoveFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String RemoveFeed(String feedinfo) throws JSONException{
-		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
+	 public String RemoveFeed(String feedinfo,
+			 @QueryParam("user_ID") int user_ID,
+			 @QueryParam("sign") String sign) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(user_ID, "track/rest/app/RemoveFeed", sign))return "Status wrong";  
+		JSONObject newfeed = JSONObject.fromObject(feedinfo);
 		 
 		 String _id= newfeed.getString("_id");
 		 appService.removeFeed(_id);
@@ -187,22 +194,39 @@ public class Restful {
 	@GET
 	@Path("/MyFeed")
 	 @Produces("text/html")
-	public  String MyFeed(@QueryParam("user_id") int user_id)throws JSONException
+	public  String MyFeed(@QueryParam("user_ID") int user_ID,@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
+		if(!appService.checkSign(user_ID, "track/rest/app/MyFeed", sign))return "Status wrong";  
 		
-		
-		 List<Feed> list=appService.findFeedByUser_id(user_id);
+		 List<Feed> list=appService.findFeedByUser_id(user_ID);
 		 JSONArray newfeed = JSONArray.fromObject(list);
 		
 	 return newfeed.toString();
 	}
-	
+	@POST
+	@Path("GetFeedFromTime")
+	@Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/html")
+	public String GetFeedFromTime(String time,
+			@QueryParam("user_ID") int user_ID,
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(user_ID, "track/rest/app/GetFeedFromTime", sign))return "Status wrong"; 
+		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
+		ts=Timestamp.valueOf(time);	
+		 List<Feed> list=appService.findPublicFeedsByTime(ts);
+		
+		
+	 return list.toString();
+	}
 	@GET
-	@Path("/feedAround")
+	@Path("/FeedAround")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String feedAround(
 			@QueryParam("longitude") double longitude,
-			@QueryParam("latitude") double latitude ){
+			@QueryParam("latitude") double latitude,
+			@QueryParam("user_ID") int user_ID,
+			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(user_ID, "track/rest/app/FeedAround", sign))return "Status wrong"; 
 		List<Feed>feeds=appService.findFeedAround(longitude, latitude, 10);
 		List<ReturnFeed> res=new ArrayList<ReturnFeed>();
 		for(int i=0;i<feeds.size();i++){
@@ -232,7 +256,10 @@ public class Restful {
     @Path("/IncLikeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String IncLikeFeed(String feedinfo) throws JSONException{
+	 public String IncLikeFeed(String feedinfo,
+			 @QueryParam("user_ID") int user_ID,
+			 @QueryParam("sign") String sign) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(user_ID, "track/rest/app/IncLikeFeed", sign))return "Status wrong"; 
 		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
 
 		 String _id= newfeed.getString("_id");
@@ -246,7 +273,10 @@ public class Restful {
 	@Path("/NewComment")
 	@Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	public String NewComment(String commentinfo)throws JSONException{
+	public String NewComment(String commentinfo,
+			 @QueryParam("user_ID") int user_ID,
+			 @QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(user_ID, "track/rest/app/NewComment", sign))return "Status wrong"; 
 		JSONObject newfeed=JSONObject.fromObject(commentinfo);
 		String _id= newfeed.getString("_id");
 		int user_id=newfeed.getInt("user_id");
@@ -256,6 +286,7 @@ public class Restful {
 		 String res= "success";
 	 return res;
 	}
+	
 	
 }
 

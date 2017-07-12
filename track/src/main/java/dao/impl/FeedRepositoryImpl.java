@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -114,6 +115,23 @@ public class FeedRepositoryImpl implements FeedRepository{
 		Query query=Query.query(Criteria.where("location").withinSphere(circle));
 		List<Feed>feeds=mongoTemplate.find(query,Feed.class);
 		return feeds;
+	}
+
+	@Override
+	public List<Feed> findPublicFeedsByTime(Timestamp time) {
+		// TODO Auto-generated method stub
+		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("shareArea").is("public")), Feed.class); 
+		for(int i=0;i<allfeed.size();i++){
+		Feed feed=	allfeed.get(i);
+		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
+		ts=Timestamp.valueOf(feed.getTime());	
+		
+		if(time.after(ts)){
+			allfeed.remove(i);
+			i--;
+		}
+		}
+		return allfeed;
 	}
 	 
 
