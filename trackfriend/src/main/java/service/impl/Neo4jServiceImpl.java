@@ -17,6 +17,9 @@ public class Neo4jServiceImpl implements Neo4jService{
 	/**
 	 * neo4j
 	 */
+	public Neo4jServiceImpl(){
+		
+	}
 	public ClientNeo4j create(ClientNeo4j clientNeo4j) {
 		return neo4jDao.save(clientNeo4j);
 	}

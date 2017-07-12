@@ -91,8 +91,8 @@ public class AppServiceImpl implements AppService{
 	}
 
 	@Override
-	public Client getClientByID(int ID) {
-		return clientDao.getClientByID(ID);
+	public Client getClientById(int id) {
+		return clientDao.getClientById(id);
 	}
 
 	@Override
@@ -101,20 +101,20 @@ public class AppServiceImpl implements AppService{
 	}
 	
 	@Override
-	public Token clientLogin(String user_name, String password) {
-		if(clientDao.checkLogin(user_name, password)){
-			Client client=clientDao.getClientByUser_name(user_name);
-			return tokenDao.createToken(client.getUser_ID());
+	public Token clientLogin(String userName, String password) {
+		if(clientDao.checkLogin(userName, password)){
+			Client client=clientDao.getClientByUserName(userName);
+			return tokenDao.createToken(client.getUserId());
 		}
 		return null;
 	}
 
 	@Override
-	public int signup(String client_name,String password,String phone) {
-		int flag=clientDao.checkSignup(client_name, password, phone);
+	public int signup(String clientName,String password,String phone) {
+		int flag=clientDao.checkSignup(clientName, password, phone);
 		if(flag==0){
 			Client client=new Client();
-			client.setUser_name(client_name);
+			client.setUserName(clientName);
 			client.setPassword(password);
 			client.setPhone(phone);
 			clientDao.insert(client);
@@ -123,33 +123,33 @@ public class AppServiceImpl implements AppService{
 	}
 	
 	@Override
-	public Client getClientByUser_name(String user_name) {
-		return clientDao.getClientByUser_name(user_name);
+	public Client getClientByUserName(String userName) {
+		return clientDao.getClientByUserName(userName);
 	}
 	
-	public boolean checkSign(int user_ID,String uri,String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
-		if(tokenDao.checkSign(user_ID, uri,sign))return true;
+	public boolean checkSign(int userId,String uri,String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(tokenDao.checkSign(userId, uri,sign))return true;
 		return false;
 	}
 	
-	public void logout(int user_ID){
-		tokenDao.deleteToken(user_ID);
+	public void logout(int userId){
+		tokenDao.deleteToken(userId);
 	}
 	/*
 	 * 
 	 * feed
 	 */
-	public void NewFeed(Feed feed){
+	public void newFeed(Feed feed){
 		feedRepository.insert(feed);
 	}
-	public void UpdateFeed(Feed feed){
+	public void updateFeed(Feed feed){
 		feedRepository.update(feed);
 	}
 	public void removeFeed(String _id){
 		feedRepository.removeOne(_id);
 	}
-	public List<Feed>findFeedByUser_id(int user_id){
-		return feedRepository.findByUser_id(user_id);
+	public List<Feed>findFeedByUserId(int userId){
+		return feedRepository.findByUserId(userId);
 	}
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius){
 		Point point = new Point(longitude,latitude);   
@@ -164,19 +164,19 @@ public class AppServiceImpl implements AppService{
 	 */
 	
 	@Override
-	public boolean managerLogin(String admin_name, String password) {
-		return managerDao.checkLogin(admin_name, password);
+	public boolean managerLogin(String adminName, String password) {
+		return managerDao.checkLogin(adminName, password);
 	}
 
 	@Override
-	public int incLikeFeed(String _id,int user_id) {
+	public int incLikeFeed(String _id,int userId) {
 		// TODO Auto-generated method stub
 		Feed feed=feedRepository.findOne(_id);
 		int likeCount=feed.getLikeCount()+1;
 		feed.setLikeCount(likeCount);
 		List<Like> likelist=feed.getLikeList();
 		Like newlike=new Like();
-		newlike.setUser_id(user_id);
+		newlike.setUserId(userId);
 		likelist.add(newlike);
 		feed.setLikeList(likelist);
 		feedRepository.update(feed);
@@ -184,14 +184,14 @@ public class AppServiceImpl implements AppService{
 	}
 
 	@Override
-	public int NewComment(String _id,int user_id, String text, int reply_id) {
+	public int newComment(String _id,int userId, String text, int replyId) {
 		// TODO Auto-generated method stub
 		Feed feed=feedRepository.findOne(_id);
 		int commentcount=feed.getCommentCount()+1;
 		feed.setCommentCount(commentcount);
 		List<Comment> commentList=feed.getCommentList();
-		Comment newcomment=new Comment(user_id,reply_id,text);
-		newcomment.setComment_id(feed.getCommentCount());
+		Comment newcomment=new Comment(userId,replyId,text);
+		newcomment.setCommentId(feed.getCommentCount());
 		commentList.add(newcomment);
 		feed.setCommentList(commentList);
 		feedRepository.update(feed);

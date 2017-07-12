@@ -76,26 +76,24 @@
 										<%
 											for (int i = 0; i < clientList.size(); i++) {
 												Client client = clientList.get(i);
-												Date birthday=null;
-												if(client.getBirthday()!=null)birthday=client.getBirthday();
 										%>
 										<tr>
-										    <td><%=client.getUser_ID()%></td>
-											<td><%=client.getUser_name()%></td>
+										    <td><%=client.getUserId()%></td>
+											<td><%=client.getUserName()%></td>
 											<td><%=client.getPassword()%></td>
 											<td><%=client.getPhone()%></td>
 											<td><%=client.getEmail()%></td>
 											<td><%=client.getGender()%></td>
-											<td><%=birthday%> </td>
+											<td><%=client.getBirthday()%> </td>
 											<td>
 												<button class="btn btn-default delete" type="button"
-													data-userid="<%=client.getUser_ID()%>"
+													data-userid="<%=client.getUserId()%>"
 													>
 													<i class="fa fa-trash"></i>
 												</button>
 												<button class="btn btn-default edit" type="button"
-													data-userid="<%=client.getUser_ID()%>"
-													data-user_name="<%=client.getUser_name()%>"
+													data-userid="<%=client.getUserId()%>"
+													data-user_name="<%=client.getUserName()%>"
 													data-password="<%=client.getPassword()%>"
 													data-phone="<%=client.getPhone()%>"
 													data-email="<%=client.getEmail()%>"

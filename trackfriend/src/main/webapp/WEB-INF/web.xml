@@ -3,5 +3,33 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+	<display-name>Archetype Created Web Application</display-name>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:googleProfile.xml</param-value>
+	</context-param>
+  
+	<servlet>
+		<servlet-name>AddFriendServlet</servlet-name>
+		<servlet-class>servlet.FriendServlet</servlet-class>
+	</servlet>	
+	<servlet>
+		<servlet-name>NewClientServlet</servlet-name>
+		<servlet-class>servlet.NewClientServlet</servlet-class>
+	</servlet>	
+	
+	
+	
+	<servlet-mapping>
+		<servlet-name>AddFriendServlet</servlet-name>
+		<url-pattern>/addFriend</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>NewClientServlet</servlet-name>
+		<url-pattern>/newClient</url-pattern>
+	</servlet-mapping>
+  
+  
+  
 </web-app>

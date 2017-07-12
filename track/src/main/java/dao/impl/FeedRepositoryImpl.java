@@ -47,9 +47,9 @@ public class FeedRepositoryImpl implements FeedRepository{
 	}
 
 	@Override
-	public List<Feed> findByUser_id(int user_id) {
+	public List<Feed> findByUserId(int userId) {
 		// TODO Auto-generated method stub
-        return  mongoTemplate.find(new Query(Criteria.where("user_id").is(user_id)), Feed.class);
+        return  mongoTemplate.find(new Query(Criteria.where("userId").is(userId)), Feed.class);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 		 String itime=	df.format(new Date(System.currentTimeMillis()));
 		// TODO Auto-generated method stub
 		String n_id=feed.get_id();
-		int id=feed.getUser_id();
+		int id=feed.getUserId();
 	    String ntext=feed.getText();   
 	    boolean nshowLocation=feed.getShowLocation();
 	    Location nlocation=feed.getLocation();
@@ -91,7 +91,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 	    		new Query(Criteria.where("_id").is(n_id)), 
 			 new Update()
 			 .set("_id", n_id)
-			 .set("user_id", id)
+			 .set("userId", id)
 			 .set("time", itime)
 			 .set("text", ntext)
 			 .set("showLocation", nshowLocation)

@@ -4,11 +4,11 @@ import java.sql.Date;
 
 public class Client {
 	
-	private int user_ID;
+	private int userId;
 	private String phone;
 	private String gender;
 	private Date birthday;
-	private String user_name;
+	private String userName;
 	private String password;
 	private String email;
 	
@@ -16,22 +16,17 @@ public class Client {
 		
 	}
 	
-	public Client(String phone,String gender,Date birthday,String user_name,String password,String email){
+	public Client(String phone,String gender,Date birthday,String userName,String password,String email){
 
 		this.phone=phone;
 		this.gender=gender;
 		this.birthday=birthday;
-		this.user_name=user_name;
+		this.setUserName(userName);
 		this.password=password;
 		this.email=email;
 	}
 	
-	public int getUser_ID() {
-		return user_ID;
-	}
-	public void setUser_ID(int user_ID) {
-		this.user_ID = user_ID;
-	}
+
 	public String getPhone() {
 		return phone;
 	}
@@ -50,12 +45,6 @@ public class Client {
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
-	public String getUser_name() {
-		return user_name;
-	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
-	}
 	public String getPassword() {
 		return password;
 	}
@@ -67,5 +56,21 @@ public class Client {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }

@@ -2,7 +2,6 @@ package restful;
 
 import model.Client;
 import model.Feed;
-import model.Location;
 import model.ReturnFeed;
 import model.Token;
 import net.sf.json.JSONArray;
@@ -42,22 +41,14 @@ import util.SpringContextUtil;
 public class Restful {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
 	
-	/*@GET  
-	@Path("/hello")
-
-    @Produces(MediaType.TEXT_PLAIN)  
-    public String sayHello() {  
-        return "Hello Jersey";  
-    }  */
-	
 	@GET
 	@Path("/clientLogin")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String clientLogin(
-			@QueryParam("user_name") String user_name,
+			@QueryParam("user_name") String userName,
     		@QueryParam("password") String password) 
 	{
-		Token token=appService.clientLogin(user_name,password);
+		Token token=appService.clientLogin(userName,password);
 		if(token==null){
 			return "ERROR";
 		}
@@ -70,12 +61,12 @@ public class Restful {
 	@Path("/clientLogout")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String clientLogout(
-			@QueryParam("user_ID") int user_ID,
+			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException 
 	{
 		String uri="track/rest/app/clientLogout";
-		if(appService.checkSign(user_ID,uri,sign)){
-			appService.logout(user_ID);
+		if(appService.checkSign(userId,uri,sign)){
+			appService.logout(userId);
 			return "success";
 		}
 		return "error";
@@ -88,7 +79,6 @@ public class Restful {
 	@Produces("text/html")
 	public String clientSignup(String message) throws JSONException{
 		JSONObject obj = JSONObject.fromObject(message);
-		Client client=new Client();
 		int flag=appService.signup((String)obj.get("user_name"),(String)obj.get("password"),(String)obj.get("phone"));
 		if(flag==0)return "success";
 		else if(flag==1)return "existing phone";
@@ -97,18 +87,18 @@ public class Restful {
 	}
 	
 	@GET
-	@Path("/query_personal_info")
+	@Path("/queryPersonalInfo")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String query_personal_info(
-			@QueryParam("user_ID") int user_ID,
+	public String queryPersonalInfo(
+			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign) throws ClassNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-		String uri="track/rest/app/query_personal_info";
+		String uri="track/rest/app/queryPersonalInfo";
 		if(sign==null)return null;
-		if(!appService.checkSign(user_ID,uri,sign)){
+		if(!appService.checkSign(userId,uri,sign)){
 			return null;
 		}
-		Client client=appService.getClientByID(user_ID);
+		Client client=appService.getClientById(userId);
 		if(client==null)return null;
 		String shortFormat = "yyyy-MM-dd";  
 		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
@@ -118,20 +108,20 @@ public class Restful {
 	}
 	
 	@PUT
-	@Path("/modify_personal_info")
+	@Path("/modifyPersonalInfo")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String modify_personal_info(String message,
-			@QueryParam("user_ID") int user_ID,
+	public String modifyPersonalInfo(String message,
+			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign) throws JSONException, ParseException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-		String uri="track/rest/app/modify_personal_info";
+		String uri="track/rest/app/modifyPersonalInfo";
 		if(sign==null)return null;
-		if(!appService.checkSign(user_ID,uri,sign)){
+		if(!appService.checkSign(userId,uri,sign)){
 			return null;
 		}
 		JSONObject obj=JSONObject.fromObject(message);
-		Client client=appService.getClientByUser_name(obj.getString("user_name"));
+		Client client=appService.getClientByUserName(obj.getString("user_name"));
 		if(client==null){
 			return "username error!";
 		}
@@ -146,55 +136,48 @@ public class Restful {
 		}
 	}
 	@POST
-    @Path("/NewFeed")
+    @Path("/newFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String NewFeed(String feedinfo,
-			 @QueryParam("user_ID") int user_ID,
+	 public String newFeed(String feedInfo,
+			 @QueryParam("user_id") int userId,
 			 @QueryParam("sign") String sign) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		 if(!appService.checkSign(user_ID, "track/rest/app/NewFeed", sign))return "Status wrong";
+		 if(!appService.checkSign(userId, "track/rest/app/newFeed", sign))return "Status wrong";
 		 Gson gson=new Gson();
-		 Feed feed=gson.fromJson(feedinfo,Feed.class);
-		 appService.NewFeed(feed);
+		 Feed feed=gson.fromJson(feedInfo,Feed.class);
+		 appService.newFeed(feed);
 		 String res= "success";
 		 return res;
      }
 	@POST
-    @Path("/UpdateFeed")
+    @Path("/updateFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String UpdateFeed(String feedinfo) throws JSONException{
+	 public String updateFeed(String feedInfo) throws JSONException{
 		 Gson gson=new Gson();
-		 Feed feed=gson.fromJson(feedinfo,Feed.class);
-		 
-		 appService.UpdateFeed(feed);
-		 String res= "success";
-		
-	 return res;
+		 Feed feed=gson.fromJson(feedInfo,Feed.class);
+		 appService.updateFeed(feed);
+		 return "success";
      }
 	@POST
-    @Path("/RemoveFeed")
+    @Path("/removeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String RemoveFeed(String feedinfo) throws JSONException{
-		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
-		 
+	 public String removeFeed(String feedInfo) throws JSONException{
+		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 appService.removeFeed(_id);
-		 String res= "success";
-	 return res;
+		 return "success";
      }
 	@GET
-	@Path("/MyFeed")
+	@Path("/myFeed")
 	 @Produces("text/html")
-	public  String MyFeed(@QueryParam("user_id") int user_id)throws JSONException
+	public  String myFeed(
+			@QueryParam("user_id") int userId)throws JSONException
 	{
-		
-		
-		 List<Feed> list=appService.findFeedByUser_id(user_id);
+		 List<Feed> list=appService.findFeedByUserId(userId);
 		 JSONArray newfeed = JSONArray.fromObject(list);
-		
-	 return newfeed.toString();
+		 return newfeed.toString();
 	}
 	
 	@GET
@@ -208,10 +191,9 @@ public class Restful {
 		for(int i=0;i<feeds.size();i++){
 			Feed curFeed=feeds.get(i);
 			ReturnFeed returnFeed=new ReturnFeed();
-			System.out.print(curFeed.getUser_id());
-			String feed_owner=appService.getClientByID(curFeed.getUser_id()).getUser_name();
+			String feedOwner=appService.getClientById(curFeed.getUserId()).getUserName();
 			returnFeed.setComment_cnt(curFeed.getCommentCount());
-			returnFeed.setFeed_owner(feed_owner);
+			returnFeed.setFeed_owner(feedOwner);
 			returnFeed.setLatitude(curFeed.getLocation().getLatitude());
 			returnFeed.setLongitude(curFeed.getLocation().getLongitude());
 			returnFeed.setLike_cnt(curFeed.getLikeCount());
@@ -220,7 +202,7 @@ public class Restful {
 			returnFeed.setShare_cnt(curFeed.getShareCount());
 			returnFeed.setText(curFeed.getText());
 			returnFeed.setDate(curFeed.getTime());
-			returnFeed.setUser_ID(curFeed.getUser_id());
+			returnFeed.setUser_ID(curFeed.getUserId());
 			returnFeed.setLikeList(curFeed.getLikeList());
 			returnFeed.setCommentList(curFeed.getCommentList());
 			res.add(returnFeed);
@@ -229,32 +211,29 @@ public class Restful {
 	}
 	
 	@POST
-    @Path("/IncLikeFeed")
+    @Path("/incLikeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String IncLikeFeed(String feedinfo) throws JSONException{
-		 JSONObject newfeed = JSONObject.fromObject(feedinfo);
-
+	 public String incLikeFeed(String feedInfo) throws JSONException{
+		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
-		int user_id=newfeed.getInt("user_id");
-		 appService.incLikeFeed(_id,user_id);
-		 String res= "success";
-	 return res;
+		 int userId=newfeed.getInt("user_id");
+		 appService.incLikeFeed(_id,userId);
+		 return "success";
      }
 	
 	@POST
-	@Path("/NewComment")
+	@Path("/newComment")
 	@Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	public String NewComment(String commentinfo)throws JSONException{
-		JSONObject newfeed=JSONObject.fromObject(commentinfo);
+	public String newComment(String commentInfo)throws JSONException{
+		JSONObject newfeed=JSONObject.fromObject(commentInfo);
 		String _id= newfeed.getString("_id");
-		int user_id=newfeed.getInt("user_id");
+		int userId=newfeed.getInt("user_id");
 		String text=newfeed.getString("text");
-		int reply_id=newfeed.getInt("reply_id");
-		 appService.NewComment( _id, user_id, text,  reply_id);
-		 String res= "success";
-	 return res;
+		int replyId=newfeed.getInt("reply_id");
+		appService.newComment( _id, userId, text,  replyId);
+		return "success";
 	}
 	
 }

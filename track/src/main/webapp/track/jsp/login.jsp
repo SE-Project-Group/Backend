@@ -14,7 +14,7 @@
  
 <body>
     <form id="slick-login" action="managerLogin">
-        <label for="admin_name">admin name</label><input type="text" name="admin_name" class="placeholder" placeholder="admin name">
+        <label for="adminName">admin name</label><input type="text" name="adminName" class="placeholder" placeholder="admin name">
         <label for="password">password</label><input type="password" name="password" class="placeholder" placeholder="password">
         <input type="submit" value="Log In">
     </form>

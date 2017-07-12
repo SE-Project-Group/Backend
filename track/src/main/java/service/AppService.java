@@ -23,30 +23,30 @@ public interface AppService {
 	public void insertClient(Client client);
 	public void updateClient(Client client);
 	public void deleteClient(Client client);
-	public Client getClientByID(int ID);
+	public Client getClientById(int id);
 	public List<Client> getAllClients();
-	public Token clientLogin(String user_name,String password);
-	public int signup(String client_name,String password,String phone);	//return 0:ok   1:phone  2:user_name  3:phone&username
-	public Client getClientByUser_name(String user_name);
-	public boolean checkSign(int user_ID,String uri,String sign)throws NoSuchAlgorithmException,UnsupportedEncodingException;
-	public void logout(int user_ID);
+	public Token clientLogin(String userName,String password);
+	public int signup(String clientName,String password,String phone);	//return 0:ok   1:phone  2:user_name  3:phone&username
+	public Client getClientByUserName(String userName);
+	public boolean checkSign(int userId,String uri,String sign)throws NoSuchAlgorithmException,UnsupportedEncodingException;
+	public void logout(int userId);
 	/*
 	 * 
 	 * Feed
 	 */
-	public void NewFeed(Feed feed);
-	public void UpdateFeed(Feed feed);
+	public void newFeed(Feed feed);
+	public void updateFeed(Feed feed);
 	public void removeFeed(String _id);
-	public List<Feed>findFeedByUser_id(int user_id);
+	public List<Feed>findFeedByUserId(int userId);
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius);
 	/*like*/
-	public int incLikeFeed(String _id,int user_id);
+	public int incLikeFeed(String _id,int userId);
 	/*comment*/
-	public int NewComment(String _id,int user_id,String text,int reply_id);
+	public int newComment(String _id,int userId,String text,int replyId);
 	/*
 	 * 
 	 * Admin
 	 */
 	
-	public boolean managerLogin(String admin_name,String password);
+	public boolean managerLogin(String adminName,String password);
 }

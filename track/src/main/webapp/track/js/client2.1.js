@@ -18,8 +18,8 @@ $(function() {
 				processData : true,
 				dataType : "text",
 				data : {
-					user_ID : user_ID,
-					user_name : user_name,
+					userId : user_ID,
+					userName : user_name,
 					password : password,
 					phone : phone,
 					email : email,
@@ -43,7 +43,7 @@ $(function() {
 				processData : true,
 				dataType : "text",
 				data : {
-					user_name : user_name,
+					userName : user_name,
 					password : password,
 					phone : phone,
 					email : email,
@@ -87,7 +87,7 @@ $(function() {
 						processData : true,
 						dataType : "text",
 						data : {
-							user_ID : user_ID,
+							userId : user_ID,
 							
 						},
 						success : function(data) {

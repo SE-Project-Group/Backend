@@ -3,28 +3,29 @@ package model;
 
 public class Token{
 
-	private int user_ID;
+	private int userId;
 
 	 private String token;
 
-	 public Token(int user_ID, String token) {
-	        this.user_ID = user_ID;
-	        this.token = token;
-	    }
+	 public Token(int userId, String token) {
+	        this.setUserId(userId);
+	        this.setToken(token);
+	 }
 
-	    public int getUser_ID() {
-	        return user_ID;
-	    }
+	public int getUserId() {
+		return userId;
+	}
 
-	    public void setUser_ID(int user_ID) {
-	        this.user_ID = user_ID;
-	    }
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
-	    public String getToken() {
-	        return token;
-	    }
+	public String getToken() {
+		return token;
+	}
 
-	    public void setToken(String token) {
-	        this.token = token;
-	    }
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 }
