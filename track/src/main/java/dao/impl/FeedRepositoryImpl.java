@@ -31,7 +31,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 	 @Override
 	public void insert(Feed feed) {
 		// TODO Auto-generated method stub
-		 mongoTemplate.insert(feed); 
+	 mongoTemplate.insert(feed); 
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 		 return mongoTemplate.findOne(new Query(Criteria.where("_id").is(_id)), Feed.class);   
 		
 	}
-
+    
 	@Override
 	public List<Feed> findAll() {
 		// TODO Auto-generated method stub
@@ -120,17 +120,19 @@ public class FeedRepositoryImpl implements FeedRepository{
 	@Override
 	public List<Feed> findPublicFeedsByTime(Timestamp time) {
 		// TODO Auto-generated method stub
-		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("shareArea").is("public")), Feed.class); 
-		for(int i=0;i<allfeed.size();i++){
-		Feed feed=	allfeed.get(i);
-		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
-		ts=Timestamp.valueOf(feed.getTime());	
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String stime = df.format(time);
+		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("shareArea").is("public").and("time").gt(stime)), Feed.class); 
 		
-		if(time.after(ts)){
-			allfeed.remove(i);
-			i--;
-		}
-		}
+		return allfeed;
+	}
+	@Override
+	public List<Feed> GetTodayFeedList(Date date) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String stime = df.format(date);
+		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("time").regex(stime+"*")), Feed.class); 
+		
 		return allfeed;
 	}
 	 

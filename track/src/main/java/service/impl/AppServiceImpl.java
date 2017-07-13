@@ -171,7 +171,11 @@ public class AppServiceImpl implements AppService{
 	public boolean managerLogin(String admin_name, String password) {
 		return managerDao.checkLogin(admin_name, password);
 	}
-
+	public List<Feed> GetFeedList(Date time){
+		
+		
+		return null;
+	}
 	@Override
 	public int incLikeFeed(String _id,int user_id) {
 		// TODO Auto-generated method stub

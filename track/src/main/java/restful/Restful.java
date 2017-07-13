@@ -157,7 +157,8 @@ public class Restful {
 		 Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedinfo,Feed.class);
 		 appService.NewFeed(feed);
-		 String res= "success";
+		 
+		 String res= feed.get_id();
 		 return res;
      }
 	@POST
