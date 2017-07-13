@@ -281,7 +281,7 @@ public class Restful {
 		if(!appService.checkSign(userId, "track/rest/app/getFriendFeedList", sign))return "Status wrong"; 
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
-		List<Feed> list=appService.GetFriendFeedList(ts,userId);
+		List<Feed> list=appService.getFriendFeedList(ts,userId);
 		return list.toString();
 	}
 
@@ -295,7 +295,7 @@ public class Restful {
 		if(!appService.checkSign(userId, "track/rest/app/getFollowingFeedList", sign))return "Status wrong"; 
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
-		List<Feed> list=appService.GetFollowingFeedList(ts,userId);
+		List<Feed> list=appService.getFollowingFeedList(ts,userId);
 		return list.toString();
 	}
 	
@@ -306,7 +306,7 @@ public class Restful {
 	public String GetMyFriendInformationById(@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "Status wrong"; 
-		List<Client> list=appService.GetMyFriendInformationById(userId);
+		List<Client> list=appService.getMyFriendInformationById(userId);
 		return list.toString();
 	}
 	@POST
@@ -317,7 +317,7 @@ public class Restful {
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		if(!appService.checkSign(userId, "track/rest/app/getMyFollowingInformationById", sign))return "Status wrong"; 
 		
-		List<Client> list=appService.GetMyFollowingInformationById(userId);
+		List<Client> list=appService.getMyFollowingInformationById(userId);
 		return list.toString();
 	}
 	@POST
@@ -328,7 +328,7 @@ public class Restful {
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "Status wrong"; 
 	
-		List<Client> list=appService.GetFollowingMeInformationById(userId);
+		List<Client> list=appService.getFollowingMeInformationById(userId);
 		return list.toString();
 	}
 }

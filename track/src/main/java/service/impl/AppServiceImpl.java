@@ -67,12 +67,19 @@ public class AppServiceImpl implements AppService{
 	public void setTokenDao(TokenDao tokenDao) {
 		this.tokenDao = tokenDao;
 	}
-	public FeedRepository getFeedRepository() {
+	public  FeedRepository getFeedRepository() {
 		return feedRepository;
 	}
 
 	public void setFeedRepository(FeedRepository feedRepository) {
 		this.feedRepository = feedRepository;
+	}
+	public  FollowDao getFollowDao() {
+		return followDao;
+	}
+
+	public void setfollowDao(FollowDao followDao) {
+		this.followDao = followDao;
 	}
 	
 	/*
@@ -167,14 +174,14 @@ public class AppServiceImpl implements AppService{
 		 List<Feed>feeds= feedRepository.findPublicFeedsByTime(time);
 		 return feeds;
 	}
-	public List<Feed> GetTodayFeedList(Date date){
+	public List<Feed> getTodayFeedList(Date date){
 		List<Feed>feeds= feedRepository.GetTodayFeedList(date);
 		
 		return feeds;
 	}
 	@SuppressWarnings("null")
 	@Override
-	public List<Feed> GetFriendFeedList(Timestamp time,int userid) {
+	public List<Feed> getFriendFeedList(Timestamp time,int userid) {
 		List<Follow> follows=followDao.getFriendById(userid);
 		int[] friend=null;
 		int friendnum=0;
@@ -200,7 +207,7 @@ public class AppServiceImpl implements AppService{
 		return feeds;
 	}
 	@Override
-	public List<Feed> GetFollowingFeedList(Timestamp time,int userid) {
+	public List<Feed> getFollowingFeedList(Timestamp time,int userid) {
 		List<Follow> follows=followDao.getFollowingMeById(userid);
 		int[] following=null;
 		int follownum=0;
@@ -272,7 +279,7 @@ public class AppServiceImpl implements AppService{
 	
 
 	@Override
-	public List<Client> GetMyFriendInformationById(int userid) {
+	public List<Client> getMyFriendInformationById(int userid) {
 		// TODO Auto-generated method stub
 		List<Follow>friends=followDao.getFriendById(userid);
 		int[] friend=null;
@@ -291,7 +298,7 @@ public class AppServiceImpl implements AppService{
 	}
 
 	@Override
-	public List<Client> GetMyFollowingInformationById(int userid) {
+	public List<Client> getMyFollowingInformationById(int userid) {
 		// TODO Auto-generated method stub
 		List<Follow>follows=followDao.getMyFollowingById(userid);
 		int[] follow=null;
@@ -310,7 +317,7 @@ public class AppServiceImpl implements AppService{
 	}
 
 	@Override
-	public List<Client> GetFollowingMeInformationById(int userid) {
+	public List<Client> getFollowingMeInformationById(int userid) {
 		List<Follow>follows=followDao.getFollowingMeById(userid);
 		int[] follow=null;
 		int  follownum=0;
@@ -326,20 +333,5 @@ public class AppServiceImpl implements AppService{
 		}
 		return result;
 	}
-
-	
-
-
-
-
-
-	
-
-	
-
-	
-
-
-	
 
 }

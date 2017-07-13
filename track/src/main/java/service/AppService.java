@@ -41,9 +41,9 @@ public interface AppService {
 	public List<Feed>findFeedByUserId(int userId);
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius);
 	public List<Feed> findPublicFeedsByTime(Timestamp time);
-	public List<Feed> GetTodayFeedList(Date date);
-	public List<Feed> GetFriendFeedList(Timestamp time,int userid);
-	public List<Feed> GetFollowingFeedList(Timestamp time,int userid);
+	public List<Feed> getTodayFeedList(Date date);
+	public List<Feed> getFriendFeedList(Timestamp time,int userid);
+	public List<Feed> getFollowingFeedList(Timestamp time,int userid);
 	/*like*/
 	public int incLikeFeed(String _id,int userId);
 	/*comment*/
@@ -59,7 +59,7 @@ public interface AppService {
 	 * 
 	 * Follow
 	 */
-	public List<Client> GetMyFriendInformationById(int userid);
-	public List<Client> GetMyFollowingInformationById(int userid);
-	public List<Client> GetFollowingMeInformationById(int userid);
+	public List<Client> getMyFriendInformationById(int userid);
+	public List<Client> getMyFollowingInformationById(int userid);
+	public List<Client> getFollowingMeInformationById(int userid);
 }
