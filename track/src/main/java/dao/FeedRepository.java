@@ -3,6 +3,7 @@ package dao;
 
 
 import java.sql.Date;
+
 import java.sql.Timestamp;
 
 import java.util.List;
@@ -33,6 +34,5 @@ public List<Feed> findPublicFeedsByTime(Timestamp time);
 public List<Feed> findFeedsByTime(Timestamp time);
 
 public List<Feed> GetTodayFeedList(Date date);
-
 
 }

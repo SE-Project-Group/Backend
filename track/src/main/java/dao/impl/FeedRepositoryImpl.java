@@ -127,6 +127,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 		
 		return allfeed;
 	}
+
 	@Override
 	public List<Feed> findFeedsByTime(Timestamp time) {
 		// TODO Auto-generated method stub
@@ -147,8 +148,6 @@ public class FeedRepositoryImpl implements FeedRepository{
 			return allfeed;
 	
 	}
-
-	
 	 
 
 		
