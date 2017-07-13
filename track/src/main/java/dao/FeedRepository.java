@@ -1,6 +1,7 @@
 package dao;
 
 
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -27,4 +28,5 @@ public List<Feed> findFeedsAround(Circle circle);
 
 public List<Feed> findPublicFeedsByTime(Timestamp time);
 public List<Feed> GetTodayFeedList(Date date);
+
 }

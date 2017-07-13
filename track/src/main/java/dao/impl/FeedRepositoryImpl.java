@@ -126,15 +126,15 @@ public class FeedRepositoryImpl implements FeedRepository{
 		
 		return allfeed;
 	}
+
 	@Override
 	public List<Feed> GetTodayFeedList(Date date) {
-		// TODO Auto-generated method stub
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String stime = df.format(date);
-		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("time").regex(stime+"*")), Feed.class); 
-		
+		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("time").regex(stime+"*")), Feed.class); 	
 		return allfeed;
 	}
+
 	 
 
 		
