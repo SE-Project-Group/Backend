@@ -1,8 +1,9 @@
 package dao.impl;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import java.util.List;
 import org.springframework.data.geo.Circle;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -127,14 +128,27 @@ public class FeedRepositoryImpl implements FeedRepository{
 		return allfeed;
 	}
 	@Override
-	public List<Feed> GetTodayFeedList(Date date) {
+	public List<Feed> findFeedsByTime(Timestamp time) {
 		// TODO Auto-generated method stub
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		String stime = df.format(date);
-		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("time").regex(stime+"*")), Feed.class); 
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String stime = df.format(time);
+		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("time").gt(stime)), Feed.class); 
 		
 		return allfeed;
 	}
+	@Override
+	public List<Feed> GetTodayFeedList(Date date) {
+		
+			// TODO Auto-generated method stub
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			String stime = df.format(date);
+			List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("time").regex(stime+".")), Feed.class); 
+			
+			return allfeed;
+	
+	}
+
+	
 	 
 
 		

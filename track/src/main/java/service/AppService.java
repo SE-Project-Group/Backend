@@ -2,8 +2,9 @@ package service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Date;
+
 import java.util.List;
 
 import org.springframework.data.geo.Point;
@@ -40,19 +41,25 @@ public interface AppService {
 	public List<Feed>findFeedByUserId(int userId);
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius);
 	public List<Feed> findPublicFeedsByTime(Timestamp time);
+	public List<Feed> GetTodayFeedList(Date date);
+	public List<Feed> GetFriendFeedList(Timestamp time,int userid);
+	public List<Feed> GetFollowingFeedList(Timestamp time,int userid);
 	/*like*/
 	public int incLikeFeed(String _id,int userId);
 	/*comment*/
 	public int newComment(String _id,int userId,String text,int replyId);
+	
 	/*
 	 * 
 	 * Admin
 	 */
-	
-<<<<<<< HEAD
-	public boolean managerLogin(String admin_name,String password);
-	public List<Feed> GetFeedList(Date time);
-=======
 	public boolean managerLogin(String adminName,String password);
->>>>>>> ff5bd4429950851b48f8828a08b02ff21093c0b0
+	/*
+	 * 
+	 * Follow
+	 */
+	public List<Client> GetMyFriendInformationById(int userid);
+	public List<Client> GetMyFollowingInformationById(int userid);
+	public List<Client> GetFollowingMeInformationById(int userid);
+
 }

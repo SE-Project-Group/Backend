@@ -44,11 +44,7 @@
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" p:driverClass="com.mysql.jdbc.Driver"
 		p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/track" p:user="root"
-<<<<<<< HEAD
 		p:password="password" p:maxPoolSize="40" p:minPoolSize="1"
-=======
-		p:password="123456" p:maxPoolSize="40" p:minPoolSize="1"
->>>>>>> ff5bd4429950851b48f8828a08b02ff21093c0b0
 		p:initialPoolSize="1" p:maxIdleTime="20" />
 
 	<bean id="sessionFactory"
@@ -58,6 +54,7 @@
 			<list>
 				<value>model/Manager.hbm.xml</value>
 				<value>model/Client.hbm.xml</value>
+				<value>model/Follow.hbm.xml</value>
 			</list>
 		</property>
 		<!-- Hibernate SessionFactory -->
@@ -78,19 +75,22 @@
 	<bean id="managerDao" class="dao.impl.ManagerDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="followDao" class="dao.impl.FollowDaoImpl">
+	<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="tokenDao" class="dao.impl.TokenDaoImpl">
 		<property name="redisUtil" ref="redisUtil" />
 	</bean>
-	<bean id="feedRepository" class="dao.impl.FeedRepositoryImpl">
+   <bean id="feedRepository" class="dao.impl.FeedRepositoryImpl">
 	<property name="mongoTemplate" ref="mongoTemplate" />
-	</bean>
- 
+  </bean>
 
 	<!-- Service -->
 	<bean id="appService" class="service.impl.AppServiceImpl">
 		<!-- DAO -->
 		<property name="clientDao" ref="clientDao"></property>
 		<property name="managerDao" ref="managerDao"></property>
+		<property name="followDao" ref="followDao"></property>
 		<property name="tokenDao" ref="tokenDao"></property>
 		<property name="feedRepository" ref="feedRepository"></property>
 	</bean>	

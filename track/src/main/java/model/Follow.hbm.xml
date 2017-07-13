@@ -3,14 +3,11 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="model.Friend" table="friend">
-		<id name="user_id" type="int">
-			<column name="user_id" />
-			<generator class="assigned" />
-		</id>
-		<property name="friend_id" type="int">
-			<column name="friend_id" />
-		</property>
+	<class name="model.Follow" table="follow">
+		<composite-id >  
+            <key-property name="userId" type="int" column="userId"></key-property>  
+           <key-property name="followId" type="int" column="followId"></key-property>  
+     </composite-id>
 		<property name="isFriend" type="int">
 			<column name="isFriend" />
 		</property>
