@@ -3,6 +3,7 @@ package dao.impl;
 import dao.TokenDao;
 
 import model.Token;
+import sun.misc.BASE64Encoder;
 import util.RedisUtil;
 
 import java.util.UUID;
@@ -35,8 +36,10 @@ public class TokenDaoImpl implements TokenDao{
 	public boolean checkSign(int userId, String uri,String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		String token=redisUtil.get(userId);
 		MessageDigest md=MessageDigest.getInstance("MD5");
-		byte[] bs = md.digest((uri+"?token="+token).getBytes("UTF-8"));
-		String rightSign=new String(bs,"UTF-8");
+		BASE64Encoder base64en = new BASE64Encoder();
+        String rightSign=base64en.encode(md.digest((uri+"?token="+token).getBytes("utf-8")));
+        System.out.println(rightSign);
+		System.out.println(sign);
 		if(sign.equals(rightSign)){
 			return true;
 		}
@@ -46,6 +49,21 @@ public class TokenDaoImpl implements TokenDao{
 	@Override
 	public void deleteToken(int userId) {
 		redisUtil.delete(userId);
+	}
+	
+	
+	public String getHashString( MessageDigest digest )
+	{
+		StringBuilder builder = new StringBuilder();
+		for ( byte b : digest.digest() )
+		{
+		builder.append( Integer.toHexString( (b >> 4) & 0xf ) );
+		builder.append( Integer.toHexString( b & 0xf ) );
+		}
+		return builder.toString();
+		}
+		public void createBeforeEncryptString(StringBuilder sb,String key,String value,String gap) {
+		sb.append(key).append("=").append(value).append(gap);
 	}
 
 

@@ -3,6 +3,7 @@ package model;
 import java.util.List;
 
 public class ReturnFeed {
+	private String _id;
 	private String feed_owner;
 	private String date;
 	private String text;
@@ -95,6 +96,12 @@ public class ReturnFeed {
 	}
 	public void setCommentList(List<Comment> commentList) {
 		this.commentList = commentList;
+	}
+	public String get_id() {
+		return _id;
+	}
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 	
 }
