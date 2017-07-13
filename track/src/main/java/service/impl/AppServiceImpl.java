@@ -67,12 +67,19 @@ public class AppServiceImpl implements AppService{
 	public void setTokenDao(TokenDao tokenDao) {
 		this.tokenDao = tokenDao;
 	}
-	public FeedRepository getFeedRepository() {
+	public  FeedRepository getFeedRepository() {
 		return feedRepository;
 	}
 
 	public void setFeedRepository(FeedRepository feedRepository) {
 		this.feedRepository = feedRepository;
+	}
+	public  FollowDao getFollowDao() {
+		return followDao;
+	}
+
+	public void setfollowDao(FollowDao followDao) {
+		this.followDao = followDao;
 	}
 	
 	/*
