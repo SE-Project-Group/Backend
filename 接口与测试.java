@@ -1,8 +1,13 @@
 /*功能：用户登录
  *@GET
- *@Path("/ClientLogin")
- *http://192.168.1.13:8088/track/rest/app/ClientLogin？user_name=**&password=**
+ *@Path("/clientLogin")
+ *http://192.168.1.13:8088/track/rest/app/clientLogin?user_name=**&password=**
  *返回：APPLICATION_JSON json格式的token
+ 
+{
+    "token": "1771fcf8a5c149e48da138099fe2ff53",
+    "userId": 2
+}
  */
  
  
@@ -10,7 +15,7 @@
  *功能：用户登出
  *@GET
  *
- *http://192.168.1.13:8088/track/rest/app/ClientLogout？user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/clientLogout?user_ID=**&sign=**
  *user_ID为用户id，sign为签名
  *返回：TEXT_PLAIN success或者error
  */
@@ -19,7 +24,7 @@
  *功能：用户注册
  *@POST
  *
- *http://192.168.1.13:8088/track/rest/app/ClientSignup
+ *http://192.168.1.13:8088/track/rest/app/clientSignup
  *
  *返回：TEXT_PLAIN success或者error{“existing phone”，“existing user name”，“existing phone and user name”}
  */
@@ -33,7 +38,7 @@
  *功能：查找用户个人信息
  *@GET
  *
- *http://192.168.1.13:8088/track/rest/app/QueryPersonalInfo?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/queryPersonalInfo?user_ID=**&sign=**
  *
  *返回：TEXT_PLAIN  user的信息或者"no sign" "no such client"
  */
@@ -42,7 +47,7 @@
  *功能：修改用户个人信息
  *@PUT
  *接受：APPLICATION_JSON
- *http://192.168.1.13:8088/track/rest/app/ModifyPersonalInfo?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/ModifyPersonalInfo?user_id=**&sign=**
  *
  *返回：TEXT_PLAIN  user的信息或者"no sign" "no such client"
  */
