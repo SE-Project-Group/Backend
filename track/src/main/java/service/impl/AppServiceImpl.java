@@ -2,18 +2,21 @@ package service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 
 import dao.ClientDao;
 import dao.FeedRepository;
+import dao.FollowDao;
 import dao.ManagerDao;
 import dao.TokenDao;
 import model.Client;
 import model.Feed;
+import model.Follow;
 import model.Like;
 import model.Comment;
 import model.Location;
@@ -35,6 +38,7 @@ public class AppServiceImpl implements AppService{
 	private ClientDao clientDao;
 	
 	private ManagerDao managerDao;
+	private FollowDao followDao;
 	
 	private TokenDao tokenDao;
 	private FeedRepository feedRepository;
@@ -70,6 +74,7 @@ public class AppServiceImpl implements AppService{
 	public void setFeedRepository(FeedRepository feedRepository) {
 		this.feedRepository = feedRepository;
 	}
+	
 	/*
 	 * 
 	 * 
@@ -162,19 +167,62 @@ public class AppServiceImpl implements AppService{
 		 List<Feed>feeds= feedRepository.findPublicFeedsByTime(time);
 		 return feeds;
 	}
-		/*
-	 * 
-	 * Admin
-	 */
-	
-	@Override
-	public boolean managerLogin(String adminName, String password) {
-		return managerDao.checkLogin(adminName, password);
+	public List<Feed> GetTodayFeedList(Date date){
+		List<Feed>feeds= feedRepository.GetTodayFeedList(date);
+		
+		return feeds;
 	}
-	public List<Feed> GetFeedList(Date time){
+	@SuppressWarnings("null")
+	@Override
+	public List<Feed> GetFriendFeedList(Timestamp time,int userid) {
+		List<Follow> follows=followDao.getFriendById(userid);
+		int[] friend=null;
+		int friendnum=0;
+		for(int i=0;i<follows.size();i++){
+			Follow follow=follows.get(i);
+			friend[i]=follow.getFollowId();
+			friendnum++;
+		   }
+		List<Feed>feeds= feedRepository.findFeedsByTime(time);
 		
-		
-		return null;
+		for(int i=0;i<feeds.size();i++){
+			Feed feed=feeds.get(i);
+			int feeduserid=feed.getUserId();
+			boolean result=false;
+			for(int j=0;j<friendnum;j++){
+				if(friend[j]==feeduserid)result=true;
+			}
+			if(result==false){
+				feeds.remove(i);
+				i--;
+			}
+		}
+		return feeds;
+	}
+	@Override
+	public List<Feed> GetFollowingFeedList(Timestamp time,int userid) {
+		List<Follow> follows=followDao.getFollowingMeById(userid);
+		int[] following=null;
+		int follownum=0;
+		for(int i=0;i<follows.size();i++){
+			Follow follow=follows.get(i);
+			following[i]=follow.getFollowId();
+			follownum++;
+		   }
+		List<Feed>feeds= feedRepository.findFeedsByTime(time);		
+		for(int i=0;i<feeds.size();i++){
+			Feed feed=feeds.get(i);
+			int feeduserid=feed.getUserId();
+			boolean result=false;
+			for(int j=0;j<follownum;j++){
+				if(following[j]==feeduserid)result=true;
+			}
+			if(result==false){
+				feeds.remove(i);
+				i--;
+			}
+		}
+		return feeds;
 	}
 	@Override
 	public int incLikeFeed(String _id,int userId) {
@@ -207,6 +255,79 @@ public class AppServiceImpl implements AppService{
 		
 		return 1;
 	}
+		/*
+	 * 
+	 * Admin
+	 */
+	
+	@Override
+	public boolean managerLogin(String adminName, String password) {
+		return managerDao.checkLogin(adminName, password);
+	}
+	public List<Feed> GetFeedList(Date time){
+		
+		
+		return null;
+	}
+	
+
+	@Override
+	public List<Client> GetMyFriendInformationById(int userid) {
+		// TODO Auto-generated method stub
+		List<Follow>friends=followDao.getFriendById(userid);
+		int[] friend=null;
+		int friendnum=0;
+		for(int i=0;i<friends.size();i++){
+			Follow f=friends.get(i);
+			friend[i]=f.getFollowId();
+			friendnum++;
+		   }
+		List<Client> result=new ArrayList<Client>();
+		for(int j=0;j<friendnum;j++){
+			Client client=getClientById(friend[j]);
+			result.add(client);
+		}
+		return result;
+	}
+
+	@Override
+	public List<Client> GetMyFollowingInformationById(int userid) {
+		// TODO Auto-generated method stub
+		List<Follow>follows=followDao.getMyFollowingById(userid);
+		int[] follow=null;
+		int  follownum=0;
+		for(int i=0;i<follows.size();i++){
+			Follow  f=follows.get(i);
+			 follow[i]=f.getFollowId();
+			 follownum++;
+		   }
+		List<Client> result=new ArrayList<Client>();
+		for(int j=0;j< follownum;j++){
+			Client client=getClientById( follow[j]);
+			result.add(client);
+		}
+		return result;
+	}
+
+	@Override
+	public List<Client> GetFollowingMeInformationById(int userid) {
+		List<Follow>follows=followDao.getFollowingMeById(userid);
+		int[] follow=null;
+		int  follownum=0;
+		for(int i=0;i<follows.size();i++){
+			Follow  f=follows.get(i);
+			 follow[i]=f.getUserId();
+			 follownum++;
+		   }
+		List<Client> result=new ArrayList<Client>();
+		for(int j=0;j< follownum;j++){
+			Client client=getClientById( follow[j]);
+			result.add(client);
+		}
+		return result;
+	}
+
+	
 
 
 

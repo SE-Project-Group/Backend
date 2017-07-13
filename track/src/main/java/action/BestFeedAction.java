@@ -27,7 +27,7 @@ public void setTime(Date time) {
 
 public String GetFeedList(){
 	
-	List<Feed> feeds = appService.GetFeedList(time);
+	List<Feed> feeds = appService.GetTodayFeedList(time);
 	request().setAttribute("feeds", feeds);
 	return SUCCESS;
 	

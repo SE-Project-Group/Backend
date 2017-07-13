@@ -271,6 +271,65 @@ public class Restful {
 		return "success";
 	}
 	
+	@POST
+	@Path("getFriendFeedList")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/html")
+	public String GetFriendFeedList(String time,
+			@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(userId, "track/rest/app/getFriendFeedList", sign))return "Status wrong"; 
+		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
+		ts=Timestamp.valueOf(time);	
+		List<Feed> list=appService.GetFriendFeedList(ts,userId);
+		return list.toString();
+	}
+
+	@POST
+	@Path("getFollowingFeedList")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/html")
+	public String GetFollowingFeedList(String time,
+			@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(userId, "track/rest/app/getFollowingFeedList", sign))return "Status wrong"; 
+		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
+		ts=Timestamp.valueOf(time);	
+		List<Feed> list=appService.GetFollowingFeedList(ts,userId);
+		return list.toString();
+	}
 	
+	@POST
+	@Path("getMyFriendInformationById")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/html")
+	public String GetMyFriendInformationById(@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "Status wrong"; 
+		List<Client> list=appService.GetMyFriendInformationById(userId);
+		return list.toString();
+	}
+	@POST
+	@Path("getMyFollowingInformationById")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/html")
+	public String GetMyFollowingInformationById(@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(userId, "track/rest/app/getMyFollowingInformationById", sign))return "Status wrong"; 
+		
+		List<Client> list=appService.GetMyFollowingInformationById(userId);
+		return list.toString();
+	}
+	@POST
+	@Path("getFollowingMeInformationById")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/html")
+	public String GetFollowingMeInformationById(@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "Status wrong"; 
+	
+		List<Client> list=appService.GetFollowingMeInformationById(userId);
+		return list.toString();
+	}
 }
 
