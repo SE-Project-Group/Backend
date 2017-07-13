@@ -26,4 +26,5 @@ public void update(Feed feed);
 public List<Feed> findFeedsAround(Circle circle);
 
 public List<Feed> findPublicFeedsByTime(Timestamp time);
+public List<Feed> GetTodayFeedList(Date date);
 }

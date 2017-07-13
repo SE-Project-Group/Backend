@@ -146,9 +146,16 @@ public class Restful {
 		 if(!appService.checkSign(userId, "track/rest/app/newFeed", sign))return "status wrong";
 		 System.out.println(feedInfo);
 		 Gson gson=new Gson();
+<<<<<<< HEAD
+		 Feed feed=gson.fromJson(feedinfo,Feed.class);
+		 appService.NewFeed(feed);
+		 
+		 String res= feed.get_id();
+=======
 		 Feed feed=gson.fromJson(feedInfo,Feed.class);
 		 appService.newFeed(feed);
 		 String res= "success";
+>>>>>>> ff5bd4429950851b48f8828a08b02ff21093c0b0
 		 return res;
      }
 	@POST

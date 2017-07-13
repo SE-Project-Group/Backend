@@ -49,5 +49,10 @@ public interface AppService {
 	 * Admin
 	 */
 	
+<<<<<<< HEAD
+	public boolean managerLogin(String admin_name,String password);
+	public List<Feed> GetFeedList(Date time);
+=======
 	public boolean managerLogin(String adminName,String password);
+>>>>>>> ff5bd4429950851b48f8828a08b02ff21093c0b0
 }
