@@ -6,13 +6,13 @@ public class Follow implements Serializable{
 	 private static final long serialVersionUID = 3617931430808763429L;
 	private int userId;
 	private int followId;
-	private boolean isFriend;
+	private int isFriend;
 	
 	public Follow(){
 		
 	}
 	
-	public Follow(int userId,int followId,boolean isFriend){
+	public Follow(int userId,int followId,int isFriend){
 		this.setUserId(userId);
 		this.setFollowId(followId);
 		this.setIsFriend(isFriend);
@@ -34,11 +34,11 @@ public class Follow implements Serializable{
 		this.followId = followId;
 	}
 
-	public boolean getIsFriend() {
+	public int getIsFriend() {
 		return isFriend;
 	}
 
-	public void setIsFriend(boolean isFriend) {
+	public void setIsFriend(int isFriend) {
 		this.isFriend = isFriend;
 	}
 	

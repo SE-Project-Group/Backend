@@ -299,9 +299,9 @@ public class Restful {
 		return list.toString();
 	}
 	
-	@POST
+	@GET
 	@Path("getMyFriendInformationById")
-	@Consumes(MediaType.APPLICATION_JSON)
+
 	@Produces("text/html")
 	public String getMyFriendInformationById(@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
@@ -309,9 +309,9 @@ public class Restful {
 		List<Client> list=appService.getMyFriendInformationById(userId);
 		return list.toString();
 	}
-	@POST
+	@GET
 	@Path("getMyFollowingInformationById")
-	@Consumes(MediaType.APPLICATION_JSON)
+
 	@Produces("text/html")
 	public String getMyFollowingInformationById(@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
@@ -320,16 +320,29 @@ public class Restful {
 		List<Client> list=appService.getMyFollowingInformationById(userId);
 		return list.toString();
 	}
-	@POST
+	@GET
 	@Path("getFollowingMeInformationById")
-	@Consumes(MediaType.APPLICATION_JSON)
+
 	@Produces("text/html")
 	public String getFollowingMeInformationById(@QueryParam("user_ID") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "Status wrong"; 
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
+		/*if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "Status wrong"; */
 	
 		List<Client> list=appService.getFollowingMeInformationById(userId);
-		return list.toString();
+		if(list!=null)
+		{ 
+			String shortFormat = "yyyy-MM-dd";  
+		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
+		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 
+		
+		JSONArray json = JSONUtil.toJsonArray(list,processors);
+	
+		}
+	
+
+		 return result.toString();}
+		else 
+			return "error";
 	}
 }
 
