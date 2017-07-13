@@ -14,4 +14,5 @@ public interface Neo4jService {
     void delete(ClientNeo4j clientNeo4j);		
     ClientNeo4j findById(long id);		
     Result<ClientNeo4j> findAll();
+    
 }

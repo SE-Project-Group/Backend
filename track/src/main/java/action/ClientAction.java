@@ -11,7 +11,7 @@ public class ClientAction extends BaseAction{
 	
 	private static final long serialVersionUID = 1L;
 
-	private int user_ID;
+	private int userId;
 	
 	private String phone;
 	
@@ -19,7 +19,7 @@ public class ClientAction extends BaseAction{
 	
 	private Date birthday;
 	
-	private String user_name;
+	private String userName;
 	
 	private String password;
 	
@@ -27,12 +27,12 @@ public class ClientAction extends BaseAction{
 	
 	private AppService appService;
 
-	public int getUser_ID() {
-		return user_ID;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUser_ID(int user_ID) {
-		this.user_ID = user_ID;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getPhone() {
@@ -59,12 +59,12 @@ public class ClientAction extends BaseAction{
 		this.birthday = birthday;
 	}
 
-	public String getUser_name() {
-		return user_name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -90,30 +90,29 @@ public class ClientAction extends BaseAction{
 	public String allClient(){
 		List<Client> clients=appService.getAllClients();
 		request().setAttribute("clients", clients);
-		System.out.println(clients.get(1).getUser_ID());
 		return SUCCESS;
 	}
 	
 	public String addClient(){
-		Client client=new Client(phone,gender,birthday,user_name,password,email);
+		Client client=new Client(phone,gender,birthday,userName,password,email);
 		appService.insertClient(client);
 		return SUCCESS;
 	}
 	
 	public String updateClient(){
-		Client client=appService.getClientByID(user_ID);
+		Client client=appService.getClientById(userId);
 		client.setBirthday(birthday);
 		client.setEmail(email);
 		client.setGender(gender);
 		client.setPassword(password);
 		client.setPhone(phone);
-		client.setUser_name(user_name);
+		client.setUserName(userName);
 		appService.updateClient(client);
 		return SUCCESS;
 	}
 	
 	public String deleteClient(){
-		Client client=appService.getClientByID(user_ID);
+		Client client=appService.getClientById(userId);
 		appService.deleteClient(client);
 		return SUCCESS;
 	}

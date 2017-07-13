@@ -3,16 +3,17 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="model.Manager" table="administrator">
-		<id name="adminId" type="int">
-			<column name="adminId" />
+	<class name="model.Friend" table="friend">
+		<id name="user_id" type="int">
+			<column name="user_id" />
 			<generator class="assigned" />
 		</id>
-		<property name="adminName" type="java.lang.String">
-			<column name="adminName" />
+		<property name="friend_id" type="int">
+			<column name="friend_id" />
 		</property>
-		<property name="password" type="java.lang.String">
-			<column name="password" />
+		<property name="isFriend" type="int">
+			<column name="isFriend" />
 		</property>
+
 	</class>
 </hibernate-mapping>

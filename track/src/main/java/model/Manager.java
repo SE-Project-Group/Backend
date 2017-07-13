@@ -2,38 +2,43 @@ package model;
 
 public class Manager {
 	
-	private int admin_ID;
-	private String admin_name;
+	private int adminId;
+	private String adminName;
 	private String password;
 	
 	public Manager(){
 		
 	}
 	
-	public Manager(int admin_ID,String admin_name,String password){
-		this.admin_ID=admin_ID;
-		this.admin_name=admin_name;
-		this.password=password;
+	public Manager(int adminId,String adminName,String password){
+		this.setAdminId(adminId);
+		this.setAdminName(adminName);
+		this.setPassword(password);
 	}
-	
-	public int getAdmin_ID() {
-		return admin_ID;
+
+	public int getAdminId() {
+		return adminId;
 	}
-	public void setAdmin_ID(int admin_ID) {
-		this.admin_ID = admin_ID;
+
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
 	}
-	
-	public String getAdmin_name() {
-		return admin_name;
+
+	public String getAdminName() {
+		return adminName;
 	}
-	public void setAdmin_name(String admin_name) {
-		this.admin_name = admin_name;
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
 }

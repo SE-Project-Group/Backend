@@ -7,7 +7,7 @@ public class Like {
 
 	
 	private String time;
-	private int user_id;
+	private int userId;
 	    
 	public Like(){
 		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -19,15 +19,11 @@ public class Like {
 	public String getTime() {
 	         return time;
 	     }
-
-	public void setUser_id(int user_id) {
-	         this.user_id = user_id;
-	     }
-	 public int getUser_id() {
-	         return user_id;
-	     }
-
-	
-
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 
 }

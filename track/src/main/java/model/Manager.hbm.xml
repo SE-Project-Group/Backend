@@ -4,12 +4,12 @@
 
 <hibernate-mapping>
 	<class name="model.Manager" table="administrator">
-		<id name="admin_ID" type="int">
-			<column name="admin_ID" />
+		<id name="adminId" type="int">
+			<column name="adminId" />
 			<generator class="assigned" />
 		</id>
-		<property name="admin_name" type="java.lang.String">
-			<column name="admin_name" />
+		<property name="adminName" type="java.lang.String">
+			<column name="adminName" />
 		</property>
 		<property name="password" type="java.lang.String">
 			<column name="password" />

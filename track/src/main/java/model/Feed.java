@@ -17,7 +17,7 @@ public class Feed implements Serializable {
      */
     private static final long serialVersionUID = 3617931430808763429L;
     private String _id;
-    private int user_id;
+    private int userId;
     private String time;
     private String text;   
     private boolean showLocation;
@@ -49,39 +49,17 @@ public class Feed implements Serializable {
    public void set_id(String _id) {
        this._id = _id;
    }
-    /**
-     * @return the user_id
-     */
-    public int getUser_id() {
-        return user_id;
-    }
-    /**
-     * @param user_id the user_id to set
-     */
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-    /**
-     * @return the text
-     */
     public String getText() {
         return text;
     }
-    /**
-     * @param text the text to set
-     */
     public void setText(String text) {
         this.text = text;
     }
-    /**
-     * @return the showLocation
-     */
+
     public boolean getShowLocation() {
         return showLocation;
     }
-    /**
-     * @param showLocation the showLocation to set
-     */
+ 
     public void setShowLocation(boolean showLocation) {
         this.showLocation = showLocation;
     }
@@ -151,5 +129,11 @@ public class Feed implements Serializable {
 	}
 	public void setCommentList(List<Comment> commentList) {
 		this.commentList = commentList;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 }

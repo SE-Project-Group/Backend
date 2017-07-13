@@ -44,7 +44,11 @@
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close" p:driverClass="com.mysql.jdbc.Driver"
 		p:jdbcUrl="jdbc:mysql://127.0.0.1:3306/track" p:user="root"
+<<<<<<< HEAD
 		p:password="password" p:maxPoolSize="40" p:minPoolSize="1"
+=======
+		p:password="123456" p:maxPoolSize="40" p:minPoolSize="1"
+>>>>>>> ff5bd4429950851b48f8828a08b02ff21093c0b0
 		p:initialPoolSize="1" p:maxIdleTime="20" />
 
 	<bean id="sessionFactory"

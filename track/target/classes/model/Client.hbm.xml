@@ -4,12 +4,12 @@
 
 <hibernate-mapping>
 	<class name="model.Client" table="client">
-		<id name="user_ID" type="int">
-			<column name="user_ID" />
+		<id name="userId" type="int">
+			<column name="userId" />
 			<generator class="assigned" />
 		</id>
-		<property name="user_name" type="java.lang.String">
-			<column name="user_name" />
+		<property name="userName" type="java.lang.String">
+			<column name="userName" />
 		</property>
 		<property name="phone" type="java.lang.String">
 			<column name="phone" />

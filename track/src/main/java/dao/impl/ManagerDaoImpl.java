@@ -10,9 +10,10 @@ import model.Manager;
 public class ManagerDaoImpl extends HibernateDaoSupport implements ManagerDao{
 
 	@Override
-	public boolean checkLogin(String admin_name, String password) {
-		String hql ="from Manager as m where m.admin_name=? and m.password=?";
-		List<Manager> managers=(List<Manager>)getHibernateTemplate().find(hql, new String[]{admin_name,password});
+	public boolean checkLogin(String adminName, String password) {
+		String hql ="from Manager as m where m.adminName=? and m.password=?";
+		@SuppressWarnings("unchecked")
+		List<Manager> managers=(List<Manager>)getHibernateTemplate().find(hql,adminName,password);
 		if(managers.size()==0)return false;
 		return true;
 	}

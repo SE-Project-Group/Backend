@@ -1,7 +1,7 @@
 package dao;
 
+
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.geo.Circle;
@@ -15,7 +15,7 @@ public Feed findOne(String _id);
 
 public List<Feed> findAll();   
 
-public List<Feed> findByUser_id(int user_id);
+public List<Feed> findByUserId(int userId);
 
 public void removeOne(String _id);   
 

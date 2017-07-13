@@ -23,17 +23,17 @@ public class TokenDaoImpl implements TokenDao{
 	}
 	
 	@Override
-	public Token createToken(int user_ID) {
+	public Token createToken(int userId) {
 		String s = UUID.randomUUID().toString(); 
 		String tokenStr=s.substring(0,8)+s.substring(9,13)+s.substring(14,18)+s.substring(19,23)+s.substring(24); 
-		Token token = new Token(user_ID,tokenStr);
-		redisUtil.put(user_ID, tokenStr);
+		Token token = new Token(userId,tokenStr);
+		redisUtil.put(userId, tokenStr);
 		return token;
 	}
 
 	@Override
-	public boolean checkSign(int user_ID, String uri,String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
-		String token=redisUtil.get(user_ID);
+	public boolean checkSign(int userId, String uri,String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		String token=redisUtil.get(userId);
 		MessageDigest md=MessageDigest.getInstance("MD5");
 		byte[] bs = md.digest((uri+"?token="+token).getBytes("UTF-8"));
 		String rightSign=new String(bs,"UTF-8");
@@ -44,8 +44,8 @@ public class TokenDaoImpl implements TokenDao{
 	}
 
 	@Override
-	public void deleteToken(int user_ID) {
-		redisUtil.delete(user_ID);
+	public void deleteToken(int userId) {
+		redisUtil.delete(userId);
 	}
 
 

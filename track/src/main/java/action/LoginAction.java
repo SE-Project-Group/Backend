@@ -11,18 +11,18 @@ public class LoginAction extends BaseAction{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String admin_name;
+	private String adminName;
 	
 	private String password;
 	
 	private AppService appService;
 	
-	public String getAdmin_name() {
-		return admin_name;
+	public String getAdminName() {
+		return adminName;
 	}
 
-	public void setAdmin_name(String admin_name) {
-		this.admin_name = admin_name;
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
 	}
 
 	public String getPassword() {
@@ -42,7 +42,7 @@ public class LoginAction extends BaseAction{
 	}
 	
 	public String managerLogin(){
-		if(appService.managerLogin(admin_name, password))
+		if(appService.managerLogin(adminName, password))
 		{List<Client> clients=appService.getAllClients();
 		request().setAttribute("clients", clients);
 			return SUCCESS;}
