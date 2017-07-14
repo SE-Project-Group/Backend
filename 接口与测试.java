@@ -161,3 +161,35 @@
 "text":"helloworld",
 "reply_id":0
 }
+/*功能：获取好友某一时间之后的动态
+ *@POST
+ *http://192.168.1.13:8088/track/rest/app/getFriendFeedList?user_ID=**&sign=**
+ *返回：text/html 动态list
+ */
+{"time":"YYYY-MM-DD HH-MM-SS"
+}
+/*功能：获取关注的人某一时间之后的动态
+ *@POST
+ *http://192.168.1.13:8088/track/rest/app/getFollowingFeedList?user_ID=**&sign=**
+ *返回：text/html 动态list
+ */
+{"time":"YYYY-MM-DD HH-MM-SS"
+}
+/*功能：获取朋友信息列表
+ *@GET
+ *http://192.168.1.13:8088/track/rest/app/getMyFriendInformationById?user_ID=**&sign=**
+ *返回：text/html 好友信息list
+ */
+ 
+ /*功能：获取我关注的人的信息列表
+ *@GET
+ *http://192.168.1.13:8088/track/rest/app/getMyFollowingInformationById?user_ID=**&sign=**
+ *返回：text/html 我关注的人的信息列表
+ */
+ 
+ /*功能：获取关注我的人的信息列表
+ *@GET
+ *http://192.168.1.13:8088/track/rest/app/getFollowingMeInformationById?user_ID=**&sign=**
+ *返回：text/html 关注的我人的信息列表
+ */
+ 

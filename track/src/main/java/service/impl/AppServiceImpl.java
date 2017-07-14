@@ -216,6 +216,10 @@ public class AppServiceImpl implements AppService{
 				feeds.remove(i);
 				i--;
 			}
+			else if(feed.getShareArea().equals("private")){
+				feeds.remove(i);
+				i--;
+			}
 		}
 		return feeds;
 	}
@@ -244,6 +248,10 @@ public class AppServiceImpl implements AppService{
 			}
 			//System.out.println("result:"+result);
 			if(result==false){
+				feeds.remove(i);
+				i--;
+			}
+			else if(!feed.getShareArea().equals("public")){
 				feeds.remove(i);
 				i--;
 			}
