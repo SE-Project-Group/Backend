@@ -57,7 +57,7 @@ import net.sf.json.JSONObject;
        feed.setShareArea("public");
       feed.setText("hello");
        feed.setShowLocation(true);
-       feed.setPicList(list);
+       feed.setPicCount(9);
       feed.setPosition("there");
       /* feed.setLikeList(likelist);
        feed.setCommentList(list);*/
@@ -105,7 +105,7 @@ public void update(){
    feed.setShareArea("public");
    feed.setText("hello");
    feed.setShowLocation(true);
-   feed.setPicList(list);
+   feed.setPicCount(9);
   /* feed.setLikeList(likelist);
   feed.setCommentList(list);*/
  

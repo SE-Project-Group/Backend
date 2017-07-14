@@ -226,7 +226,7 @@ public class Restful {
 			returnFeed.setLatitude(curFeed.getLocation().getLatitude());
 			returnFeed.setLongitude(curFeed.getLocation().getLongitude());
 			returnFeed.setLike_cnt(curFeed.getLikeCount());
-			returnFeed.setPic_id_list(curFeed.getPicList());
+			returnFeed.setPicCount(curFeed.getPicCount());
 			returnFeed.setPosition(curFeed.getPosition());
 			returnFeed.setShare_cnt(curFeed.getShareCount());
 			returnFeed.setText(curFeed.getText());
@@ -320,13 +320,15 @@ public class Restful {
 		List<Client> list=appService.getMyFollowingInformationById(userId);
 		return list.toString();
 	}
-	@GET
+	
+	// something error happen in the follow code
+/*	@GET
 	@Path("getFollowingMeInformationById")
 
 	@Produces("text/html")
 	public String getFollowingMeInformationById(@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
-		/*if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "Status wrong"; */
+		if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "Status wrong"; 
 	
 		List<Client> list=appService.getFollowingMeInformationById(userId);
 		if(list!=null)
@@ -343,6 +345,6 @@ public class Restful {
 		 return result.toString();}
 		else 
 			return "error";
-	}
+	}*/
 }
 

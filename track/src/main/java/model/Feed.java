@@ -24,7 +24,7 @@ public class Feed implements Serializable {
     private Location location;
     private String shareArea;
     private List<Integer> mentionList;
-    private List<Integer> picList;
+    private int picCount;
     private int shareCount;
     private int commentCount;
     private int likeCount;
@@ -41,7 +41,6 @@ public class Feed implements Serializable {
     	this.likeCount=0;
     	this.likeList=new ArrayList<Like>();
     	this.commentList=new ArrayList<Comment>();
-    	this.picList=new ArrayList<Integer>();
     }
    public String get_id() {
        return _id;
@@ -81,12 +80,6 @@ public class Feed implements Serializable {
 	}
 	public void setLocation(Location location) {
 		this.location = location;
-	}
-	public List<Integer> getPicList() {
-		return picList;
-	}
-	public void setPicList(List<Integer> picList) {
-		this.picList = picList;
 	}
 	public int getShareCount() {
 		return shareCount;
@@ -135,5 +128,11 @@ public class Feed implements Serializable {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public int getPicCount() {
+		return picCount;
+	}
+	public void setPicCount(int picCount) {
+		this.picCount = picCount;
 	}
 }
