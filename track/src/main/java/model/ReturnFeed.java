@@ -17,6 +17,7 @@ public class ReturnFeed {
 	private double longitude;
 	private List<Like> likeList;
 	private List<Comment> commentList;
+	private List<String> picUrls;
 	
 	
 	public String getFeed_owner() {
@@ -102,6 +103,12 @@ public class ReturnFeed {
 	}
 	public void set_id(String _id) {
 		this._id = _id;
+	}
+	public List<String> getPicUrls() {
+		return picUrls;
+	}
+	public void setPicUrls(List<String> picUrls) {
+		this.picUrls = picUrls;
 	}
 	
 }
