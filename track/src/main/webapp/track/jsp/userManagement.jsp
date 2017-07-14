@@ -11,13 +11,11 @@
 <%
 	String path = request.getContextPath();
 %>
-<link href="../css/bootstrap.min.css" rel="stylesheet">
-<link href="../css/dataTables.bootstrap.css"
-	rel="stylesheet">
-<link href="../css/dataTables.responsive.css"
-	rel="stylesheet">
-<link href="../css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
+<link href="<%=path%>/track/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=path%>/track/css/dataTables.bootstrap.css" rel="stylesheet">
+<link href="<%=path%>/track/css/dataTables.responsive.css" rel="stylesheet">
+<link href="<%=path%>/track/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="<%=path%>/track/css/track.css" rel="stylesheet">
 </head>
 
 <body>
@@ -36,6 +34,16 @@
 			<a class="navbar-brand" href="#">Track</a>
 		</div>
 
+		<div class="navbar-default sidebar" role="navigation">
+			<div class="sidebar-nav navbar-collapse">
+				<ul class="nav" id="side-menu">
+					<li><a href="allClient" class="active"><i class="fa fa-user fa-fw"></i> Client Management</a></li>
+					<li><a href="bestFeed"><i class="fa fa-table fa-fw"></i> Best Feeds</a></li>
+					<li><a href="managerLogout">&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogout</a></li>	
+				</ul>
+			</div>
+			<!-- /.sidebar-collapse -->
+		</div>
 		
 		<!-- /.navbar-static-side --> </nav>
 

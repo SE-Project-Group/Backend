@@ -27,6 +27,9 @@
 			<result name="success">/track/jsp/userManagement.jsp</result>
 			<result name="error">/track/jsp/loginError.jsp</result>
 		</action>
+		<action name="managerLogout" class="action.LoginAction" method="managerLogout">
+			<result name="success">/track/jsp/login.jsp</result>
+		</action>
 		
 		<!-- Logout -->
 		<action name="logout" class="action.LoginAction" method="logout">

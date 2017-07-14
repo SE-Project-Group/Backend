@@ -38,7 +38,7 @@ public class FeedAction extends BaseAction{
             }
         });
 		List<Feed> res=new ArrayList<Feed>();
-		for(int i=0;i<10&&i<feeds.size();i++){
+		for(int i=0;i<20&&i<feeds.size();i++){
 			res.add(feeds.get(i));
 		}
 		request().setAttribute("feeds", res);
