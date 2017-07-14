@@ -62,4 +62,6 @@ public interface AppService {
 	public List<Client> getMyFriendInformationById(int userid);
 	public List<Client> getMyFollowingInformationById(int userid);
 	public List<Client> getFollowingMeInformationById(int userid);
+	public String followSomeone(int userid,int followid);
+	public String unFollowSomeone(int userid,int followid);
 }

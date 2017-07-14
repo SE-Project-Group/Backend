@@ -373,5 +373,34 @@ public class Restful {
 		else 
 			return "error";
 	}
+	
+	@POST
+	@Path("newFollow")
+	 @Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/html")
+	public String newFollow(String tstring,
+			@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		//if(!appService.checkSign(userId, "track/rest/app/newFollow", sign))return "Status wrong"; 
+		JSONObject tsinfo = JSONObject.fromObject(tstring);
+		int followId= Integer.parseInt(tsinfo.getString("followId"));
+		
+		String res=appService.followSomeone(userId,followId);
+		return res;
+	}
+	@POST
+	@Path("deleteFollow")
+	 @Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/html")
+	public String deleteFollow(String tstring,
+			@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		//if(!appService.checkSign(userId, "track/rest/app/newFollow", sign))return "Status wrong"; 
+		JSONObject tsinfo = JSONObject.fromObject(tstring);
+		int followId= Integer.parseInt(tsinfo.getString("followId"));
+		
+		String res=appService.unFollowSomeone(userId,followId);
+		return res;
+	}
 }
 

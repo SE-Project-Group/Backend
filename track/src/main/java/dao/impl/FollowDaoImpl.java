@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import dao.FollowDao;
+import model.Client;
 import model.Follow;
 
 
@@ -59,6 +60,16 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 		List<Follow> follows = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.userId=? and f.isFriend=1", id);
 		/*Follow follow = follows.size() > 0 ? follows.get(0) : null;*/
 		return follows;
+	}
+
+	@Override
+	public Follow isFollowed(int userId, int followId) {
+		@SuppressWarnings("unchecked")
+		List<Follow> follows = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.userId=? and f.followId=?",userId,followId);
+	
+		Follow follow = follows.size() > 0 ? follows.get(0) : null;
+		return follow;
+	
 	}
 
 
