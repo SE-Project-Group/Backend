@@ -228,7 +228,7 @@ public class Restful {
 			returnFeed.setLatitude(curFeed.getLocation().getLatitude());
 			returnFeed.setLongitude(curFeed.getLocation().getLongitude());
 			returnFeed.setLike_cnt(curFeed.getLikeCount());
-			returnFeed.setPic_id_list(curFeed.getPicList());
+			returnFeed.setPicCount(curFeed.getPicCount());
 			returnFeed.setPosition(curFeed.getPosition());
 			returnFeed.setShare_cnt(curFeed.getShareCount());
 			returnFeed.setText(curFeed.getText());

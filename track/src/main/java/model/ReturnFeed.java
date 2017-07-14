@@ -10,7 +10,7 @@ public class ReturnFeed {
 	private int like_cnt;
 	private int share_cnt;
 	private int comment_cnt;
-	private List<Integer> pic_id_list;
+	private int picCount;
 	private int user_ID;
 	private String position;
 	private double latitude;
@@ -49,11 +49,11 @@ public class ReturnFeed {
 	public void setComment_cnt(int comment_cnt) {
 		this.comment_cnt = comment_cnt;
 	}
-	public List<Integer> getPic_id_list() {
-		return pic_id_list;
+	public int getPicCount() {
+		return picCount;
 	}
-	public void setPic_id_list(List<Integer> pic_id_list) {
-		this.pic_id_list = pic_id_list;
+	public void setPicCount(int picCount) {
+		this.picCount = picCount;
 	}
 	public int getUser_ID() {
 		return user_ID;

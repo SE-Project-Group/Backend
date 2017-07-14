@@ -103,7 +103,7 @@ public void update(){
    feed.setShareArea("public");
    feed.setText("hello");
    feed.setShowLocation(true);
-   feed.setPicList(list);
+   feed.setPicCount(9);
   /* feed.setLikeList(likelist);
   feed.setCommentList(list);*/
  
