@@ -145,13 +145,13 @@ public void update(){
        //注意format的格式要与日期String的格式相匹配   
        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); 
        date = Date.valueOf(dateStr);
-       List<Feed> list=  pr.GetTodayFeedList(date);
+       //List<Feed> list=  pr.GetTodayFeedList(date);
        System.out.println(date.toString());
-       for (Feed p:list){
-          	String pstring=  JSONObject.fromObject(p).toString();
+      // for (Feed p:list){
+          	/*String pstring=  JSONObject.fromObject(p).toString();
               System.out.println(pstring);
-          }
-   	   if (list ==null)  System.out.println("error");
+          }*/
+   	   //if (list ==null)  System.out.println("error");
    }
    public void start() throws ParseException{
         init();

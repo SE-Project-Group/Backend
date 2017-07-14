@@ -50,6 +50,19 @@
 	</properties>
 
 	<dependencies>
+	
+	      <!-- aliyun push -->
+	      <dependency>
+        <groupId>com.aliyun</groupId>
+        <artifactId>aliyun-java-sdk-push</artifactId>
+        <version>3.3.0</version>
+    </dependency>
+     <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.41</version>
+        </dependency>
+       
 			<!-- oss sdk -->
 			<dependency>
 			    <groupId>com.aliyun.oss</groupId>
