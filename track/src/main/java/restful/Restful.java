@@ -395,7 +395,7 @@ public class Restful {
 	public String deleteFollow(String tstring,
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/newFollow", sign))return "Status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/deleteFollow", sign))return "Status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		int followId= Integer.parseInt(tsinfo.getString("followId"));
 		

@@ -52,7 +52,7 @@ import net.sf.json.JSONObject;
       feed.setUserId(1);
        feed.setLocation(location);
        feed.setMentionList(list);
-       feed.setShareArea("public");
+       feed.setShareArea("private");
       feed.setText("hello");
        feed.setShowLocation(true);
     
@@ -156,7 +156,7 @@ public void update(){
    public void start() throws ParseException{
         init();
         //update();
-       // insert();        
+        insert();        
         listAll();
 //remove();
         //findOne();
