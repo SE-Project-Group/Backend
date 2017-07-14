@@ -31,6 +31,11 @@
 			<result name="success">/track/jsp/login.jsp</result>
 		</action>
 		
+		<!-- bestFeed -->
+		<action name="bestFeed" class="action.FeedAction" method="getBestFeed">
+			<result name="success">/track/jsp/bestFeed.jsp</result>
+		</action>
+		
 		<!-- Logout -->
 		<action name="logout" class="action.LoginAction" method="logout">
 			<result name="success">/track/jsp/login.jsp</result>

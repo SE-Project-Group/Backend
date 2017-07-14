@@ -15,23 +15,11 @@ $(function() {
 				count:count
 			},
 			success : function(data) {
-				bootbox.alert({
-					message : data,
-					callback : function() {
-						location.reload();
-					}
-				});
+				var urls=data.split(',');
+				img.src=urls[0];
+				$('#modal').modal('show');
 			}
 		});
-		$("input[name='user_name']").val(dataset.user_name);
-		$("input[name='password']").val(dataset.password);
-		$("input[name='phone']").val(dataset.phone);
-		$("input[name='email']").val(dataset.email);
-		$("input[name='gender']").val(dataset.gender);
-		$("input[name='birthday']").val(dataset.birthday);
-
-		$("#save").attr("data-userid", dataset.userid);
-		$('#modal').modal('show');
 	});
 
 });
