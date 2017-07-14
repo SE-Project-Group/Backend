@@ -346,4 +346,46 @@ public class AppServiceImpl implements AppService{
 		else 
 			return null;}
 
+	@Override
+	public String followSomeone(int userId, int followId) {
+		// TODO Auto-generated method stub
+		if(followDao.isFollowed(userId, followId)!=null) return"Already Followed";
+		Follow newFollow=new Follow();
+		newFollow.setFollowId(followId);
+		newFollow.setUserId(userId);
+		boolean isFriend=followDao.isFollowed(followId, userId)==null?false:true;
+		if (isFriend==true) {newFollow.setIsFriend(1);
+		Follow updateFollow=new Follow();
+		updateFollow.setFollowId(userId);
+		updateFollow.setIsFriend(1);
+		updateFollow.setUserId(followId);
+		followDao.update(updateFollow);}
+		else newFollow.setIsFriend(0);
+		followDao.insert(newFollow);
+		return "success";
+		
+	}
+
+	@Override
+	public String unFollowSomeone(int userId, int followId) {
+		// TODO Auto-generated method stub
+		
+		Follow deleteFollow=followDao.isFollowed(userId, followId);
+		if(deleteFollow==null) return"You not Followed This Guy";
+	    int isFriend=deleteFollow.getIsFriend();
+	    followDao.delete(deleteFollow);
+	    if(isFriend==1)
+	    {
+	    	Follow updateFollow=new Follow();
+	        updateFollow.setFollowId(userId);
+		    updateFollow.setIsFriend(0);
+		    updateFollow.setUserId(followId);
+		followDao.update(updateFollow);
+		}
+		
+		
+		
+		return "success";
+	}
+
 }
