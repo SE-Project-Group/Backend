@@ -4,16 +4,19 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Calendar;
 import java.util.List;
 
-
+import dao.BestFeedDao;
 import dao.ClientDao;
 import dao.FeedRepository;
 import dao.FollowDao;
 import dao.ManagerDao;
 import dao.TokenDao;
+import model.BestFeed;
 import model.Client;
 import model.Feed;
 import model.Follow;
@@ -42,6 +45,7 @@ public class AppServiceImpl implements AppService{
 	
 	private TokenDao tokenDao;
 	private FeedRepository feedRepository;
+	private BestFeedDao bestFeedDao;
 	
 
 	public ClientDao getClientDao() {
@@ -81,6 +85,15 @@ public class AppServiceImpl implements AppService{
 	public void setfollowDao(FollowDao followDao) {
 		this.followDao = followDao;
 	}
+	
+	public BestFeedDao getBestFeedDao() {
+		return bestFeedDao;
+	}
+
+	public void setBestFeedDao(BestFeedDao bestFeedDao) {
+		this.bestFeedDao = bestFeedDao;
+	}
+
 	
 	/*
 	 * 
@@ -382,10 +395,33 @@ public class AppServiceImpl implements AppService{
 		    updateFollow.setUserId(followId);
 		followDao.update(updateFollow);
 		}
-		
-		
-		
 		return "success";
 	}
+	
+	/*
+	 * best feed
+	 * 
+	 */
+	@Override
+	public String setBestFeed(String feedId) throws ParseException{
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+		String dateString = df.format(calendar.getTime());
+		java.util.Date dateTemp=df.parse(dateString);
+		Date date=new Date(dateTemp.getTime());
+        BestFeed bestFeed=new BestFeed(feedId,date);
+        List<BestFeed>bestFeeds=bestFeedDao.getAllByDate(date);
+        for(int i=0;i<bestFeeds.size();i++){
+        	if(bestFeeds.get(i).getFeedId().equals(feedId)){
+        		return "It is one of the best feeds already!";
+        	}
+        }
+        if(bestFeeds.size()>=10){
+        	return "10 best feeds at most!";
+        }
+        bestFeedDao.insert(bestFeed);
+        return "Set successfully!";
+	}
+
 
 }

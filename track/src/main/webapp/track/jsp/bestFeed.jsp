@@ -83,7 +83,7 @@
 											<td>
 												<button class="btn btn-default showPic" type="button"
 													data-feedid="<%=feed.get_id()%>",
-													data_count="<%=feed.getPicCount()%>">show picture
+													data-count="<%=feed.getPicCount()%>">show picture
 												</button>
 												<button class="btn btn-default setBest" type="button"
 													data-feedid="<%=feed.get_id()%>">set best feed
@@ -124,7 +124,7 @@
 						<div class="col-lg-12">
 							<form role="form">
 								<div class="form-group">
-									<img id="picture" src="E:/book1.jpg">
+									<img id="picture" src="E:/book1.jpg" height="300px" length="350px">
 								</div>
 							
 							</form>
@@ -145,6 +145,7 @@
 	<script src="<%=path%>/track/js/dataTables.bootstrap.min.js"></script>
 	<script src="<%=path%>/track/js/track2.js"></script>
 	<script src="<%=path%>/track/js/bootbox.min.js"></script>
+	<script src="<%=path%>/track/js/bestFeed.js"></script>
 
 	<script>
 		$(document).ready(function() {

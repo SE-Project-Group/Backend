@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.Timestamp;
-
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.data.geo.Point;
@@ -64,4 +64,10 @@ public interface AppService {
 	public List<Client> getFollowingMeInformationById(int userid);
 	public String followSomeone(int userid,int followid);
 	public String unFollowSomeone(int userid,int followid);
+	
+	/*
+	 * best feed
+	 * 
+	 */
+	public String setBestFeed(String feedId) throws ParseException;
 }
