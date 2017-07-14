@@ -183,12 +183,12 @@ public class AppServiceImpl implements AppService{
 	@Override
 	public List<Feed> getFriendFeedList(Timestamp time,int userid) {
 		List<Follow> follows=followDao.getFriendById(userid);
-		int[] friend=null;
-		int friendnum=0;
+		
+		int friendnum=follows.size();
+		int[] friend=new int[friendnum];
 		for(int i=0;i<follows.size();i++){
 			Follow follow=follows.get(i);
 			friend[i]=follow.getFollowId();
-			friendnum++;
 		   }
 		List<Feed>feeds= feedRepository.findFeedsByTime(time);
 		
@@ -208,22 +208,28 @@ public class AppServiceImpl implements AppService{
 	}
 	@Override
 	public List<Feed> getFollowingFeedList(Timestamp time,int userid) {
-		List<Follow> follows=followDao.getFollowingMeById(userid);
-		int[] following=null;
-		int follownum=0;
-		for(int i=0;i<follows.size();i++){
+		List<Follow> follows=followDao.getMyFollowingById(userid);
+		int follownum=follows.size();
+		int[] following=new int[follownum];
+		
+		for(int i=0;i<follownum;i++){
 			Follow follow=follows.get(i);
 			following[i]=follow.getFollowId();
-			follownum++;
+		
 		   }
+		//System.out.print(follownum);
 		List<Feed>feeds= feedRepository.findFeedsByTime(time);		
 		for(int i=0;i<feeds.size();i++){
+			//System.out.println("feednum:"+feeds.size());
 			Feed feed=feeds.get(i);
 			int feeduserid=feed.getUserId();
+			//System.out.println("feeduserid:"+feeduserid);
 			boolean result=false;
 			for(int j=0;j<follownum;j++){
 				if(following[j]==feeduserid)result=true;
+				//System.out.println("following:"+following[j]);
 			}
+			//System.out.println("result:"+result);
 			if(result==false){
 				feeds.remove(i);
 				i--;
@@ -271,23 +277,20 @@ public class AppServiceImpl implements AppService{
 	public boolean managerLogin(String adminName, String password) {
 		return managerDao.checkLogin(adminName, password);
 	}
-	public List<Feed> GetFeedList(Date time){
-		
-		
-		return null;
-	}
+
 	
 
 	@Override
 	public List<Client> getMyFriendInformationById(int userid) {
 		// TODO Auto-generated method stub
 		List<Follow>friends=followDao.getFriendById(userid);
-		int[] friend=null;
-		int friendnum=0;
-		for(int i=0;i<friends.size();i++){
+		int friendnum=friends.size();
+		int[] friend=new int[friendnum];
+		
+		for(int i=0;i<friendnum;i++){
 			Follow f=friends.get(i);
 			friend[i]=f.getFollowId();
-			friendnum++;
+		
 		   }
 		List<Client> result=new ArrayList<Client>();
 		for(int j=0;j<friendnum;j++){
@@ -301,12 +304,13 @@ public class AppServiceImpl implements AppService{
 	public List<Client> getMyFollowingInformationById(int userid) {
 		// TODO Auto-generated method stub
 		List<Follow>follows=followDao.getMyFollowingById(userid);
-		int[] follow=null;
-		int  follownum=0;
-		for(int i=0;i<follows.size();i++){
+		int  follownum=follows.size();
+		int[] follow=new int[follownum];
+	
+		for(int i=0;i<follownum;i++){
 			Follow  f=follows.get(i);
 			 follow[i]=f.getFollowId();
-			 follownum++;
+	
 		   }
 		List<Client> result=new ArrayList<Client>();
 		for(int j=0;j< follownum;j++){
@@ -319,19 +323,27 @@ public class AppServiceImpl implements AppService{
 	@Override
 	public List<Client> getFollowingMeInformationById(int userid) {
 		List<Follow>follows=followDao.getFollowingMeById(userid);
-		int[] follow=null;
-		int  follownum=0;
-		for(int i=0;i<follows.size();i++){
+		int  follownum=follows.size();
+		if(follownum!=0){
+		int[] follow=new int[follownum];
+		int tmp=0;
+		for(int i=0;i<follownum;i++){
 			Follow  f=follows.get(i);
 			 follow[i]=f.getUserId();
-			 follownum++;
+	
+
 		   }
+		
 		List<Client> result=new ArrayList<Client>();
 		for(int j=0;j< follownum;j++){
-			Client client=getClientById( follow[j]);
+			tmp=follow[j];
+		
+			Client client=getClientById(tmp);
 			result.add(client);
 		}
 		return result;
 	}
+		else 
+			return null;}
 
 }

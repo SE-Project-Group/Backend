@@ -195,14 +195,16 @@ public class Restful {
 	@Path("getFeedFromTime")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
-	public String getFeedFromTime(String time,
+	public String getFeedFromTime(String tstring,
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		if(!appService.checkSign(userId, "track/rest/app/getFeedFromTime", sign))return "status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/getFeedFromTime", sign))return "status wrong"; 
+		JSONObject tsinfo = JSONObject.fromObject(tstring);
+		String time=tsinfo.getString("time");
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
 		List<Feed> list=appService.findPublicFeedsByTime(ts);
-		return list.toString();
+		return JSONArray.fromObject(list).toString();
 	}
 	
 	@GET
@@ -226,7 +228,7 @@ public class Restful {
 			returnFeed.setLatitude(curFeed.getLocation().getLatitude());
 			returnFeed.setLongitude(curFeed.getLocation().getLongitude());
 			returnFeed.setLike_cnt(curFeed.getLikeCount());
-			returnFeed.setPic_id_list(curFeed.getPicList());
+			returnFeed.setPicCount(curFeed.getPicCount());
 			returnFeed.setPosition(curFeed.getPosition());
 			returnFeed.setShare_cnt(curFeed.getShareCount());
 			returnFeed.setText(curFeed.getText());
@@ -273,63 +275,103 @@ public class Restful {
 	
 	@POST
 	@Path("getFriendFeedList")
-	@Consumes(MediaType.APPLICATION_JSON)
+	 @Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
-	public String getFriendFeedList(String time,
+	public String getFriendFeedList(String tstring,
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		if(!appService.checkSign(userId, "track/rest/app/getFriendFeedList", sign))return "Status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/getFriendFeedList", sign))return "Status wrong"; 
+		JSONObject tsinfo = JSONObject.fromObject(tstring);
+		String time=tsinfo.getString("time");
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
 		List<Feed> list=appService.getFriendFeedList(ts,userId);
-		return list.toString();
+		return JSONArray.fromObject(list).toString();
 	}
 
 	@POST
 	@Path("getFollowingFeedList")
-	@Consumes(MediaType.APPLICATION_JSON)
+	 @Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
-	public String getFollowingFeedList(String time,
+	public String getFollowingFeedList(String tstring,
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		if(!appService.checkSign(userId, "track/rest/app/getFollowingFeedList", sign))return "Status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/getFollowingFeedList", sign))return "Status wrong"; 
+		JSONObject tsinfo = JSONObject.fromObject(tstring);
+		String time=tsinfo.getString("time");
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
-		ts=Timestamp.valueOf(time);	
+		   ts=Timestamp.valueOf(time);
 		List<Feed> list=appService.getFollowingFeedList(ts,userId);
-		return list.toString();
+		return JSONArray.fromObject(list).toString();
 	}
 	
-	@POST
+	@GET
 	@Path("getMyFriendInformationById")
-	@Consumes(MediaType.APPLICATION_JSON)
+
 	@Produces("text/html")
 	public String getMyFriendInformationById(@QueryParam("user_ID") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "Status wrong"; 
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
+		//if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "Status wrong"; 
 		List<Client> list=appService.getMyFriendInformationById(userId);
-		return list.toString();
+		if(list!=null)
+		{ 
+			String shortFormat = "yyyy-MM-dd";  
+		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
+		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 		
+		JSONArray json = JSONUtil.toJsonArray(list,processors);
+	
+		
+	
+
+		 return json.toString();}
+		else 
+			return "error";
 	}
-	@POST
+	@GET
 	@Path("getMyFollowingInformationById")
-	@Consumes(MediaType.APPLICATION_JSON)
+
 	@Produces("text/html")
 	public String getMyFollowingInformationById(@QueryParam("user_ID") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		if(!appService.checkSign(userId, "track/rest/app/getMyFollowingInformationById", sign))return "Status wrong"; 
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
+		//if(!appService.checkSign(userId, "track/rest/app/getMyFollowingInformationById", sign))return "Status wrong"; 
 		
 		List<Client> list=appService.getMyFollowingInformationById(userId);
-		return list.toString();
+		if(list!=null)
+		{ 
+			String shortFormat = "yyyy-MM-dd";  
+		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
+		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 		
+		JSONArray json = JSONUtil.toJsonArray(list,processors);
+	
+		
+	
+
+		 return json.toString();}
+		else 
+			return "error";
 	}
-	@POST
+	@GET
 	@Path("getFollowingMeInformationById")
-	@Consumes(MediaType.APPLICATION_JSON)
+
 	@Produces("text/html")
 	public String getFollowingMeInformationById(@QueryParam("user_ID") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "Status wrong"; 
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
+		/*if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "Status wrong"; */
 	
 		List<Client> list=appService.getFollowingMeInformationById(userId);
-		return list.toString();
+		if(list!=null)
+		{ 
+			String shortFormat = "yyyy-MM-dd";  
+		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
+		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 		
+		JSONArray json = JSONUtil.toJsonArray(list,processors);
+	
+		
+	
+
+		 return json.toString();}
+		else 
+			return "error";
 	}
 }
 

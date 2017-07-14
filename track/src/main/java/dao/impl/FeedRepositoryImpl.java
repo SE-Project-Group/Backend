@@ -79,7 +79,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 	    Location nlocation=feed.getLocation();
 	    String nshareArea=feed.getShareArea();
 	    List<Integer> nmentionList=feed.getMentionList();
-	    List<Integer> npicList=feed.getPicList();
+	    int npicCount=feed.getPicCount();
 	    int nshareCount=feed.getShareCount();
 	    int ncommentCount=feed.getCommentCount();
 	    int nlikeCount=feed.getLikeCount();
@@ -100,7 +100,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 			 .set("location", nlocation)
 			 .set("shareArea",nshareArea)
 			 .set("mentionList", nmentionList)
-			 .set("picList", npicList)
+			 .set("picCount", npicCount)
 			 .set("shareCount", nshareCount)
 			 .set("commentCount", ncommentCount)
 			 .set("likeCount", nlikeCount)

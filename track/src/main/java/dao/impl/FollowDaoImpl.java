@@ -56,7 +56,7 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 	@Override
 	public List<Follow> getFriendById(int id) {
 		@SuppressWarnings("unchecked")
-		List<Follow> follows = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.userId=? and f.isFriend=ture", id);
+		List<Follow> follows = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.userId=? and f.isFriend=1", id);
 		/*Follow follow = follows.size() > 0 ? follows.get(0) : null;*/
 		return follows;
 	}
