@@ -1,8 +1,10 @@
 package util;
 
-import java.util.Iterator;  
-import java.util.Map;  
-  
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;  
 import net.sf.json.JsonConfig;  
 import net.sf.json.processors.JsonValueProcessor;  
@@ -47,4 +49,26 @@ public class JSONUtil {
         }  
         return JSONObject.fromObject(obj, config);  
     }  
+    
+    public static JSONArray toJsonArray(List list,Map<String,JsonValueProcessor> processors) throws ClassNotFoundException{
+    	JsonConfig config = new JsonConfig();  
+        if(processors != null && !processors.isEmpty()){  
+            Iterator<java.util.Map.Entry<String, JsonValueProcessor>> it = processors.entrySet().iterator();  
+            while (it.hasNext()) {  
+                Map.Entry<java.lang.String, net.sf.json.processors.JsonValueProcessor> entry = (Map.Entry<java.lang.String, net.sf.json.processors.JsonValueProcessor>) it  
+                        .next();  
+                String key = entry.getKey();  
+                JsonValueProcessor processor = processors.get(key);  
+                //反射获取到需要转换的类型  
+                Class<?> cls = Class.forName(key);  
+                config.registerJsonValueProcessor(cls, processor);  
+            }  
+        }  
+        JSONArray res=new JSONArray();
+        for(int i=0;i<list.size();i++){
+        	JSONObject obj=JSONObject.fromObject(list.get(i),config);
+    		res.add(obj);
+        }
+        return res;
+    }
 }  

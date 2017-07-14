@@ -183,12 +183,12 @@ public class AppServiceImpl implements AppService{
 	@Override
 	public List<Feed> getFriendFeedList(Timestamp time,int userid) {
 		List<Follow> follows=followDao.getFriendById(userid);
-		int[] friend=null;
-		int friendnum=0;
+		
+		int friendnum=follows.size();
+		int[] friend=new int[friendnum];
 		for(int i=0;i<follows.size();i++){
 			Follow follow=follows.get(i);
 			friend[i]=follow.getFollowId();
-			friendnum++;
 		   }
 		List<Feed>feeds= feedRepository.findFeedsByTime(time);
 		
@@ -208,22 +208,28 @@ public class AppServiceImpl implements AppService{
 	}
 	@Override
 	public List<Feed> getFollowingFeedList(Timestamp time,int userid) {
-		List<Follow> follows=followDao.getFollowingMeById(userid);
-		int[] following=null;
-		int follownum=0;
-		for(int i=0;i<follows.size();i++){
+		List<Follow> follows=followDao.getMyFollowingById(userid);
+		int follownum=follows.size();
+		int[] following=new int[follownum];
+		
+		for(int i=0;i<follownum;i++){
 			Follow follow=follows.get(i);
 			following[i]=follow.getFollowId();
-			follownum++;
+		
 		   }
+		//System.out.print(follownum);
 		List<Feed>feeds= feedRepository.findFeedsByTime(time);		
 		for(int i=0;i<feeds.size();i++){
+			//System.out.println("feednum:"+feeds.size());
 			Feed feed=feeds.get(i);
 			int feeduserid=feed.getUserId();
+			//System.out.println("feeduserid:"+feeduserid);
 			boolean result=false;
 			for(int j=0;j<follownum;j++){
 				if(following[j]==feeduserid)result=true;
+				//System.out.println("following:"+following[j]);
 			}
+			//System.out.println("result:"+result);
 			if(result==false){
 				feeds.remove(i);
 				i--;
@@ -271,11 +277,7 @@ public class AppServiceImpl implements AppService{
 	public boolean managerLogin(String adminName, String password) {
 		return managerDao.checkLogin(adminName, password);
 	}
-	public List<Feed> GetFeedList(Date time){
-		
-		
-		return null;
-	}
+
 	
 
 	@Override
@@ -288,7 +290,7 @@ public class AppServiceImpl implements AppService{
 		for(int i=0;i<friendnum;i++){
 			Follow f=friends.get(i);
 			friend[i]=f.getFollowId();
-			friendnum++;
+		
 		   }
 		List<Client> result=new ArrayList<Client>();
 		for(int j=0;j<friendnum;j++){

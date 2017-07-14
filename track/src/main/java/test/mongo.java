@@ -39,25 +39,23 @@ import net.sf.json.JSONObject;
 
     }
 
-    public void insert(){
+    @SuppressWarnings("unchecked")
+	public void insert(){
 
         Feed feed=new Feed();
         List list=null;
         Location location=new Location();
         location.setLatitude(30);
         location.setLongitude(91);
-        List<Like>likelist=new ArrayList<Like>();
-       Like first =new Like();
-        first.setUserId(2);
-        //first.setTime("20170506112422");
-        likelist.add(first);
-      feed.setUserId(22);
+     
+    
+      feed.setUserId(1);
        feed.setLocation(location);
        feed.setMentionList(list);
        feed.setShareArea("public");
       feed.setText("hello");
        feed.setShowLocation(true);
-       feed.setPicList(list);
+    
       feed.setPosition("there");
       /* feed.setLikeList(likelist);
        feed.setCommentList(list);*/
@@ -158,12 +156,12 @@ public void update(){
    public void start() throws ParseException{
         init();
         //update();
-        //insert();        
-        //listAll();
+       // insert();        
+        listAll();
 //remove();
         //findOne();
         //findPublicFeedsByTime();
-        GetTodayFeedList();
+       // GetTodayFeedList();
     }
 
    
