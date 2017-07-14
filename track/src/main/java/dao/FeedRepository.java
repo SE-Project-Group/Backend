@@ -33,6 +33,6 @@ public List<Feed> findPublicFeedsByTime(Timestamp time);
 //返回该时间之后的feed
 public List<Feed> findFeedsByTime(Timestamp time);
 
-public List<Feed> GetTodayFeedList(Date date);
+public List<Feed> getTodayFeedList(Date date);
 
 }

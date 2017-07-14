@@ -38,8 +38,6 @@ public class TokenDaoImpl implements TokenDao{
 		MessageDigest md=MessageDigest.getInstance("MD5");
 		BASE64Encoder base64en = new BASE64Encoder();
         String rightSign=base64en.encode(md.digest((uri+"?token="+token).getBytes("utf-8")));
-        System.out.println(rightSign);
-		System.out.println(sign);
 		if(sign.equals(rightSign)){
 			return true;
 		}

@@ -33,7 +33,6 @@
 			<result name="success">/track/jsp/login.jsp</result>
 		</action>
 		
-		
 		<action name="*">
 			<result>/main/webapp/track/jsp/login.jsp</result>
 		</action>
