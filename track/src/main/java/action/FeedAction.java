@@ -3,13 +3,13 @@ package action;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.internal.ResponseParsers.ListImageStyleResponseParser;
 
 import model.Feed;
 import service.AppService;
@@ -79,9 +79,14 @@ public class FeedAction extends BaseAction{
 			list.add(url.toString());
 		}
 		String listStr = list.toString();
+		listStr=listStr.replace("[", "");
+		listStr=listStr.replace("]", "");
 		response().getWriter().write(listStr);
 	}
 
-	
+	public void setBestFeed() throws ParseException, IOException{
+		String res=appService.setBestFeed(feedId);
+		response().getWriter().write(res);
+	}
 	
 }

@@ -3,6 +3,7 @@ package restful;
 import model.Client;
 import model.Feed;
 import model.ReturnFeed;
+import model.SignedUrlFactory;
 import model.Token;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -218,6 +219,7 @@ public class Restful {
 		if(!appService.checkSign(userId, "track/rest/app/feedAround", sign))return "status wrong"; 
 		List<Feed>feeds=appService.findFeedAround(longitude, latitude, 10);
 		List<ReturnFeed> res=new ArrayList<ReturnFeed>();
+		SignedUrlFactory factory = new SignedUrlFactory();
 		for(int i=0;i<feeds.size();i++){
 			Feed curFeed=feeds.get(i);
 			ReturnFeed returnFeed=new ReturnFeed();
@@ -236,6 +238,7 @@ public class Restful {
 			returnFeed.setUser_ID(curFeed.getUserId());
 			returnFeed.setLikeList(curFeed.getLikeList());
 			returnFeed.setCommentList(curFeed.getCommentList());
+			returnFeed.setPicUrls(factory.getUrls(curFeed.get_id(), curFeed.getPicCount()));
 			res.add(returnFeed);
 		}
 		return JSONArray.fromObject(res).toString();

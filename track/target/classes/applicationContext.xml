@@ -55,6 +55,7 @@
 				<value>model/Manager.hbm.xml</value>
 				<value>model/Client.hbm.xml</value>
 				<value>model/Follow.hbm.xml</value>
+				<value>model/BestFeed.hbm.xml</value>
 			</list>
 		</property>
 		<!-- Hibernate SessionFactory -->
@@ -76,14 +77,17 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="followDao" class="dao.impl.FollowDaoImpl">
-	<property name="sessionFactory" ref="sessionFactory" />
+		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 	<bean id="tokenDao" class="dao.impl.TokenDaoImpl">
 		<property name="redisUtil" ref="redisUtil" />
 	</bean>
-   <bean id="feedRepository" class="dao.impl.FeedRepositoryImpl">
-	<property name="mongoTemplate" ref="mongoTemplate" />
-  </bean>
+   	<bean id="feedRepository" class="dao.impl.FeedRepositoryImpl">
+		<property name="mongoTemplate" ref="mongoTemplate" />
+  	</bean>
+  	<bean id="bestFeedDao" class="dao.impl.BestFeedDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+ 	</bean>
 
 	<!-- Service -->
 	<bean id="appService" class="service.impl.AppServiceImpl">
@@ -93,6 +97,7 @@
 		<property name="followDao" ref="followDao"></property>
 		<property name="tokenDao" ref="tokenDao"></property>
 		<property name="feedRepository" ref="feedRepository"></property>
+		<property name="bestFeedDao" ref="bestFeedDao"></property>
 	</bean>	
 	
 	<!-- HibernateTransactionManager -->
