@@ -50,8 +50,8 @@ public class LoginAction extends BaseAction{
 		
 	}
 	
-	public String logout(){
-		return null;	
+	public String managerLogout(){
+		return SUCCESS;
 	}
 
 

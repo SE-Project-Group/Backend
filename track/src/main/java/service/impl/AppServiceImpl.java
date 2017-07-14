@@ -175,7 +175,7 @@ public class AppServiceImpl implements AppService{
 		 return feeds;
 	}
 	public List<Feed> getTodayFeedList(Date date){
-		List<Feed>feeds= feedRepository.GetTodayFeedList(date);
+		List<Feed>feeds= feedRepository.getTodayFeedList(date);
 		
 		return feeds;
 	}

@@ -1,5 +1,5 @@
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="model.Client"%>
+<%@ page import="model.Feed"%>
 <%@ page import="java.sql.Date" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
@@ -20,10 +20,10 @@
 
 <body>
 	<%
-		ArrayList<Client> clientList = new ArrayList<Client>();
-			if (request.getAttribute("clients") != null) {
-		clientList = (ArrayList<Client>) request.getAttribute("clients");
-			}
+		ArrayList<Feed> feedList = new ArrayList<Feed>();
+		if (request.getAttribute("feeds") != null) {
+			feedList = (ArrayList<Feed>) request.getAttribute("feeds");
+		}
 	%>
 	<div id="wrapper">
 		<!-- Navigation -->
@@ -37,8 +37,8 @@
 		<div class="navbar-default sidebar" role="navigation">
 			<div class="sidebar-nav navbar-collapse">
 				<ul class="nav" id="side-menu">
-					<li><a href="allClient" class="active"><i class="fa fa-user fa-fw"></i> Client Management</a></li>
-					<li><a href="bestFeed"><i class="fa fa-table fa-fw"></i> Best Feeds</a></li>
+					<li><a href="allClient"><i class="fa fa-user fa-fw"></i> Client Management</a></li>
+					<li><a href="bestFeed" class="active"><i class="fa fa-table fa-fw"></i> Best Feeds</a></li>
 					<li><a href="managerLogout">&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogout</a></li>	
 				</ul>
 			</div>
@@ -50,19 +50,14 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Client</h1>
+					<h1 class="page-header">Best Feed</h1>
 				</div>
 			</div>
 			<!-- /.row -->
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
-						<div class="panel-heading">
-							add client
-							<button class="btn btn-default" type="button" id="add">
-								<i class="fa fa-plus"></i>
-							</button>
-						</div>
+						
 						<!-- /.panel-heading -->
 						<div class="panel-body">
 							<div class="dataTable_wrapper">
@@ -70,44 +65,28 @@
 									id="dataTables">
 									<thead>
 										<tr>
-										    <th>ID</th>
-											<th>Username</th>
-											<th>Password</th>
-											<th>Phone</th>
-											<th>Email</th>
-											<th>Gender</th>
-										    <th>Birthday</th>
+										    <th>Position</th>
+											<th>Text</th>
+											<th>Like Count</th>
 											<th></th>
 										</tr>
 									</thead>
 									<tbody>
 										<%
-											for (int i = 0; i < clientList.size(); i++) {
-												Client client = clientList.get(i);
+											for (int i = 0; i < feedList.size(); i++) {
+												Feed feed = feedList.get(i);
 										%>
 										<tr>
-										    <td><%=client.getUserId()%></td>
-											<td><%=client.getUserName()%></td>
-											<td><%=client.getPassword()%></td>
-											<td><%=client.getPhone()%></td>
-											<td><%=client.getEmail()%></td>
-											<td><%=client.getGender()%></td>
-											<td><%=client.getBirthday()%> </td>
+										    <td><%=feed.getPosition()%></td>
+											<td><%=feed.getText()%></td>
+											<td><%=feed.getLikeCount()%></td>
 											<td>
-												<button class="btn btn-default delete" type="button"
-													data-userid="<%=client.getUserId()%>"
-													>
-													<i class="fa fa-trash"></i>
+												<button class="btn btn-default showPic" type="button"
+													data-feedid="<%=feed.get_id()%>",
+													data_count="<%=feed.getPicCount()%>">show picture
 												</button>
-												<button class="btn btn-default edit" type="button"
-													data-userid="<%=client.getUserId()%>"
-													data-user_name="<%=client.getUserName()%>"
-													data-password="<%=client.getPassword()%>"
-													data-phone="<%=client.getPhone()%>"
-													data-email="<%=client.getEmail()%>"
-													data-gender="<%=client.getGender()%>"
-												    data-birthday="<%=client.getBirthday()%>">
-													<i class="fa fa-edit"></i>
+												<button class="btn btn-default setBest" type="button"
+													data-feedid="<%=feed.get_id()%>">set best feed
 												</button>
 											</td>
 										</tr>
@@ -145,33 +124,16 @@
 						<div class="col-lg-12">
 							<form role="form">
 								<div class="form-group">
-									<label>Username</label> <input class="form-control" name="user_name">
+									<img id="picture" src="E:/book1.jpg">
 								</div>
-								<div class="form-group">
-									<label>Password</label> <input class="form-control"
-										name="password">
-								</div>
-								<div class="form-group">
-									<label>Phone</label> <input class="form-control"
-										name="phone">
-								</div>
-								<div class="form-group">
-									<label>Email</label> <input class="form-control"
-										type="email" name="email">
-								</div>
-								<div class="form-group">
-									<label>Gender</label> <input class="form-control" name="gender">
-								</div>
-								<div class="form-group">
-									<label>Birthday</label> <input class="form-control" type="date" name="birthday">
-								</div>
+							
 							</form>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" id="save">Save</button>
+					<button type="button" class="btn btn-default" id="pre">Pre</button>
+					<button type="button" class="btn btn-default" id="next">Next</button>
 				</div>
 			</div>
 		</div>
@@ -184,8 +146,6 @@
 	<script src="<%=path%>/track/js/track2.js"></script>
 	<script src="<%=path%>/track/js/bootbox.min.js"></script>
 
-	<script src="<%=path%>/track/js/client2.1.js"></script>
-
 	<script>
 		$(document).ready(function() {
 			$('#dataTables').DataTable({
@@ -197,4 +157,3 @@
 </body>
 
 </html>
-

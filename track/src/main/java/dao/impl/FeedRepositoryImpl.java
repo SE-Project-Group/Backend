@@ -138,7 +138,7 @@ public class FeedRepositoryImpl implements FeedRepository{
 		return allfeed;
 	}
 	@Override
-	public List<Feed> GetTodayFeedList(Date date) {
+	public List<Feed> getTodayFeedList(Date date) {
 		
 			// TODO Auto-generated method stub
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
