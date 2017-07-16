@@ -3,4 +3,4 @@ track/target/*
 track/.settings/*
 track/.classpath
 track/*.class
-track/.project/*
+track/.project
