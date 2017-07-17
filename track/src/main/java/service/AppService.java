@@ -43,6 +43,7 @@ public interface AppService {
 	public List<Feed> findPublicFeedsByTime(Timestamp time);
 	public List<Feed> getTodayFeedList(Date date);
 	public List<Feed> getFriendFeedList(Timestamp time,int userid);
+	public List<Feed> getAllFeedList(Timestamp time);
 	public List<Feed> getFollowingFeedList(Timestamp time,int userid);
 	/*like*/
 	public int incLikeFeed(String _id,int userId);

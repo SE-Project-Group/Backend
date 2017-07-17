@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -283,7 +284,7 @@ public class Restful {
 	public String getFriendFeedList(String tstring,
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/getFriendFeedList", sign))return "Status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/getFriendFeedList", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		String time=tsinfo.getString("time");
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
@@ -291,15 +292,30 @@ public class Restful {
 		List<Feed> list=appService.getFriendFeedList(ts,userId);
 		return JSONArray.fromObject(list).toString();
 	}
+	
+	@GET
+	@Path("getAllFeedList")
+	 @Consumes(MediaType.APPLICATION_JSON)
+	@Produces("text/html")
+	public String getAllFeedList(
+			@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign,
+			@QueryParam("time") String time)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+		//if(!appService.checkSign(userId, "track/rest/app/getAllFeedList", sign))return "status wrong"; 
+		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
+		ts=Timestamp.valueOf(time);	
+		List<Feed> list=appService.getAllFeedList(ts);
+		return JSONArray.fromObject(list).toString();
+	}
 
-	@POST
+	@GET
 	@Path("getFollowingFeedList")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
 	public String getFollowingFeedList(String tstring,
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/getFollowingFeedList", sign))return "Status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/getFollowingFeedList", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		String time=tsinfo.getString("time");
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
@@ -314,7 +330,7 @@ public class Restful {
 	@Produces("text/html")
 	public String getMyFriendInformationById(@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
-		//if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "Status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "status wrong"; 
 		List<Client> list=appService.getMyFriendInformationById(userId);
 		if(list!=null)
 		{ 
@@ -336,7 +352,7 @@ public class Restful {
 	@Produces("text/html")
 	public String getMyFollowingInformationById(@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
-		//if(!appService.checkSign(userId, "track/rest/app/getMyFollowingInformationById", sign))return "Status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/getMyFollowingInformationById", sign))return "status wrong"; 
 		
 		List<Client> list=appService.getMyFollowingInformationById(userId);
 		if(list!=null)
@@ -359,7 +375,7 @@ public class Restful {
 	@Produces("text/html")
 	public String getFollowingMeInformationById(@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
-		/*if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "Status wrong"; */
+		/*if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "status wrong"; */
 	
 		List<Client> list=appService.getFollowingMeInformationById(userId);
 		if(list!=null)
@@ -384,26 +400,52 @@ public class Restful {
 	public String newFollow(String tstring,
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/newFollow", sign))return "Status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/newFollow", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		int followId= Integer.parseInt(tsinfo.getString("followId"));
 		
 		String res=appService.followSomeone(userId,followId);
 		return res;
 	}
-	@POST
+	@DELETE
 	@Path("deleteFollow")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
 	public String deleteFollow(String tstring,
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/deleteFollow", sign))return "Status wrong"; 
+		//if(!appService.checkSign(userId, "track/rest/app/deleteFollow", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		int followId= Integer.parseInt(tsinfo.getString("followId"));
 		
 		String res=appService.unFollowSomeone(userId,followId);
 		return res;
+	}
+	
+	@GET
+	@Path("homepage")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String homepage(
+			@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		/*if(!appService.checkSign(userId, "track/rest/app/homepage", sign))return "status wrong"; */
+		Client client=appService.getClientById(userId);
+		String phone=client.getPhone();
+		String email=client.getEmail();
+		int followed=0;
+		int following=0;
+		if(appService.getFollowingMeInformationById(userId)!=null){
+			followed=appService.getFollowingMeInformationById(userId).size();
+		}
+		if(appService.getMyFollowingInformationById(userId)!=null){
+			following=appService.getMyFollowingInformationById(userId).size();
+		}
+		JSONObject obj=new JSONObject();
+		obj.put("phone", phone);
+		obj.put("email", email);
+		obj.put("following", following);
+		obj.put("followed", followed);
+		return obj.toString();
 	}
 }
 

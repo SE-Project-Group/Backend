@@ -258,6 +258,12 @@ public class AppServiceImpl implements AppService{
 		}
 		return feeds;
 	}
+	
+	public List<Feed> getAllFeedList(Timestamp time){
+		List<Feed>feeds= feedRepository.findFeedsByTime(time);
+		return feeds;
+	}
+	
 	@Override
 	public int incLikeFeed(String _id,int userId) {
 		// TODO Auto-generated method stub
@@ -346,26 +352,22 @@ public class AppServiceImpl implements AppService{
 		List<Follow>follows=followDao.getFollowingMeById(userid);
 		int  follownum=follows.size();
 		if(follownum!=0){
-		int[] follow=new int[follownum];
-		int tmp=0;
-		for(int i=0;i<follownum;i++){
-			Follow  f=follows.get(i);
-			 follow[i]=f.getUserId();
-	
-
-		   }
-		
-		List<Client> result=new ArrayList<Client>();
-		for(int j=0;j< follownum;j++){
-			tmp=follow[j];
-		
-			Client client=getClientById(tmp);
-			result.add(client);
+			int[] follow=new int[follownum];
+			int tmp=0;
+			for(int i=0;i<follownum;i++){
+				Follow  f=follows.get(i);
+				 follow[i]=f.getUserId();
+			}
+			List<Client> result=new ArrayList<Client>();
+			for(int j=0;j< follownum;j++){
+				tmp=follow[j];
+				Client client=getClientById(tmp);
+				result.add(client);
+			}
+			return result;
 		}
-		return result;
+		else return null;
 	}
-		else 
-			return null;}
 
 	@Override
 	public String followSomeone(int userId, int followId) {
