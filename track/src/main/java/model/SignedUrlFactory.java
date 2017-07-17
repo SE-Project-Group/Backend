@@ -14,7 +14,7 @@ public class SignedUrlFactory {
 	private final static String endpoint = "http://oss-cn-shanghai.aliyuncs.com";
 	private final static String bucket = "sjtutest";
 	
-	public List<String> getUrls(String feedId, int picCount){
+	public List<String> getPicUrls(String feedId, int picCount){
 		
 		Date expiration = new Date((new java.util.Date().getTime() + 3600 * 1000));
 		OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
@@ -26,5 +26,13 @@ public class SignedUrlFactory {
 		}
 		
 		return list;
+	}
+	
+	public String getPortraitUrl(int user_id){
+		Date expiration = new Date((new java.util.Date().getTime() + 3600 * 1000));
+		OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+		String key = user_id + "_portrait";
+		URL url = client.generatePresignedUrl(bucket, key, expiration);
+		return url.toString();
 	}
 }
