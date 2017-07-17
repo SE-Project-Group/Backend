@@ -1,3 +1,6 @@
+track/target/*
 
+track/.settings/*
 track/.classpath
-track/target
+track/*.class
+track/.project
