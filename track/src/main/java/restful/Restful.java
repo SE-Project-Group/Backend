@@ -240,7 +240,7 @@ public class Restful {
 			returnFeed.setUser_ID(curFeed.getUserId());
 			returnFeed.setLikeList(curFeed.getLikeList());
 			returnFeed.setCommentList(curFeed.getCommentList());
-			returnFeed.setPicUrls(factory.getUrls(curFeed.get_id(), curFeed.getPicCount()));
+			returnFeed.setPicUrls(factory.getPicUrls(curFeed.get_id(), curFeed.getPicCount()));
 			res.add(returnFeed);
 		}
 		return JSONArray.fromObject(res).toString();
@@ -333,26 +333,7 @@ public class Restful {
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
 		//if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "status wrong"; 
-		List<ReturnFollow> list=appService.getMyFriendInformationById(userId);
-		if(list!=null)
-		{ 
-			String shortFormat = "yyyy-MM-dd";  
-			Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
-			processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 		
-			JSONArray json = JSONUtil.toJsonArray(list,processors);
-			return json.toString();
-		}
-		else return "error";
-	}
-	@GET
-	@Path("getMyFollowingInformationById")
-
-	@Produces("text/html")
-	public String getMyFollowingInformationById(@QueryParam("user_ID") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
-		//if(!appService.checkSign(userId, "track/rest/app/getMyFollowingInformationById", sign))return "status wrong"; 
-		
-		List<Client> list=appService.getMyFollowingInformationById(userId);
+		List<Client> list=appService.getMyFriendInformationById(userId);
 		if(list!=null)
 		{ 
 			String shortFormat = "yyyy-MM-dd";  
@@ -368,27 +349,29 @@ public class Restful {
 			return "error";
 	}
 	@GET
-	@Path("getFollowingMeInformationById")
+	@Path("getFollowingInformationById")
 
 	@Produces("text/html")
-	public String getFollowingMeInformationById(@QueryParam("user_ID") int userId,
+	public String getFollowingInformationById(@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
-		/*if(!appService.checkSign(userId, "track/rest/app/getFollowingMeInformationById", sign))return "status wrong"; */
-	
-		List<Client> list=appService.getFollowingMeInformationById(userId);
-		if(list!=null)
-		{ 
-			String shortFormat = "yyyy-MM-dd";  
-		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
-		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 		
-		JSONArray json = JSONUtil.toJsonArray(list,processors);
-	
+		//if(!appService.checkSign(userId, "track/rest/app/getFollowingInformationById", sign))return "status wrong"; 
 		
-	
+		List<ReturnFollow> list=appService.getFollowingInformationById(userId);
+		JSONArray ja=JSONArray.fromObject(list);
+		return ja.toString();
+	}
+	@GET
+	@Path("getFollowerInformationById")
 
-		 return json.toString();}
-		else 
-			return "error";
+	@Produces("text/html")
+	public String getFollowerInformationById(
+			@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
+		/*if(!appService.checkSign(userId, "track/rest/app/getFollowerInformationById", sign))return "status wrong"; */
+	
+		List<ReturnFollow> list=appService.getFollowerInformationById(userId);
+		JSONArray ja=JSONArray.fromObject(list);
+		return ja.toString();
 	}
 	
 	@POST
@@ -432,11 +415,11 @@ public class Restful {
 		String email=client.getEmail();
 		int followed=0;
 		int following=0;
-		if(appService.getFollowingMeInformationById(userId)!=null){
-			followed=appService.getFollowingMeInformationById(userId).size();
+		if(appService.getFollowerInformationById(userId)!=null){
+			followed=appService.getFollowerInformationById(userId).size();
 		}
-		if(appService.getMyFollowingInformationById(userId)!=null){
-			following=appService.getMyFollowingInformationById(userId).size();
+		if(appService.getFollowingInformationById(userId)!=null){
+			following=appService.getFollowingInformationById(userId).size();
 		}
 		JSONObject obj=new JSONObject();
 		obj.put("phone", phone);

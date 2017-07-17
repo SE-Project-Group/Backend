@@ -22,20 +22,17 @@ import model.Feed;
 import model.Follow;
 import model.Like;
 import model.Comment;
-import model.Location;
 import model.ReturnFollow;
+import model.SignedUrlFactory;
 import model.Token;
-import redis.clients.jedis.Jedis;
 import service.AppService;
 
-import java.util.UUID;
 
 import org.springframework.data.geo.Circle;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+
 
 public class AppServiceImpl implements AppService{
 	
@@ -226,7 +223,7 @@ public class AppServiceImpl implements AppService{
 	}
 	@Override
 	public List<Feed> getFollowingFeedList(Timestamp time,int userid) {
-		List<Follow> follows=followDao.getMyFollowingById(userid);
+		List<Follow> follows=followDao.getFollowingById(userid);
 		int follownum=follows.size();
 		int[] following=new int[follownum];
 		
@@ -309,61 +306,63 @@ public class AppServiceImpl implements AppService{
 	
 
 	@Override
-	public List<ReturnFollow> getMyFriendInformationById(int userid) {
-		List<ReturnFollow> res= new ArrayList<ReturnFollow>();
-		List<Follow> friends=followDao.getFriendById(userid);
-		List<Follow> followers=followDao.getFollowingMeById(userid);
-		List<Follow> followings=followDao.getMyFollowingById(userid);
-		for(int i=0;i<friends.size();i++){
-			Follow follow=friends.get(i);
-			if(follow.getIsFriend()==0){
-				ReturnFollow rf=new ReturnFollow();
-				rf.setUser_id(follow.getFollowId());
-				rf.set
-			}
-		}
-	}
-
-	@Override
-	public List<Client> getMyFollowingInformationById(int userid) {
+	public List<Client> getMyFriendInformationById(int userid) {
 		// TODO Auto-generated method stub
-		List<Follow>follows=followDao.getMyFollowingById(userid);
-		int  follownum=follows.size();
-		int[] follow=new int[follownum];
-	
-		for(int i=0;i<follownum;i++){
-			Follow  f=follows.get(i);
-			 follow[i]=f.getFollowId();
-	
+		List<Follow>friends=followDao.getFriendById(userid);
+		int friendnum=friends.size();
+		int[] friend=new int[friendnum];
+		
+		for(int i=0;i<friendnum;i++){
+			Follow f=friends.get(i);
+			friend[i]=f.getFollowId();
+		
 		   }
 		List<Client> result=new ArrayList<Client>();
-		for(int j=0;j< follownum;j++){
-			Client client=getClientById( follow[j]);
+		for(int j=0;j<friendnum;j++){
+			Client client=getClientById(friend[j]);
 			result.add(client);
 		}
 		return result;
 	}
 
 	@Override
-	public List<Client> getFollowingMeInformationById(int userid) {
-		List<Follow>follows=followDao.getFollowingMeById(userid);
-		int  follownum=follows.size();
-		if(follownum!=0){
-			int[] follow=new int[follownum];
-			int tmp=0;
-			for(int i=0;i<follownum;i++){
-				Follow  f=follows.get(i);
-				 follow[i]=f.getUserId();
+	public List<ReturnFollow> getFollowingInformationById(int userid) {
+		List<ReturnFollow>res=new ArrayList<ReturnFollow>();
+		List<Follow>follows=followDao.getFollowingById(userid);
+		SignedUrlFactory signedUrlFactory=new SignedUrlFactory(); 
+		for(int i=0;i<follows.size();i++){
+			Follow follow=follows.get(i);
+			int userId=follow.getFollowId();
+			String url=signedUrlFactory.getPortraitUrl(userId);
+			String userName=clientDao.getClientById(userId).getUserName();
+			String state= "following";
+			if(follow.getIsFriend()==1){
+				state="friend";
 			}
-			List<Client> result=new ArrayList<Client>();
-			for(int j=0;j< follownum;j++){
-				tmp=follow[j];
-				Client client=getClientById(tmp);
-				result.add(client);
-			}
-			return result;
+			ReturnFollow rf=new ReturnFollow(userName,url,userId,state);
+			res.add(rf);
 		}
-		else return null;
+		return res;
+	}
+
+	@Override
+	public List<ReturnFollow> getFollowerInformationById(int userid) {
+		List<ReturnFollow>res=new ArrayList<ReturnFollow>();
+		List<Follow>follows=followDao.getFollowerById(userid);
+		SignedUrlFactory signedUrlFactory=new SignedUrlFactory(); 
+		for(int i=0;i<follows.size();i++){
+			Follow follow=follows.get(i);
+			int userId=follow.getUserId();
+			String url=signedUrlFactory.getPortraitUrl(userId);
+			String userName=clientDao.getClientById(userId).getUserName();
+			String state= "follower";
+			if(follow.getIsFriend()==1){
+				state="friend";
+			}
+			ReturnFollow rf=new ReturnFollow(userName,url,userId,state);
+			res.add(rf);
+		}
+		return res;
 	}
 
 	@Override

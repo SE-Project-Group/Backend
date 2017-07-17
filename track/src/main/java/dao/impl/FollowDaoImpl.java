@@ -31,7 +31,7 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 	}
 
 	@Override
-	public List<Follow> getMyFollowingById(int id) {
+	public List<Follow> getFollowingById(int id) {
 		// TODO Auto-generated method stub
 		@SuppressWarnings("unchecked")
 		List<Follow> follows = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.userId=?", id);
@@ -39,7 +39,7 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 		return follows;
 		
 	}
-	public List<Follow> getFollowingMeById(int id){
+	public List<Follow> getFollowerById(int id){
 		// TODO Auto-generated method stub
 				@SuppressWarnings("unchecked")
 				List<Follow> follows = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.followId=?", id);
