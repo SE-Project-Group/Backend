@@ -12,6 +12,7 @@ import org.springframework.data.geo.Point;
 import model.Client;
 import model.Feed;
 import model.Location;
+import model.ReturnFollow;
 import model.Token;
 
 public interface AppService {
@@ -60,7 +61,7 @@ public interface AppService {
 	 * 
 	 * Follow
 	 */
-	public List<Client> getMyFriendInformationById(int userid);
+	public List<ReturnFollow> getMyFriendInformationById(int userid);
 	public List<Client> getMyFollowingInformationById(int userid);
 	public List<Client> getFollowingMeInformationById(int userid);
 	public String followSomeone(int userid,int followid);

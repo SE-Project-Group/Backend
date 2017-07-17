@@ -3,6 +3,7 @@ package restful;
 import model.Client;
 import model.Feed;
 import model.ReturnFeed;
+import model.ReturnFollow;
 import model.SignedUrlFactory;
 import model.Token;
 import net.sf.json.JSONArray;
@@ -328,23 +329,20 @@ public class Restful {
 	@Path("getMyFriendInformationById")
 
 	@Produces("text/html")
-	public String getMyFriendInformationById(@QueryParam("user_ID") int userId,
+	public String getMyFriendInformationById(
+			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
 		//if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "status wrong"; 
-		List<Client> list=appService.getMyFriendInformationById(userId);
+		List<ReturnFollow> list=appService.getMyFriendInformationById(userId);
 		if(list!=null)
 		{ 
 			String shortFormat = "yyyy-MM-dd";  
-		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
-		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 		
-		JSONArray json = JSONUtil.toJsonArray(list,processors);
-	
-		
-	
-
-		 return json.toString();}
-		else 
-			return "error";
+			Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
+			processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 		
+			JSONArray json = JSONUtil.toJsonArray(list,processors);
+			return json.toString();
+		}
+		else return "error";
 	}
 	@GET
 	@Path("getMyFollowingInformationById")

@@ -23,6 +23,7 @@ import model.Follow;
 import model.Like;
 import model.Comment;
 import model.Location;
+import model.ReturnFollow;
 import model.Token;
 import redis.clients.jedis.Jedis;
 import service.AppService;
@@ -308,23 +309,19 @@ public class AppServiceImpl implements AppService{
 	
 
 	@Override
-	public List<Client> getMyFriendInformationById(int userid) {
-		// TODO Auto-generated method stub
-		List<Follow>friends=followDao.getFriendById(userid);
-		int friendnum=friends.size();
-		int[] friend=new int[friendnum];
-		
-		for(int i=0;i<friendnum;i++){
-			Follow f=friends.get(i);
-			friend[i]=f.getFollowId();
-		
-		   }
-		List<Client> result=new ArrayList<Client>();
-		for(int j=0;j<friendnum;j++){
-			Client client=getClientById(friend[j]);
-			result.add(client);
+	public List<ReturnFollow> getMyFriendInformationById(int userid) {
+		List<ReturnFollow> res= new ArrayList<ReturnFollow>();
+		List<Follow> friends=followDao.getFriendById(userid);
+		List<Follow> followers=followDao.getFollowingMeById(userid);
+		List<Follow> followings=followDao.getMyFollowingById(userid);
+		for(int i=0;i<friends.size();i++){
+			Follow follow=friends.get(i);
+			if(follow.getIsFriend()==0){
+				ReturnFollow rf=new ReturnFollow();
+				rf.setUser_id(follow.getFollowId());
+				rf.set
+			}
 		}
-		return result;
 	}
 
 	@Override
