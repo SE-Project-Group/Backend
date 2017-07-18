@@ -274,7 +274,8 @@ public class AppServiceImpl implements AppService{
 		likelist.add(newlike);
 		feed.setLikeList(likelist);
 		feedRepository.update(feed);
-		return 1;
+		int userid=feed.getUserId();
+		return userid;
 	}
 
 	@Override

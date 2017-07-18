@@ -13,6 +13,7 @@ public interface FollowDao {
 	public Follow isFollowed(int userId,int followId);
 	public List<Follow> getFollowingById(int id);
 	public List<Follow> getFollowerById(int id);
+	public List<String> getFollowerIdById(int id);
 	public List<Follow> getFriendById(int id);
 	public List<Follow> getAll();
 }

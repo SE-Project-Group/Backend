@@ -15,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +34,8 @@ import org.codehaus.jettison.json.JSONException;
 
 
 import com.google.gson.Gson;
-
 import service.AppService;
+import service.JPushService;
 import util.JSONUtil;
 import util.SQLDateProcessor;
 import util.SpringContextUtil;
@@ -44,7 +45,7 @@ import util.SpringContextUtil;
 @Path("/app")
 public class Restful {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
-	
+	private JPushService jpushService=(JPushService) SpringContextUtil.getBean("jpushService");
 	@GET
 	@Path("/clientLogin")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -151,6 +152,9 @@ public class Restful {
 		 Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedInfo,Feed.class);
 		 appService.newFeed(feed);
+		 Collection<String> alias=jpushService.getFollowerIdById(userId);
+		 String msgContent="Your Friend Has new msg";
+		 jpushService.senPushByAlias(alias, msgContent);
 		 String res= "success";
 		 return res;
      }
@@ -188,7 +192,7 @@ public class Restful {
 			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign )throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-		 if(!appService.checkSign(userId, "track/rest/app/myFeed", sign))return "status wrong";  
+	     if(!appService.checkSign(userId, "track/rest/app/myFeed", sign))return "status wrong";  
 		 List<Feed> list=appService.findFeedByUserId(userId);
 		 JSONArray newfeed = JSONArray.fromObject(list);
 		 return newfeed.toString();
@@ -257,7 +261,9 @@ public class Restful {
 		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 int user_id=newfeed.getInt("user_id");
-		 appService.incLikeFeed(_id,user_id);
+		 String owner=String.valueOf(appService.incLikeFeed(_id,user_id));
+		String msgContent="NewLike";
+          jpushService.senMessageByAlias(owner, msgContent);
 		 return "success";
      }
 	
