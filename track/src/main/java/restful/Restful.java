@@ -47,6 +47,18 @@ import util.SpringContextUtil;
 public class Restful {
 	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
 	private JPushService jpushService=(JPushService) SpringContextUtil.getBean("jpushService");
+	
+	/**
+	 * 用户登录
+	 * @URL http://192.168.1.13:8088/track/rest/app/clientLogin?user_name=**&password=** 
+	 * @param userName
+	 * @param password
+	 * @return JSON
+	 * {
+     *"token": "1771fcf8a5c149e48da138099fe2ff53",
+     *"userId": 2
+     * }
+	 */
 	@GET
 	@Path("/clientLogin")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -62,7 +74,15 @@ public class Restful {
 		return json.toString();
 	}
 
-	
+
+	/**
+	 * 用户登出
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@GET
 	@Path("/clientLogout")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -78,7 +98,12 @@ public class Restful {
 		return "error";
 	}
 	
-
+/**
+ * 用户注册
+ * @param message
+ * @return
+ * @throws JSONException
+ */
 	@POST
 	@Path("/clientSignup")
 	@Consumes(MediaType.APPLICATION_JSON)  
@@ -91,7 +116,15 @@ public class Restful {
 		else if(flag==2)return "existing user name";
 		else return "existing phone and user name";
 	}
-	
+	/**
+	 * 查询用户个人信息
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@GET
 	@Path("/queryPersonalInfo")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -112,7 +145,17 @@ public class Restful {
 		JSONObject json = JSONUtil.toJson(client,processors);
 		return json.toString();
 	}
-	
+	/**
+	 * 修改用户个人信息
+	 * @param message
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws ParseException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@PUT
 	@Path("/modifyPersonalInfo")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -141,6 +184,16 @@ public class Restful {
 			return "success";
 		}
 	}
+	/**
+	 * 发布新动态
+	 * @param feedInfo
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@POST
     @Path("/newFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -159,6 +212,16 @@ public class Restful {
 		 String res= "success";
 		 return res;
      }
+	/**
+	 * 更新动态
+	 * @param feedinfo
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@POST
     @Path("/updateFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -172,6 +235,16 @@ public class Restful {
 		 appService.updateFeed(feed);
 		 return "success";
      }
+	/**
+	 * 删除动态
+	 * @param feedInfo
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@POST
     @Path("/removeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -186,6 +259,15 @@ public class Restful {
 			return "success";
      }
 	
+	/**
+	 * 获取id为userid的feed
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@GET
 	@Path("/myFeed")
 	@Produces("text/html")
@@ -199,6 +281,16 @@ public class Restful {
 		 return newfeed.toString();
 	}
 	
+	/**
+	 * 获取time之后的所有public的feed
+	 * @param time
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@GET
 	@Path("getFeedFromTime")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -213,7 +305,16 @@ public class Restful {
 		List<Feed> list=appService.findPublicFeedsByTime(ts);
 		return JSONArray.fromObject(list).toString();
 	}
-	
+	/**
+	 * 获取周边的动态
+	 * @param longitude
+	 * @param latitude
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@GET
 	@Path("/feedAround")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -249,7 +350,16 @@ public class Restful {
 		}
 		return JSONArray.fromObject(res).toString();
 	}
-	
+	/**
+	 * 为动态点赞
+	 * @param feedInfo
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	 @POST
      @Path("/incLikeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -266,7 +376,16 @@ public class Restful {
           jpushService.senMessageByAlias(owner, msgContent);
 		 return "success";
      }
-	
+	/**
+	 * 为动态添加评论
+	 * @param commentInfo
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@POST
 	@Path("/newComment")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -286,7 +405,16 @@ public class Restful {
 	          jpushService.senMessageByAlias(owner, msgContent);
 			 return "success";
 	}
-	
+	/**
+	 * 获取好友的动态列表
+	 * @param tstring
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@POST
 	@Path("getFriendFeedList")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -302,7 +430,16 @@ public class Restful {
 		List<Feed> list=appService.getFriendFeedList(ts,userId);
 		return JSONArray.fromObject(list).toString();
 	}
-	
+	/**
+	 * 获取全部的动态列表
+	 * @param userId
+	 * @param sign
+	 * @param time
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@GET
 	@Path("getAllFeedList")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -317,7 +454,16 @@ public class Restful {
 		List<Feed> list=appService.getAllFeedList(ts);
 		return JSONArray.fromObject(list).toString();
 	}
-
+    /**
+     * 获取我关注的人的动态的列表
+     * @param tstring
+     * @param userId
+     * @param sign
+     * @return
+     * @throws JSONException
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     */
 	@GET
 	@Path("getFollowingFeedList")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -333,7 +479,16 @@ public class Restful {
 		List<Feed> list=appService.getFollowingFeedList(ts,userId);
 		return JSONArray.fromObject(list).toString();
 	}
-	
+	/**
+	 * 获取我的朋友的信息
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 * @throws ClassNotFoundException
+	 */
 	@GET
 	@Path("getMyFriendInformationById")
 
@@ -353,6 +508,16 @@ public class Restful {
 		}
 		else return "error";
 	}
+	/**
+	 * 获取我关注的人的信息
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 * @throws ClassNotFoundException
+	 */
 	@GET
 	@Path("getFollowingInformationById")
 
@@ -365,6 +530,16 @@ public class Restful {
 		JSONArray ja=JSONArray.fromObject(list);
 		return ja.toString();
 	}
+	/**
+	 * 获取关注我的人的信息
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 * @throws ClassNotFoundException
+	 */
 	@GET
 	@Path("getFollowerInformationById")
 
@@ -378,7 +553,13 @@ public class Restful {
 		JSONArray ja=JSONArray.fromObject(list);
 		return ja.toString();
 	}
-	
+	/**
+	 * 获取单个用户的信息
+	 * @param userId
+	 * @param sign
+	 * @param id
+	 * @return
+	 */
 	@GET
 	@Path("getInfo")
 	@Produces("text/html")
@@ -391,7 +572,16 @@ public class Restful {
 		JSONObject obj=JSONObject.fromObject(rui);
 		return obj.toString();
 	}
-	
+	/**
+	 * 关注某人
+	 * @param tstring
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@POST
 	@Path("newFollow")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -409,6 +599,16 @@ public class Restful {
         jpushService.senMessageByAlias(sfollowId, msgContent);
 		return res;
 	}
+	/**
+	 * 取消对于某人的关注
+	 * @param tstring
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws JSONException
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@DELETE
 	@Path("deleteFollow")
 	 @Consumes(MediaType.APPLICATION_JSON)
@@ -423,7 +623,14 @@ public class Restful {
 		String res=appService.unFollowSomeone(userId,followId);
 		return res;
 	}
-	
+	/**
+	 * 个人主页
+	 * @param userId
+	 * @param sign
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	@GET
 	@Path("homepage")
 	@Produces(MediaType.APPLICATION_JSON)
