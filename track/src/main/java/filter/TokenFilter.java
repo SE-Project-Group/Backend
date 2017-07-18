@@ -2,6 +2,8 @@ package filter;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -20,6 +22,7 @@ import dao.TokenDao;
 public class TokenFilter implements Filter{
 
 	private TokenDao tokenDao;
+	private List<String> uris;
 	
 	@Override
 	public void destroy() {
@@ -30,10 +33,14 @@ public class TokenFilter implements Filter{
 	public void doFilter (ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest req=(HttpServletRequest)request;  
+		String uri=req.getRequestURI();
+		if(uris.contains(uri)){
+			chain.doFilter(request,response);
+		}
 		int userId=Integer.parseInt(req.getParameter("user_ID"));
 		String sign=req.getParameter("sign");
 		try {
-			if(!tokenDao.checkSign(userId, req.getRequestURI(), sign)){
+			if(!tokenDao.checkSign(userId, uri, sign)){
 				((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, "status wrong");
 	            return;
 			}
@@ -47,6 +54,10 @@ public class TokenFilter implements Filter{
 	public void init(FilterConfig fConfig) throws ServletException {
 		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(fConfig.getServletContext());
 		tokenDao= (TokenDao) wac.getBean("tokenDao");
+		uris=new ArrayList<String>();
+		uris.add("/track/rest/app/clientLogin");
+		uris.add("/track/rest/app/clientSignup");
+		uris.add("/track/rest/app/feedAround");
 	}
 
 	
