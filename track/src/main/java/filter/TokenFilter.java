@@ -34,8 +34,11 @@ public class TokenFilter implements Filter{
 			throws IOException, ServletException {
 		HttpServletRequest req=(HttpServletRequest)request;  
 		String uri=req.getRequestURI();
+		System.out.println(uri);
+		System.out.println(uris.contains(uri));
 		if(uris.contains(uri)){
 			chain.doFilter(request,response);
+			return;
 		}
 		int userId=Integer.parseInt(req.getParameter("user_ID"));
 		String sign=req.getParameter("sign");
@@ -58,6 +61,7 @@ public class TokenFilter implements Filter{
 		uris.add("/track/rest/app/clientLogin");
 		uris.add("/track/rest/app/clientSignup");
 		uris.add("/track/rest/app/feedAround");
+		uris.add("/track/rest/app/getFeedFromTime");
 	}
 
 	
