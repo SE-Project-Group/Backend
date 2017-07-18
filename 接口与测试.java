@@ -78,7 +78,7 @@
  
   /*
  *功能：更新动态
- *@POST
+ *@PUT
  *接受：APPLICATION_JSON
  *http://192.168.1.13:8088/track/rest/app/UpdateFeed?user_ID=**&sign=**
  *
@@ -103,7 +103,7 @@
  
   /*
  *功能：删除动态
- *@POST
+ *@DELETE
  *接受：APPLICATION_JSON
  *http://192.168.1.13:8088/track/rest/app/RemoveFeed?user_ID=**&sign=**
  *
@@ -122,7 +122,7 @@
  
  /*
  *功能：获取某一时间之后的public动态
- *@POST
+ *@GET
  *
  *http://192.168.1.13:8088/track/rest/app/GetFeedFromTime?user_ID=**&sign=**
  *
@@ -142,7 +142,7 @@
  */
 
 /*功能：点赞  
- *@POST
+ *@PUT
  *
  *http://192.168.1.13:8088/track/rest/app/IncLikeFeed?user_ID=**&sign=**
  *返回："success"
@@ -152,7 +152,7 @@
 "user_id":44
 }
 /*功能：评论
- *@POST
+ *@PUT
  *http://192.168.1.13:8088/track/rest/app/NewComment?user_ID=**&sign=**
  *返回："success"
  */
@@ -162,14 +162,14 @@
 "reply_id":0
 }
 /*功能：获取好友某一时间之后的动态
- *@POST
+ *@GET
  *http://192.168.1.13:8088/track/rest/app/getFriendFeedList?user_ID=**&sign=**
  *返回：text/html 动态list
  */
 {"time":"YYYY-MM-DD HH-MM-SS"
 }
 /*功能：获取关注的人某一时间之后的动态
- *@POST
+ *@GET
  *http://192.168.1.13:8088/track/rest/app/getFollowingFeedList?user_ID=**&sign=**
  *返回：text/html 动态list
  */

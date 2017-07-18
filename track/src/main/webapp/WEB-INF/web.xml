@@ -23,6 +23,16 @@
 		<url-pattern>/track/*</url-pattern>
 	</filter-mapping> 
 	
+	<filter>
+		<filter-name>tokenFilter</filter-name>
+		<filter-class>filter.TokenFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>tokenFilter</filter-name>
+		<url-pattern>/rest/*</url-pattern>
+	</filter-mapping> 
+	
 		<servlet>  
   <servlet-name>Jersey REST Service</servlet-name>
 <servlet-class>  

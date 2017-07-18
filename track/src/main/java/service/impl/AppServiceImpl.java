@@ -21,6 +21,7 @@ import model.Client;
 import model.Feed;
 import model.Follow;
 import model.Like;
+import model.ReturnFeed;
 import model.Comment;
 import model.ReturnFollow;
 import model.ReturnUserInfo;
@@ -175,16 +176,16 @@ public class AppServiceImpl implements AppService{
 	public List<Feed>findFeedByUserId(int userId){
 		return feedRepository.findByUserId(userId);
 	}
-	public List<Feed>findFeedAround(double longitude,double latitude,double radius){
+	public List<ReturnFeed>findFeedAround(double longitude,double latitude,double radius){
 		Point point = new Point(longitude,latitude);   
         Distance distance = new Distance(radius,Metrics.KILOMETERS);  
         Circle circle = new Circle(point,distance);   
         List<Feed>feeds= feedRepository.findFeedsAround(circle);
-        return feeds;
+        return feedToReturnFeed(feeds);
 	}
-	public List<Feed> findPublicFeedsByTime(Timestamp time){
-		 List<Feed>feeds= feedRepository.findPublicFeedsByTime(time);
-		 return feeds;
+	public List<ReturnFeed> findPublicFeedsByTime(Timestamp time){
+		List<Feed>feeds= feedRepository.findPublicFeedsByTime(time);
+		return feedToReturnFeed(feeds);
 	}
 	public List<Feed> getTodayFeedList(Date date){
 		List<Feed>feeds= feedRepository.getTodayFeedList(date);
@@ -449,6 +450,36 @@ public class AppServiceImpl implements AppService{
         }
         bestFeedDao.insert(bestFeed);
         return "Set successfully!";
+	}
+
+	/**
+	 * transfer
+	 */
+	@Override
+	public List<ReturnFeed> feedToReturnFeed(List<Feed> feeds) {
+		List<ReturnFeed>res=new ArrayList<ReturnFeed>();
+        SignedUrlFactory factory = new SignedUrlFactory();
+		for(int i=0;i<feeds.size();i++){
+			Feed curFeed=feeds.get(i);
+			ReturnFeed returnFeed=new ReturnFeed();
+			Client client=clientDao.getClientById(curFeed.getUserId());
+			returnFeed.setFeed_id(curFeed.get_id());
+			returnFeed.setPicUrls(factory.getPicUrls(curFeed.get_id(), curFeed.getPicCount()));
+			returnFeed.setOwner_id(client.getUserId());
+			returnFeed.setOwner_name(client.getUserName());
+			returnFeed.setText(curFeed.getText());
+			returnFeed.setDate(curFeed.getTime());
+			returnFeed.setLike_cnt(curFeed.getLikeCount());
+			returnFeed.setShare_cnt(curFeed.getShareCount());
+			returnFeed.setComment_cnt(curFeed.getCommentCount());;
+			returnFeed.setPic_cnt(curFeed.getPicCount());
+			returnFeed.setPosition(curFeed.getPosition());
+			returnFeed.setLatitude(curFeed.getLocation().getLatitude());
+			returnFeed.setLongitude(curFeed.getLocation().getLongitude());
+			returnFeed.setPortrait_url(factory.getPortraitUrl(curFeed.getUserId()));
+			res.add(returnFeed);
+		}
+		 return res;
 	}
 
 

@@ -13,6 +13,7 @@ import model.Client;
 import model.Feed;
 import model.Follow;
 import model.Location;
+import model.ReturnFeed;
 import model.ReturnFollow;
 import model.ReturnUserInfo;
 import model.Token;
@@ -42,8 +43,8 @@ public interface AppService {
 	public void updateFeed(Feed feed);
 	public void removeFeed(String _id);
 	public List<Feed>findFeedByUserId(int userId);
-	public List<Feed>findFeedAround(double longitude,double latitude,double radius);
-	public List<Feed> findPublicFeedsByTime(Timestamp time);
+	public List<ReturnFeed>findFeedAround(double longitude,double latitude,double radius);
+	public List<ReturnFeed> findPublicFeedsByTime(Timestamp time);
 	public List<Feed> getTodayFeedList(Date date);
 	public List<Feed> getFriendFeedList(Timestamp time,int userid);
 	public List<Feed> getAllFeedList(Timestamp time);
@@ -74,4 +75,11 @@ public interface AppService {
 	 * 
 	 */
 	public String setBestFeed(String feedId) throws ParseException;
+	
+	/**
+	 * 
+	 * transfer
+	 * 
+	 */
+	public List<ReturnFeed> feedToReturnFeed(List<Feed> feeds);
 }
