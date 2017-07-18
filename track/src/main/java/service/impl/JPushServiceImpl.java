@@ -35,12 +35,12 @@ public class JPushServiceImpl implements JPushService{
 	  
 	    @SuppressWarnings("deprecation")
 		@Override  
-	    public  boolean sendPushAll() {  
+	    public  boolean sendPushAll(String msgContent) {  
 	        jPushClient = new JPushClient(masterSecret, appKey, (int)timeToLive);  
 	        boolean flag = false;  
 	        try {  
-	            String title = "推送测试";   
-	            PushPayload payload = JPushUtil.buildPushObject_all_all_alert(title);  
+	       
+	            PushPayload payload = JPushUtil.buildPushObjectALL(msgContent);  
 	            System.out.println("服务器返回数据：" + payload.toString());  
 	  
     	  PushResult result = jPushClient.sendPush(payload);  
@@ -68,7 +68,7 @@ public class JPushServiceImpl implements JPushService{
 	        boolean flag = false;  
 //	      String content = "多个ID测试";  
 	        try {  
-	            PushPayload payload = JPushUtil.buildPushObject_all_all_regesterIds(regeSterIds,msgContent);  
+	            PushPayload payload = JPushUtil.buildPushObjectRegesterIds(regeSterIds,msgContent);  
 	            System.out.println("服务器返回数据：" + payload.toString());  
 	            PushResult result = jPushClient.sendPush(payload);  
 	            if (null != result) {  
@@ -95,7 +95,7 @@ public class JPushServiceImpl implements JPushService{
 	        boolean flag = false;  
 //	      String content = "多个ID测试";  
 	        try {  
-	            PushPayload payload = JPushUtil.buildPushObject_all_alias_alert(alias,msgContent);  
+	            PushPayload payload = JPushUtil.buildPushObjectAlias(alias,msgContent);  
 	            System.out.println("服务器返回数据：" + payload.toString());  
 	            PushResult result = jPushClient.sendPush(payload);  
 	            if (null != result) {  
@@ -117,14 +117,13 @@ public class JPushServiceImpl implements JPushService{
 	        return flag;  
 	    } 
 	   
-	    
 	    @Override  
-	    public  boolean  senMessageByAlias(String alias,String msgContent) {  
+	    public  boolean  senPushByAlias(String alias,String msgContent) {  
 	        jPushClient = new JPushClient(masterSecret, appKey);  
 	        boolean flag = false;  
 //	      String content = "多个ID测试";  
 	        try {  
-	            PushPayload payload = JPushUtil.buildPushObject_all_alias_message(alias,msgContent);  
+	            PushPayload payload = JPushUtil.buildPushObjectAlias(alias,msgContent);  
 	            System.out.println("服务器返回数据：" + payload.toString());  
 	            PushResult result = jPushClient.sendPush(payload);  
 	            if (null != result) {  
@@ -145,6 +144,86 @@ public class JPushServiceImpl implements JPushService{
 	  
 	        return flag;  
 	    } 
+	    public boolean sendMessageAll(String msgContent){
+	        jPushClient = new JPushClient(masterSecret, appKey, (int)timeToLive);  
+	        boolean flag = false;  
+	        try {  
+	           
+	            PushPayload payload = JPushUtil.buildMessageObjectALL(msgContent);  
+	            System.out.println("服务器返回数据：" + payload.toString());  
+	  
+    	  PushResult result = jPushClient.sendPush(payload);  
+	            if (null != result) {  
+	            	System.out.println("Get resul ---" + result);  
+	                flag = true;   
+	            }  
+	        } catch (APIConnectionException e) {  
+	        	System.out.println("Connection error. Should retry later. "+ e);  
+	            flag = false;   
+	        } catch (APIRequestException e) {  
+	            System.out.println("Error response from JPush server. Should review and fix it. "+e);  
+	            System.out.println("HTTP Status: " + e.getStatus());  
+	            System.out.println("Error Code: " + e.getErrorCode());  
+	            System.out.println("Error Message: " + e.getErrorMessage());  
+	            System.out.println("Msg ID: " + e.getMsgId());  
+	            flag = false;   
+	        }  
+	        return flag; 
+	    }
+	    @Override  
+	    public  boolean  senMessageByAlias(String alias,String msgContent) {  
+	        jPushClient = new JPushClient(masterSecret, appKey);  
+	        boolean flag = false;  
+//	      String content = "多个ID测试";  
+	        try {  
+	            PushPayload payload = JPushUtil.buildMessageObjectAlias(alias,msgContent);  
+	            System.out.println("服务器返回数据：" + payload.toString());  
+	            PushResult result = jPushClient.sendPush(payload);  
+	            if (null != result) {  
+	            	System.out.println("Get result ----" + result);  
+	                flag = true;  
+	            }  
+	        } catch (APIConnectionException e) {  
+	        	System.out.println("Connection error. Should retry later. "+e);  
+	            flag = false;   
+	        } catch (APIRequestException e) {  
+	        	System.out.println("Error response from JPush server. Should review and fix it. "+ e);  
+	        	System.out.println("HTTP Status: " + e.getStatus());  
+	        	System.out.println("Error Code: " + e.getErrorCode());  
+	        	System.out.println("Error Message: " + e.getErrorMessage());  
+	        	System.out.println("Msg ID: " + e.getMsgId());  
+	            flag = false;   
+	        }  
+	  
+	        return flag;  
+	    } 
+	    @Override  
+	    public boolean senMessageByAlias(Collection<String> alias, String msgContent){
+	    	 jPushClient = new JPushClient(masterSecret, appKey);  
+		        boolean flag = false;  
+//		      String content = "多个ID测试";  
+		        try {  
+		            PushPayload payload = JPushUtil.buildMessageObjectAlias(alias,msgContent);  
+		            System.out.println("服务器返回数据：" + payload.toString());  
+		            PushResult result = jPushClient.sendPush(payload);  
+		            if (null != result) {  
+		            	System.out.println("Get result ----" + result);  
+		                flag = true;  
+		            }  
+		        } catch (APIConnectionException e) {  
+		        	System.out.println("Connection error. Should retry later. "+e);  
+		            flag = false;   
+		        } catch (APIRequestException e) {  
+		        	System.out.println("Error response from JPush server. Should review and fix it. "+ e);  
+		        	System.out.println("HTTP Status: " + e.getStatus());  
+		        	System.out.println("Error Code: " + e.getErrorCode());  
+		        	System.out.println("Error Message: " + e.getErrorMessage());  
+		        	System.out.println("Msg ID: " + e.getMsgId());  
+		            flag = false;   
+		        }  
+		  
+		        return flag;  
+	    }
 	    public List<String> getFollowerIdById(int id){
 	    return	followDao.getFollowerIdById(id);
 	    }

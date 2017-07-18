@@ -38,19 +38,31 @@ public interface AppService {
 	 * 
 	 * Feed
 	 */
+	//新建feed
 	public void newFeed(Feed feed);
+	
+	//更新feed
 	public void updateFeed(Feed feed);
+	
+	//删除feed
 	public void removeFeed(String _id);
+	
+	//找出id为userid的用户的所有动态
 	public List<Feed>findFeedByUserId(int userId);
+	
+	//找出半径为radius，中心为longitude，latitude的范围内的动态
 	public List<Feed>findFeedAround(double longitude,double latitude,double radius);
+	
 	public List<Feed> findPublicFeedsByTime(Timestamp time);
 	public List<Feed> getTodayFeedList(Date date);
 	public List<Feed> getFriendFeedList(Timestamp time,int userid);
 	public List<Feed> getAllFeedList(Timestamp time);
 	public List<Feed> getFollowingFeedList(Timestamp time,int userid);
 	/*like*/
+	//返回被点赞人的userId
 	public int incLikeFeed(String _id,int userId);
 	/*comment*/
+	//返回被评论人的userId
 	public int newComment(String _id,int userId,String text,int replyId);
 	
 	/*

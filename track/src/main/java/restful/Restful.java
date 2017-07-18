@@ -155,7 +155,7 @@ public class Restful {
 		 appService.newFeed(feed);
 		 Collection<String> alias=jpushService.getFollowerIdById(userId);
 		 String msgContent="Your Friend Has new msg";
-		 jpushService.senPushByAlias(alias, msgContent);
+		 jpushService.senMessageByAlias(alias, msgContent);
 		 String res= "success";
 		 return res;
      }
@@ -280,8 +280,11 @@ public class Restful {
 		int id=newfeed.getInt("user_id");
 		String text=newfeed.getString("text");
 		int replyId=newfeed.getInt("reply_id");
-		appService.newComment( _id, id, text,  replyId);
-		return "success";
+		
+		 String owner=String.valueOf(appService.newComment( _id, id, text,  replyId));
+			String msgContent="NewLike";
+	          jpushService.senMessageByAlias(owner, msgContent);
+			 return "success";
 	}
 	
 	@POST
@@ -401,6 +404,9 @@ public class Restful {
 		int followId= Integer.parseInt(tsinfo.getString("followId"));
 		
 		String res=appService.followSomeone(userId,followId);
+		String msgContent="NewFollower";
+		String sfollowId=String.valueOf(followId);
+        jpushService.senMessageByAlias(sfollowId, msgContent);
 		return res;
 	}
 	@DELETE

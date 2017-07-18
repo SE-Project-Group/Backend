@@ -21,7 +21,7 @@ public class JPushUtil {
      * @param content 
      * @return 
      */  
-    public static PushPayload buildPushObject_all_all_alert(String content) {  
+    public static PushPayload buildPushObjectALL(String content) {  
         return PushPayload.alertAll(content);  
     }  
     /** 
@@ -30,7 +30,7 @@ public class JPushUtil {
      * @param content 
      * @return 
      */  
-    public static PushPayload buildPushObject_all_all_message(String content) {  
+    public static PushPayload buildMessageObjectALL(String content) {  
         return PushPayload.messageAll(content);
     }  
   
@@ -43,7 +43,7 @@ public class JPushUtil {
      *            内容 
      * @return 
      */  
-    public static PushPayload buildPushObject_all_all_regesterIds(List<String> regesterIds, String content) {  
+    public static PushPayload buildPushObjectRegesterIds(List<String> regesterIds, String content) {  
         return PushPayload.newBuilder().setPlatform(Platform.all())  
                 .setAudience(Audience.registrationId(regesterIds))  
                 .setNotification(Notification.alert(content))  
@@ -59,7 +59,7 @@ public class JPushUtil {
      *            内容 
      * @return 
      */  
-    public static PushPayload buildPushObject_all_all_regesterIds_massage(List<String> regesterIds, String content) {  
+    public static PushPayload buildMessageObjectRegesterIds(List<String> regesterIds, String content) {  
         return PushPayload.newBuilder().setPlatform(Platform.all())  
                 .setAudience(Audience.registrationId(regesterIds))  
                 .setMessage(Message.content(content))
@@ -73,7 +73,7 @@ public class JPushUtil {
      * @param content 
      * @return 
      */  
-    public static PushPayload buildPushObject_all_alias_alert(Collection<String> alias, String content) {  
+    public static PushPayload buildPushObjectAlias(Collection<String> alias, String content) {  
         return PushPayload.newBuilder().setPlatform(Platform.all()).setAudience(Audience.alias(alias))  
                 .setNotification(Notification.alert(content)).build();  
     }
@@ -84,7 +84,7 @@ public class JPushUtil {
      * @param content 
      * @return 
      */  
-    public static PushPayload buildPushObject_all_alias_message(Collection<String> alias, String content) {  
+    public static PushPayload buildMessageObjectAlias(Collection<String> alias, String content) {  
         return PushPayload.newBuilder().setPlatform(Platform.all()).setAudience(Audience.alias(alias))  
         		.setMessage(Message.content(content))
         		.build();  
@@ -96,8 +96,20 @@ public class JPushUtil {
      * @param content 
      * @return 
      */  
-    public static PushPayload buildPushObject_all_alias_message(String alias, String content) {  
+    public static PushPayload buildPushObjectAlias(String alias, String content) {  
+        return PushPayload.newBuilder().setPlatform(Platform.all()).setAudience(Audience.alias(alias))  
+        		.setNotification(Notification.alert(content))
+        		.build();  
+    }
+    /** 
+     * 所有平台，消息目标是别名为 "alias"，通知内容为 TEST 
+     *  
+     * @param alias 
+     * @param content 
+     * @return 
+     */  
+    public static PushPayload buildMessageObjectAlias(String alias, String content) {  
         return PushPayload.newBuilder().setPlatform(Platform.all()).setAudience(Audience.alias(alias))  
         		.setMessage(Message.content(content))
         		.build();  
-    } }
+    }}

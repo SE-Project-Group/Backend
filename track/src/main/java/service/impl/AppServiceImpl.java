@@ -291,9 +291,8 @@ public class AppServiceImpl implements AppService{
 		commentList.add(newcomment);
 		feed.setCommentList(commentList);
 		feedRepository.update(feed);
-		
-		
-		return 1;
+		int feeduserid=feed.getUserId();
+		return feeduserid;
 	}
 		/*
 	 * 
