@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -70,6 +71,19 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 		Follow follow = follows.size() > 0 ? follows.get(0) : null;
 		return follow;
 	
+	}
+
+	@Override
+	public List<String> getFollowerIdById(int id) {
+		// TODO Auto-generated method stub
+		List<Follow> follows = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.followId=?", id);
+		List<String>res=new ArrayList<String>();
+		for(int i=0;i<follows.size();i++)
+		{Follow follow=follows.get(i);
+		String rid=String.valueOf(follow.getUserId());	
+		res.add(rid);
+		}
+		return res;
 	}
 
 

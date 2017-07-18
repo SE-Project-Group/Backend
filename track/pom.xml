@@ -50,8 +50,8 @@
 	</properties>
 
 	<dependencies>
-	
-	      <!-- aliyun push -->
+	<!-- 
+	      aliyun push
 	      <dependency>
         <groupId>com.aliyun</groupId>
         <artifactId>aliyun-java-sdk-push</artifactId>
@@ -61,8 +61,34 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.1.41</version>
-        </dependency>
+        </dependency> -->
        
+      <!-- JPush -->
+      <dependency>
+    <groupId>cn.jpush.api</groupId>
+    <artifactId>jpush-client</artifactId>
+    <version>3.2.17</version>
+    </dependency> 
+    <dependency>
+    <groupId>cn.jpush.api</groupId>
+    <artifactId>jmessage-client</artifactId>
+    <version>1.0.0</version>
+</dependency>
+<dependency>
+    <groupId>cn.jpush.api</groupId>
+    <artifactId>jiguang-common</artifactId>
+    <version>0.1.6</version>
+    <exclusions>
+        <exclusion>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-jdk14</artifactId>
+    </exclusion>
+    <exclusion>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-nop</artifactId>
+    </exclusion>
+    </exclusions>
+</dependency>
 			<!-- oss sdk -->
 			<dependency>
 			    <groupId>com.aliyun.oss</groupId>

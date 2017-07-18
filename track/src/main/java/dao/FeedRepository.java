@@ -13,26 +13,60 @@ import model.Feed;
 
 public interface FeedRepository {
 
+/*
+ * 插入新动态
+ */
 public void insert(Feed feed); 
 
+/*
+ * 根据_id搜索动态
+ */
 public Feed findOne(String _id);   
 
+/*
+ * 取出所有动态
+ */
 public List<Feed> findAll();   
 
+/*
+ * 根据userId搜索动态，取出该用户所有动态
+ */
 public List<Feed> findByUserId(int userId);
 
+/*
+ * 根据_id删除动态
+ */
 public void removeOne(String _id);   
 
+/*
+ * 删除所有动态
+ */
 public void removeAll();   
 
+/*
+ * 更新动态
+ */
 public void update(Feed feed);   
 
+
+/*
+ * 取出circle内动态
+ */
 public List<Feed> findFeedsAround(Circle circle);
-//返回该时间之后的feed
+
+/*
+ * 返回time之后的分享范围为public的feed
+ */
 public List<Feed> findPublicFeedsByTime(Timestamp time);
-//返回该时间之后的feed
+
+/*
+ * 返回time之后的所有的feed
+ */
 public List<Feed> findFeedsByTime(Timestamp time);
 
+/*
+ * 返回日期为date的所有的feed
+ */
 public List<Feed> getTodayFeedList(Date date);
 
 }
