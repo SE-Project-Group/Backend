@@ -4,6 +4,7 @@ import model.Client;
 import model.Feed;
 import model.ReturnFeed;
 import model.ReturnFollow;
+import model.ReturnUserInfo;
 import model.SignedUrlFactory;
 import model.Token;
 import net.sf.json.JSONArray;
@@ -194,16 +195,15 @@ public class Restful {
 		 return newfeed.toString();
 	}
 	
-	@POST
+	@GET
 	@Path("getFeedFromTime")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
-	public String getFeedFromTime(String tstring,
+	public String getFeedFromTime(
+			@QueryParam("time") String time,
 			@QueryParam("user_ID") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/getFeedFromTime", sign))return "status wrong"; 
-		JSONObject tsinfo = JSONObject.fromObject(tstring);
-		String time=tsinfo.getString("time");
+		//if(!appService.checkSign(userId, "track/rest/app/getFeedFromTime", sign))return "status wrong";
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
 		List<Feed> list=appService.findPublicFeedsByTime(ts);
@@ -320,7 +320,7 @@ public class Restful {
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		String time=tsinfo.getString("time");
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
-		   ts=Timestamp.valueOf(time);
+		ts=Timestamp.valueOf(time);
 		List<Feed> list=appService.getFollowingFeedList(ts,userId);
 		return JSONArray.fromObject(list).toString();
 	}
@@ -337,16 +337,12 @@ public class Restful {
 		if(list!=null)
 		{ 
 			String shortFormat = "yyyy-MM-dd";  
-		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
-		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 		
-		JSONArray json = JSONUtil.toJsonArray(list,processors);
-	
-		
-	
-
-		 return json.toString();}
-		else 
-			return "error";
+			Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
+			processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 		
+			JSONArray json = JSONUtil.toJsonArray(list,processors);
+			return json.toString();
+		}
+		else return "error";
 	}
 	@GET
 	@Path("getFollowingInformationById")
@@ -372,6 +368,19 @@ public class Restful {
 		List<ReturnFollow> list=appService.getFollowerInformationById(userId);
 		JSONArray ja=JSONArray.fromObject(list);
 		return ja.toString();
+	}
+	
+	@GET
+	@Path("getInfo")
+	@Produces("text/html")
+	public String getInfo(
+			@QueryParam("user_ID") int userId,
+			@QueryParam("sign") String sign,
+			@QueryParam("id") int id){
+		/*if(!appService.checkSign(userId, "track/rest/app/getInfo", sign))return "status wrong"; */
+		ReturnUserInfo rui=appService.getSomeoneInfo(id);
+		JSONObject obj=JSONObject.fromObject(rui);
+		return obj.toString();
 	}
 	
 	@POST

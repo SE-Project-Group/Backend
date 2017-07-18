@@ -14,6 +14,7 @@ import model.Feed;
 import model.Follow;
 import model.Location;
 import model.ReturnFollow;
+import model.ReturnUserInfo;
 import model.Token;
 
 public interface AppService {
@@ -67,7 +68,7 @@ public interface AppService {
 	public List<ReturnFollow> getFollowerInformationById(int userid);
 	public String followSomeone(int userid,int followid);
 	public String unFollowSomeone(int userid,int followid);
-	
+	public ReturnUserInfo getSomeoneInfo(int userId);
 	/*
 	 * best feed
 	 * 

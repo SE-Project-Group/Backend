@@ -23,6 +23,7 @@ import model.Follow;
 import model.Like;
 import model.Comment;
 import model.ReturnFollow;
+import model.ReturnUserInfo;
 import model.SignedUrlFactory;
 import model.Token;
 import service.AppService;
@@ -404,6 +405,27 @@ public class AppServiceImpl implements AppService{
 		return "success";
 	}
 	
+
+	@Override
+	public ReturnUserInfo getSomeoneInfo(int userId) {
+		Client client=clientDao.getClientById(userId);
+		String name=client.getUserName();
+		SignedUrlFactory signedUrlFactory=new SignedUrlFactory(); 
+		String url=signedUrlFactory.getPortraitUrl(userId);
+		int follower_cnt=followDao.getFollowerById(userId).size();
+		int follow_cnt=followDao.getFollowingById(userId).size();
+		List<Feed> feeds=feedRepository.findByUserId(userId);
+		int like_cnt=0;
+		int share_cnt=0;
+		for(int i=0;i<feeds.size();i++){
+			Feed feed=feeds.get(i);
+			like_cnt+=feed.getLikeCount();
+			share_cnt+=feed.getShareCount();
+		}
+		ReturnUserInfo rui=new ReturnUserInfo(userId,name,url,follow_cnt,follower_cnt,like_cnt,share_cnt);
+		return rui;
+	}
+	
 	/*
 	 * best feed
 	 * 
@@ -428,6 +450,7 @@ public class AppServiceImpl implements AppService{
         bestFeedDao.insert(bestFeed);
         return "Set successfully!";
 	}
+
 
 
 }

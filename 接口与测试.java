@@ -193,3 +193,8 @@
  *返回：text/html 关注的我人的信息列表
  */
  
+ /*功能：获取某人的信息列表
+ *@GET
+ *http://192.168.1.13:8088/track/rest/app/getInfo?user_ID=**&sign=**&id=**
+ *返回：text/html ReturnUserInfo对象
+ */
