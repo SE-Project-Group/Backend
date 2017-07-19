@@ -124,11 +124,20 @@ public class FeedRepositoryImpl implements FeedRepository{
 	}
 
 	@Override
-	public List<Feed> findPublicFeedsByTime(Timestamp time) {
+	public List<Feed> findPublicFeedsAfterTime(Timestamp time) {
 		// TODO Auto-generated method stub
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String stime = df.format(time);
-		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("shareArea").is("public").and("time").gt(stime)), Feed.class); 
+		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("shareArea").is("public").and("time").gt(stime)).limit(20), Feed.class); 
+		
+		return allfeed;
+	}
+	@Override
+	public List<Feed> findPublicFeedsBeforeTime(Timestamp time) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String stime = df.format(time);
+		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("shareArea").is("public").and("time").lt(stime)).limit(20), Feed.class); 
 		
 		return allfeed;
 	}

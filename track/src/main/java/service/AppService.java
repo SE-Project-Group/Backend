@@ -144,7 +144,13 @@ public interface AppService {
 	 * @param time
 	 * @return
 	 */
-	public List<ReturnFeed> findPublicFeedsByTime(Timestamp time);
+	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time);
+	/**
+	 * 找出time之前的所有的public的feed
+	 * @param time
+	 * @return
+	 */
+	public List<ReturnFeed> findPublicFeedsBeforeTime(Timestamp time);
 	
 	/**
 	 * 登录状态下获取动态
@@ -206,12 +212,12 @@ public interface AppService {
 	 * 
 	 * Admin
 	 */
-/**
- * web端管理员登陆
- * @param adminName
- * @param password
- * @return
- */
+	/**
+	 * web端管理员登陆
+	 * @param adminName
+	 * @param password
+	 * @return
+	 */
 	public boolean managerLogin(String adminName,String password);
 	/*
 	 * 

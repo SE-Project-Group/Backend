@@ -17,6 +17,8 @@ public interface JPushService {
 	//给Alias用户发通知 内容为msgContent，用户别名为alias
 	boolean senPushByAlias(String alias,String msgContent);
 	
+	//给Alias用户发通知 内容为msgContent，用户别名为alias
+	boolean senPushByAlias(Collection<String> alias,String title, String content,Map<String,String>extra);
 	//给所有平台的所有用户发message 内容为msgContent
 	boolean sendMessageAll(String msgContent);
 	

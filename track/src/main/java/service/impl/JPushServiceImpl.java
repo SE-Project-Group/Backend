@@ -146,6 +146,33 @@ public class JPushServiceImpl implements JPushService{
 	  
 	        return flag;  
 	    } 
+	    @Override  
+	    public  boolean  senPushByAlias(Collection<String> alias,String title, String content,Map<String,String>extra) {  
+	        jPushClient = new JPushClient(masterSecret, appKey);  
+	        boolean flag = false;  
+//	      String content = "多个ID测试";  
+	        try {  
+	            PushPayload payload = JPushUtil.buildPushObjectAliasExtra(alias,title,content,extra);  
+	            System.out.println("服务器返回数据：" + payload.toString());  
+	            PushResult result = jPushClient.sendPush(payload);  
+	            if (null != result) {  
+	            	System.out.println("Get result ----" + result);  
+	                flag = true;  
+	            }  
+	        } catch (APIConnectionException e) {  
+	        	System.out.println("Connection error. Should retry later. "+e);  
+	            flag = false;   
+	        } catch (APIRequestException e) {  
+	        	System.out.println("Error response from JPush server. Should review and fix it. "+ e);  
+	        	System.out.println("HTTP Status: " + e.getStatus());  
+	        	System.out.println("Error Code: " + e.getErrorCode());  
+	        	System.out.println("Error Message: " + e.getErrorMessage());  
+	        	System.out.println("Msg ID: " + e.getMsgId());  
+	            flag = false;   
+	        }  
+	  
+	        return flag;  
+	    } 
 	    public boolean sendMessageAll(String msgContent){
 	        jPushClient = new JPushClient(masterSecret, appKey, (int)timeToLive);  
 	        boolean flag = false;  

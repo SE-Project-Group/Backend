@@ -65,9 +65,13 @@ public void update(Feed feed);
 public List<Feed> findFeedsAround(Circle circle);
 
 /*
- * 返回time之后的分享范围为public的feed
+ * 返回time之后的分享范围为public的20条feed
  */
-public List<Feed> findPublicFeedsByTime(Timestamp time);
+public List<Feed> findPublicFeedsAfterTime(Timestamp time);
+/*
+ * 返回time之前的分享范围为public的20条feed
+ */
+public List<Feed> findPublicFeedsBeforeTime(Timestamp time);
 
 /*
  * 返回time之后的所有的feed

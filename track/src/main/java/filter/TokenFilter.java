@@ -61,13 +61,13 @@ public class TokenFilter implements Filter{
 		uris=new ArrayList<String>();
 		uris.add("/track/rest/app/clientLogin");
 		uris.add("/track/rest/app/clientSignup");
-		uris.add("/track/rest/app/feedAround");
-		uris.add("/track/rest/app/getFeedFromTime");
-		uris.add("/track/rest/app/getInfo");
+		uris.add("/track/rest/app/feed/feedAround");
+		uris.add("/track/rest/app/feed/getPublicFeedAfterTime");
+		uris.add("/track/rest/app/user/getInfo");
 
 		/*uris.add("/track/rest/app/incLikeFeed");*/
 
-		uris.add("/track/rest/app/getFeedsNotLoggedIn");
+		uris.add("/track/rest/app/feed/getFeedsNotLoggedIn");
 
 	}
 

@@ -131,7 +131,7 @@ public void update(){
 	   String time="2017-07-13 09:25:30";
 	   Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 	   ts=Timestamp.valueOf(time);
-	   List<Feed> list= pr.findPublicFeedsByTime(ts);
+	   List<Feed> list= pr.findPublicFeedsAfterTime(ts);
 	   for (Feed p:list){
        	String pstring=  JSONObject.fromObject(p).toString();
            System.out.println(pstring);

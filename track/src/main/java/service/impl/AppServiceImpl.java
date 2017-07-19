@@ -188,8 +188,13 @@ public class AppServiceImpl implements AppService{
         List<Feed>feeds= feedRepository.findFeedsAround(circle);
         return feedToReturnFeed(feeds);
 	}
-	public List<ReturnFeed> findPublicFeedsByTime(Timestamp time){
-		List<Feed>feeds= feedRepository.findPublicFeedsByTime(time);
+	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time){
+		List<Feed>feeds= feedRepository.findPublicFeedsAfterTime(time);
+		return feedToReturnFeed(feeds);
+	}
+	
+	public List<ReturnFeed> findPublicFeedsBeforeTime(Timestamp time){
+		List<Feed>feeds= feedRepository.findPublicFeedsBeforeTime(time);
 		return feedToReturnFeed(feeds);
 	}
 	public List<Feed> getTodayFeedList(Date date){
@@ -504,6 +509,8 @@ public class AppServiceImpl implements AppService{
 			return findPublicFeedsById(who);
 		}
 	}
+
+	
 
 
 
