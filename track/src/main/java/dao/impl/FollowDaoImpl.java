@@ -86,5 +86,14 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 		return res;
 	}
 
+	@Override
+	public boolean isFriend(int userId, int friendId) {
+		List<Follow> follows = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.userId=? and f.followId=? and f.isFriend=?", userId,friendId,1);
+		if(follows.size()>0){
+			return true;
+		}
+		return false;
+	}
+
 
 }

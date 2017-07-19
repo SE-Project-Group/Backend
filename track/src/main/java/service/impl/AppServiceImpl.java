@@ -176,6 +176,11 @@ public class AppServiceImpl implements AppService{
 	public List<Feed>findFeedByUserId(int userId){
 		return feedRepository.findByUserId(userId);
 	}
+	public List<Feed>findPublicFeedsById(int userId){
+		return feedRepository.findPublicFeedsByUserId(userId);
+	
+	}
+	
 	public List<ReturnFeed>findFeedAround(double longitude,double latitude,double radius){
 		Point point = new Point(longitude,latitude);   
         Distance distance = new Distance(radius,Metrics.KILOMETERS);  
@@ -480,6 +485,24 @@ public class AppServiceImpl implements AppService{
 			res.add(returnFeed);
 		}
 		 return res;
+	}
+
+	@Override
+	public List<Feed> getFeedsLoggedIn(int userId, int who) {
+		if(userId==who){		//self
+			return findFeedByUserId(who);
+		}
+		else if(followDao.isFriend(userId,who)){
+			List<Feed>list1=feedRepository.findPublicFeedsByUserId(who);
+			List<Feed>list2=feedRepository.findFriendFeedsByUserId(who);
+			for(int i=0;i<list1.size();i++){
+				list2.add(list1.get(i));
+			}
+			return list2;
+		}
+		else{
+			return findPublicFeedsById(who);
+		}
 	}
 
 

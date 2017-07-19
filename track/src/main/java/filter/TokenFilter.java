@@ -35,12 +35,13 @@ public class TokenFilter implements Filter{
 		HttpServletRequest req=(HttpServletRequest)request;  
 		String uri=req.getRequestURI();
 		System.out.println(uri);
+		System.out.println(req.getRequestURL());
 		System.out.println(uris.contains(uri));
 		if(uris.contains(uri)){
 			chain.doFilter(request,response);
 			return;
 		}
-		int userId=Integer.parseInt(req.getParameter("user_ID"));
+		int userId=Integer.parseInt(req.getParameter("user_id"));
 		String sign=req.getParameter("sign");
 		try {
 			if(!tokenDao.checkSign(userId, uri, sign)){
@@ -62,7 +63,11 @@ public class TokenFilter implements Filter{
 		uris.add("/track/rest/app/clientSignup");
 		uris.add("/track/rest/app/feedAround");
 		uris.add("/track/rest/app/getFeedFromTime");
+<<<<<<< HEAD
 		uris.add("/track/rest/app/incLikeFeed");
+=======
+		uris.add("/track/rest/app/getFeedsNotLoggedIn");
+>>>>>>> 36129253ae0476fa28cc2eae7f8aa151a5a73664
 	}
 
 	

@@ -53,6 +53,11 @@ public class FeedRepositoryImpl implements FeedRepository{
 		// TODO Auto-generated method stub
         return  mongoTemplate.find(new Query(Criteria.where("userId").is(userId)), Feed.class);
 	}
+	
+	@Override
+	public List<Feed> findPublicFeedsByUserId(int userId){
+		return  mongoTemplate.find(new Query(Criteria.where("userId").is(userId).and("shareArea").is("public")), Feed.class);
+	}
 
 	@Override
 	public void removeOne(String _id) {
@@ -147,6 +152,11 @@ public class FeedRepositoryImpl implements FeedRepository{
 			
 			return allfeed;
 	
+	}
+
+	@Override
+	public List<Feed> findFriendFeedsByUserId(int userId) {
+		return  mongoTemplate.find(new Query(Criteria.where("userId").is(userId).and("shareArea").is("friend")), Feed.class);
 	}
 	 
 
