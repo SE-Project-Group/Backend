@@ -79,6 +79,18 @@ public class JPushUtil {
         return PushPayload.newBuilder().setPlatform(Platform.all()).setAudience(Audience.alias(alias))  
                 .setNotification(Notification.alert(content)).build();  
     }
+    /**
+     * 所有平台，推送目标是别名为 "alias"
+     * @param alias
+     * @param title
+     * @param content
+     * @param extra
+     * @return
+     */
+    public static PushPayload buildPushObjectAliasExtra(Collection<String> alias,String title, String content,Map<String,String>extra) {  
+        return PushPayload.newBuilder().setPlatform(Platform.all()).setAudience(Audience.alias(alias))  
+                .setNotification(Notification.android(title, content, extra)).build();  
+    }
     /** 
      * 所有平台，消息目标是别名为 "alias"，通知内容为 TEST 
      *  

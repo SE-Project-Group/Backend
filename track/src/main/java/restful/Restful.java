@@ -124,10 +124,9 @@ public class Restful {
 	@Path("/queryPersonalInfo")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String queryPersonalInfo(
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign) throws ClassNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException
+			@QueryParam("who") int userId) throws ClassNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-		if(sign==null)return null;
+	
 		Client client=appService.getClientById(userId);
 		if(client==null)return null;
 		String shortFormat = "yyyy-MM-dd";  
@@ -194,6 +193,12 @@ public class Restful {
 		 Collection<String> alias=jpushService.getFollowerIdById(userId);
 		 String msgContent="Your Friend Has new msg";
 		 jpushService.senMessageByAlias(alias, msgContent);
+		 List<Integer>mention=feed.getMentionList();
+		 List<String> smention = new ArrayList<String>(mention.size()) ;
+				 for (Integer myInt : mention) { 
+					 smention.add(String.valueOf(myInt)); 
+				 }
+				 
 		 String res= "success";
 		 return res;
      }
