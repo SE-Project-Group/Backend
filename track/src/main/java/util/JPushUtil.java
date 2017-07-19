@@ -2,6 +2,7 @@ package util;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Platform;
@@ -46,7 +47,8 @@ public class JPushUtil {
     public static PushPayload buildPushObjectRegesterIds(List<String> regesterIds, String content) {  
         return PushPayload.newBuilder().setPlatform(Platform.all())  
                 .setAudience(Audience.registrationId(regesterIds))  
-                .setNotification(Notification.alert(content))  
+                .setNotification(Notification.alert(content)) 
+                
                 .build();  
   
     }  

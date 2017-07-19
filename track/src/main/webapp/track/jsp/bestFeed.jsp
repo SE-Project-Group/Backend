@@ -53,6 +53,10 @@
 					<h1 class="page-header">Best Feed</h1>
 				</div>
 			</div>
+			<div>
+			<a href="https://www.jiguang.cn/"  target="_blank">
+			Click here to send push to your user!!!</a>
+			</div>
 			<!-- /.row -->
 			<div class="row">
 				<div class="col-lg-12">

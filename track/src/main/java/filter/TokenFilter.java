@@ -62,6 +62,7 @@ public class TokenFilter implements Filter{
 		uris.add("/track/rest/app/clientSignup");
 		uris.add("/track/rest/app/feedAround");
 		uris.add("/track/rest/app/getFeedFromTime");
+		uris.add("/track/rest/app/incLikeFeed");
 	}
 
 	

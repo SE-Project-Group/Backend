@@ -2,6 +2,8 @@ package service.impl;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
 import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;

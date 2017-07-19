@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -334,7 +335,17 @@ public class Restful {
 		 int user_id=newfeed.getInt("user_id");
 		 String owner=String.valueOf(appService.incLikeFeed(_id,user_id));
 		 String msgContent="NewLike";
-         jpushService.senMessageByAlias(owner, msgContent);
+		/* long s = System.currentTimeMillis();
+	     List<String>name=new ArrayList<String>();
+	     long e = System.currentTimeMillis(); 
+	     for(int i=0;i<100000;i++)
+	     {name.add("zhao");}
+	     long start = System.currentTimeMillis();*/
+		// Map<String,String>uri=new HashMap<String,String>();
+		// uri.put("uri", "http://test");
+         jpushService.senMessageByAlias(owner,msgContent);
+        /* long end = System.currentTimeMillis();       // 记录结束时间
+         System.out.println(end-start); */      
 		 return "success";
      }
 
