@@ -124,6 +124,13 @@ public interface AppService {
 	 * @return
 	 */
 	public List<Feed>findFeedByUserId(int userId);
+	
+	/**
+	 * 获取某人所有public动态
+	 * @param userId
+	 * @return
+	 */
+	public List<Feed>findPublicFeedsById(int userId);
 	/**
 	 * 找出半径为radius，中心为longitude，latitude的范围内的动态
 	 * @param longitude
@@ -139,6 +146,13 @@ public interface AppService {
 	 */
 	public List<ReturnFeed> findPublicFeedsByTime(Timestamp time);
 	
+	/**
+	 * 登录状态下获取动态
+	 * @param userId
+	 * @param who
+	 * @return
+	 */
+	public List<Feed> getFeedsLoggedIn(int userId,int who);
 	/**
 	 * 找出日期为date的所有的feed
 	 * @param date

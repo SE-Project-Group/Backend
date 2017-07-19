@@ -34,6 +34,16 @@ public List<Feed> findAll();
 public List<Feed> findByUserId(int userId);
 
 /*
+ * 根据userId查找某人所有公开动态
+ */
+public List<Feed> findPublicFeedsByUserId(int userId);
+
+/*
+ * 根据userId查找某人所有朋友可见动态
+ */
+public List<Feed> findFriendFeedsByUserId(int userId);
+
+/*
  * 根据_id删除动态
  */
 public void removeOne(String _id);   

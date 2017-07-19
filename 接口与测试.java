@@ -15,7 +15,7 @@
  *功能：用户登出
  *@GET
  *
- *http://192.168.1.13:8088/track/rest/app/clientLogout?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/clientLogout?user_id=**&sign=**
  *user_ID为用户id，sign为签名
  *返回：TEXT_PLAIN success或者error
  */
@@ -38,7 +38,7 @@
  *功能：查找用户个人信息
  *@GET
  *
- *http://192.168.1.13:8088/track/rest/app/queryPersonalInfo?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/queryPersonalInfo?user_id=**&sign=**
  *
  *返回：TEXT_PLAIN  user的信息或者"no sign" "no such client"
  */
@@ -62,7 +62,7 @@
  *功能：添加新动态
  *@POST
  *接受：APPLICATION_JSON
- *http://192.168.1.13:8088/track/rest/app/NewFeed?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/NewFeed?user_id=**&sign=**
  *
  *返回：TEXT_PLAIN  “success”
  */
@@ -80,7 +80,7 @@
  *功能：更新动态
  *@PUT
  *接受：APPLICATION_JSON
- *http://192.168.1.13:8088/track/rest/app/UpdateFeed?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/UpdateFeed?user_id=**&sign=**
  *
  *返回：TEXT_PLAIN  “success”
  */
@@ -105,7 +105,7 @@
  *功能：删除动态
  *@DELETE
  *接受：APPLICATION_JSON
- *http://192.168.1.13:8088/track/rest/app/RemoveFeed?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/RemoveFeed?user_id=**&sign=**
  *
  *返回：TEXT_PLAIN  “success”
  */
@@ -115,7 +115,7 @@
  *功能：获取个人动态
  *@GET
  *
- *http://192.168.1.13:8088/track/rest/app/MyFeed?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/MyFeed?user_id=**&sign=**
  *
  *返回：text/html  newfeed.toString()
  */
@@ -124,7 +124,7 @@
  *功能：获取某一时间之后的public动态
  *@GET
  *
- *http://192.168.1.13:8088/track/rest/app/GetFeedFromTime?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/GetFeedFromTime?user_id=**&sign=**
  *
  *返回：text/html  feedlist.toString()
  */
@@ -136,7 +136,7 @@
  *功能：获取该位置周围的动态
  *@GET
  *
- *http://192.168.1.13:8088/track/rest/app/FeedAround？longitude=**&latitude=**&user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/FeedAround？longitude=**&latitude=**&user_id=**&sign=**
  *
  *返回：APPLICATION_JSON  JSONArray.fromObject(res).toString()
  */
@@ -144,7 +144,7 @@
 /*功能：点赞  
  *@PUT
  *
- *http://192.168.1.13:8088/track/rest/app/IncLikeFeed?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/IncLikeFeed?user_id=**&sign=**
  *返回："success"
  */
  
@@ -153,7 +153,7 @@
 }
 /*功能：评论
  *@PUT
- *http://192.168.1.13:8088/track/rest/app/NewComment?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/NewComment?user_id=**&sign=**
  *返回："success"
  */
 {"_id":"595f1f902f217d22e83985ed",
@@ -163,38 +163,44 @@
 }
 /*功能：获取好友某一时间之后的动态
  *@GET
- *http://192.168.1.13:8088/track/rest/app/getFriendFeedList?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/getFriendFeedList?user_id=**&sign=**
  *返回：text/html 动态list
  */
 {"time":"YYYY-MM-DD HH-MM-SS"
 }
 /*功能：获取关注的人某一时间之后的动态
  *@GET
- *http://192.168.1.13:8088/track/rest/app/getFollowingFeedList?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/getFollowingFeedList?user_id=**&sign=**
  *返回：text/html 动态list
  */
 {"time":"YYYY-MM-DD HH-MM-SS"
 }
 /*功能：获取朋友信息列表
  *@GET
- *http://192.168.1.13:8088/track/rest/app/getMyFriendInformationById?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/getMyFriendInformationById?user_id=**&sign=**
  *返回：text/html 好友信息list
  */
  
  /*功能：获取我关注的人的信息列表
  *@GET
- *http://192.168.1.13:8088/track/rest/app/getMyFollowingInformationById?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/getMyFollowingInformationById?user_id=**&sign=**
  *返回：text/html 我关注的人的信息列表
  */
  
  /*功能：获取关注我的人的信息列表
  *@GET
- *http://192.168.1.13:8088/track/rest/app/getFollowingMeInformationById?user_ID=**&sign=**
+ *http://192.168.1.13:8088/track/rest/app/getFollowingMeInformationById?user_id=**&sign=**
  *返回：text/html 关注的我人的信息列表
  */
  
  /*功能：获取某人的信息列表
  *@GET
- *http://192.168.1.13:8088/track/rest/app/getInfo?user_ID=**&sign=**&id=**
+ *http://192.168.1.13:8088/track/rest/app/getInfo?user_id=**&sign=**&id=**
  *返回：text/html ReturnUserInfo对象
+ */
+ 
+ /*功能：获取某人所有公开动态
+ *@GET
+ *http://192.168.1.13:8088/track/rest/app/getPublicFeedsById?user_id=**
+ *返回：text/html ReturnFeed数组
  */
