@@ -242,6 +242,17 @@ public class FeedRestful {
 		List<ReturnFeed>feeds=feedService.findFeedAround(longitude, latitude, 10,userId);
 		return JSONArray.fromObject(feeds).toString();
 	}
+	@GET
+	@Path("/compareFeedSameLocation")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String compareFeedSameLocation(
+			@QueryParam("longitude") double longitude,
+			@QueryParam("latitude") double latitude,
+			@QueryParam("user_id") int userId,
+			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		List<ReturnFeed>feeds=feedService.findFeedAroundSpecUser(longitude, latitude, 10,userId);
+		return JSONArray.fromObject(feeds).toString();
+	}
 	/**
 	 * Îª¶¯Ì¬µãÔÞ
 	 * @param feedInfo

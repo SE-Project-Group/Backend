@@ -88,7 +88,14 @@ private ClientDao clientDao;
         List<Feed>feeds= feedRepository.findFeedsAround(circle);
         return feedToReturnFeed(feeds,userId);
 	}
-
+	@Override
+	public List<ReturnFeed>findFeedAroundSpecUser(double longitude,double latitude,double radius,int userId){
+		Point point = new Point(longitude,latitude);   
+        Distance distance = new Distance(radius,Metrics.KILOMETERS);  
+        Circle circle = new Circle(point,distance);   
+        List<Feed>feeds= feedRepository. findFeedsAroundSpecUser(circle,userId);
+        return feedToReturnFeed(feeds,userId);
+	}
 	@Override
 	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time,int userId) {
 		// TODO Auto-generated method stub

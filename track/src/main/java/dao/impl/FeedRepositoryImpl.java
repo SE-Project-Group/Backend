@@ -122,7 +122,12 @@ public class FeedRepositoryImpl implements FeedRepository{
 		List<Feed>feeds=mongoTemplate.find(query,Feed.class);
 		return feeds;
 	}
-
+	@Override
+	public List<Feed> findFeedsAroundSpecUser(Circle circle,int userId){
+		Query query=Query.query(Criteria.where("location").withinSphere(circle).and("userId").is(userId));
+		List<Feed>feeds=mongoTemplate.find(query,Feed.class);
+		return feeds;
+	}
 	@Override
 	public List<Feed> findPublicFeedsAfterTime(Timestamp time) {
 		// TODO Auto-generated method stub
