@@ -59,8 +59,8 @@ public class TokenFilter implements Filter{
 		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(fConfig.getServletContext());
 		tokenDao= (TokenDao) wac.getBean("tokenDao");
 		uris=new ArrayList<String>();
-		uris.add("/track/rest/app/clientLogin");
-		uris.add("/track/rest/app/clientSignup");
+		uris.add("/track/rest/app/user/clientLogin");
+		uris.add("/track/rest/app/user/clientSignup");
 		uris.add("/track/rest/app/feed/feedAround");
 		uris.add("/track/rest/app/feed/getPublicFeedAfterTime");
 		uris.add("/track/rest/app/user/getInfo");
