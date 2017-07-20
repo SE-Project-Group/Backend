@@ -13,6 +13,7 @@ public class ReturnFollow {
     public final String FRIEND = "friend";
     public final String FOLLOW = "following";
     public final String FOLLOWER = "follower";
+    public final String STRANGER="stranger";
     
     public ReturnFollow(){
     	

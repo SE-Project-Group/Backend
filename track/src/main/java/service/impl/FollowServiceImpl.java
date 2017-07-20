@@ -63,42 +63,34 @@ private ClientDao clientDao;
 	}
 
 	@Override
-	public List<ReturnFollow> getFollowingInformationById(int userid) {
-		// TODO Auto-generated method stub
+	public List<ReturnFollow> getFollowingInformationById(int userId,int who) {
 		List<ReturnFollow>res=new ArrayList<ReturnFollow>();
-		List<Follow>follows=followDao.getFollowingById(userid);
+		List<Follow>follows=followDao.getFollowingById(who);
 		SignedUrlFactory signedUrlFactory=new SignedUrlFactory(); 
 		for(int i=0;i<follows.size();i++){
 			Follow follow=follows.get(i);
-			int userId=follow.getFollowId();
-			String url=signedUrlFactory.getPortraitUrl(userId);
-			String userName=clientDao.getClientById(userId).getUserName();
-			String state= "following";
-			if(follow.getIsFriend()==1){
-				state="friend";
-			}
-			ReturnFollow rf=new ReturnFollow(userName,url,userId,state);
+			int followId=follow.getFollowId();
+			String url=signedUrlFactory.getPortraitUrl(followId);
+			String userName=clientDao.getClientById(followId).getUserName();
+			String state= followDao.getRelationship(userId, followId);
+			ReturnFollow rf=new ReturnFollow(userName,url,followId,state);
 			res.add(rf);
 		}
 		return res;
 	}
 
 	@Override
-	public List<ReturnFollow> getFollowerInformationById(int userid) {
-		// TODO Auto-generated method stub
+	public List<ReturnFollow> getFollowerInformationById(int userId,int who) {
 		List<ReturnFollow>res=new ArrayList<ReturnFollow>();
-		List<Follow>follows=followDao.getFollowerById(userid);
+		List<Follow>follows=followDao.getFollowerById(who);
 		SignedUrlFactory signedUrlFactory=new SignedUrlFactory(); 
 		for(int i=0;i<follows.size();i++){
 			Follow follow=follows.get(i);
-			int userId=follow.getUserId();
-			String url=signedUrlFactory.getPortraitUrl(userId);
-			String userName=clientDao.getClientById(userId).getUserName();
-			String state= "follower";
-			if(follow.getIsFriend()==1){
-				state="friend";
-			}
-			ReturnFollow rf=new ReturnFollow(userName,url,userId,state);
+			int followerId=follow.getUserId();
+			String url=signedUrlFactory.getPortraitUrl(followerId);
+			String userName=clientDao.getClientById(followerId).getUserName();
+			String state= followDao.getRelationship(userId, followerId);
+			ReturnFollow rf=new ReturnFollow(userName,url,followerId,state);
 			res.add(rf);
 		}
 		return res;
@@ -143,15 +135,15 @@ private ClientDao clientDao;
 	}
 
 	@Override
-	public ReturnUserInfo getSomeoneInfo(int userId) {
-		// TODO Auto-generated method stub
-		Client client=clientDao.getClientById(userId);
+	public ReturnUserInfo getSomeoneInfo(int userId,int who) {
+		String relationship=followDao.getRelationship(userId, who);
+		Client client=clientDao.getClientById(who);
 		String name=client.getUserName();
 		SignedUrlFactory signedUrlFactory=new SignedUrlFactory(); 
-		String url=signedUrlFactory.getPortraitUrl(userId);
-		int follower_cnt=followDao.getFollowerById(userId).size();
-		int follow_cnt=followDao.getFollowingById(userId).size();
-		List<Feed> feeds=feedRepository.findByUserId(userId);
+		String url=signedUrlFactory.getPortraitUrl(who);
+		int follower_cnt=followDao.getFollowerById(who).size();
+		int follow_cnt=followDao.getFollowingById(who).size();
+		List<Feed> feeds=feedRepository.findByUserId(who);
 		int like_cnt=0;
 		int share_cnt=0;
 		for(int i=0;i<feeds.size();i++){
@@ -159,7 +151,7 @@ private ClientDao clientDao;
 			like_cnt+=feed.getLikeCount();
 			share_cnt+=feed.getShareCount();
 		}
-		ReturnUserInfo rui=new ReturnUserInfo(userId,name,url,follow_cnt,follower_cnt,like_cnt,share_cnt);
+		ReturnUserInfo rui=new ReturnUserInfo(who,name,url,follow_cnt,follower_cnt,like_cnt,share_cnt,relationship);
 		return rui;
 	}
 

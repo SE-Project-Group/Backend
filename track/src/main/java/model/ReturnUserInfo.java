@@ -1,7 +1,5 @@
 package model;
 
-import java.util.List;
-
 /**
  * Created by thor on 2017/7/15.
  */
@@ -14,8 +12,9 @@ public class ReturnUserInfo {
     private int follower_cnt;
     private int like_cnt;
     private int share_cnt;
+    private String relationship;
     
-    public ReturnUserInfo(int user_id,String name,String portrait_url,int follow_cnt,int follower_cnt,int like_cnt,int share_cnt){
+    public ReturnUserInfo(int user_id,String name,String portrait_url,int follow_cnt,int follower_cnt,int like_cnt,int share_cnt,String relationship){
     	this.user_id=user_id;
     	this.name=name;
     	this.portrait_url=portrait_url;
@@ -23,6 +22,7 @@ public class ReturnUserInfo {
     	this.follower_cnt=follower_cnt;
     	this.like_cnt=like_cnt;
     	this.share_cnt=share_cnt;
+    	this.relationship=relationship;
     }
 
     public int getUser_id() {
@@ -80,4 +80,12 @@ public class ReturnUserInfo {
     public void setPortrait_url(String portrait_url) {
         this.portrait_url = portrait_url;
     }
+
+	public String getRelationship() {
+		return relationship;
+	}
+
+	public void setRelationship(String relationship) {
+		this.relationship = relationship;
+	}
 }

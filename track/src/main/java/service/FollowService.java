@@ -23,14 +23,14 @@ public interface FollowService {
 	 * @param userid
 	 * @return
 	 */
-	public List<ReturnFollow> getFollowingInformationById(int userid);
+	public List<ReturnFollow> getFollowingInformationById(int userId,int who);
 	
 	/**
 	 * 获取id为userid的所有follower的信息
 	 * @param userid
 	 * @return
 	 */
-	public List<ReturnFollow> getFollowerInformationById(int userid);
+	public List<ReturnFollow> getFollowerInformationById(int userId,int who);
 	
 	/**
 	 * 关注某人
@@ -53,5 +53,5 @@ public interface FollowService {
 	 * @param userId
 	 * @return
 	 */
-	public ReturnUserInfo getSomeoneInfo(int userId);
+	public ReturnUserInfo getSomeoneInfo(int userId,int who);
 }

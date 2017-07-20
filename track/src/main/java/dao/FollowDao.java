@@ -17,4 +17,5 @@ public interface FollowDao {
 	public List<String> getFollowerIdById(int id);
 	public List<Follow> getFriendById(int id);
 	public List<Follow> getAll();
+	public String getRelationship(int userId1,int userId2);
 }
