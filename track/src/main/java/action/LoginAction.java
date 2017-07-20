@@ -3,7 +3,8 @@ package action;
 import java.util.List;
 
 import model.Client;
-import service.AppService;
+import service.ClientService;
+import service.WebService;
 
 public class LoginAction extends BaseAction{
 	/**
@@ -15,7 +16,9 @@ public class LoginAction extends BaseAction{
 	
 	private String password;
 	
-	private AppService appService;
+	private ClientService clientService;
+	
+	private WebService webService;
 	
 	public String getAdminName() {
 		return adminName;
@@ -33,17 +36,15 @@ public class LoginAction extends BaseAction{
 		this.password = password;
 	}
 	
-	public AppService getAppService() {
-		return appService;
+	public void setWebService(WebService webService) {
+		this.webService = webService;
 	}
-
-	public void setAppService(AppService appService) {
-		this.appService = appService;
+	public void setClientService(ClientService clientService) {
+		this.clientService = clientService;
 	}
-	
 	public String managerLogin(){
-		if(appService.managerLogin(adminName, password))
-		{List<Client> clients=appService.getAllClients();
+		if(webService.managerLogin(adminName, password))
+		{List<Client> clients=clientService.getAllClients();
 		request().setAttribute("clients", clients);
 			return SUCCESS;}
 		else return ERROR;

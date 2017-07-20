@@ -90,17 +90,32 @@
  	</bean>
 
 	<!-- Service -->
-	<bean id="appService" class="service.impl.AppServiceImpl">
-		<!-- DAO -->
-		<property name="clientDao" ref="clientDao"></property>
-		<property name="managerDao" ref="managerDao"></property>
-		<property name="followDao" ref="followDao"></property>
-		<property name="tokenDao" ref="tokenDao"></property>
-		<property name="feedRepository" ref="feedRepository"></property>
-		<property name="bestFeedDao" ref="bestFeedDao"></property>
-	</bean>	
 	 <bean id="jpushService" class="service.impl.JPushServiceImpl">
 		<property name="followDao" ref="followDao"></property>
+	</bean>	
+	
+	 <bean id="clientService" class="service.impl.ClientServiceImpl">
+		<property name="clientDao" ref="clientDao"></property>
+		<property name="tokenDao" ref="tokenDao"></property>
+	</bean>	
+	
+	 <bean id="feedService" class="service.impl.FeedServiceImpl">
+		<property name="clientDao" ref="clientDao"></property>
+		<property name="followDao" ref="followDao"></property>
+		<property name="feedRepository" ref="feedRepository"></property>
+	</bean>	
+	
+	 <bean id="followService" class="service.impl.FollowServiceImpl">
+		<property name="clientDao" ref="clientDao"></property>
+		<property name="followDao" ref="followDao"></property>
+		<property name="feedRepository" ref="feedRepository"></property>
+	</bean>	
+	
+	 <bean id="webService" class="service.impl.WebServiceImpl">
+		<property name="managerDao" ref="managerDao"></property>
+		<property name="feedRepository" ref="feedRepository"></property>
+		<property name="bestFeedDao" ref="bestFeedDao"></property>
+		
 	</bean>	
 	<!-- HibernateTransactionManager -->
 	<bean id="transactionManager"

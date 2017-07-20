@@ -26,7 +26,8 @@ import model.Token;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.processors.JsonValueProcessor;
-import service.AppService;
+import service.ClientService;
+import service.FollowService;
 import service.JPushService;
 import util.JSONUtil;
 import util.SQLDateProcessor;
@@ -34,9 +35,10 @@ import util.SpringContextUtil;
 
 @Path("/app/user")
 public class UserInfoRestful {
-	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
-	private JPushService jpushService=(JPushService) SpringContextUtil.getBean("jpushService");
 
+	private JPushService jpushService=(JPushService) SpringContextUtil.getBean("jpushService");
+	private ClientService clientService=(ClientService) SpringContextUtil.getBean("clientService");
+	private FollowService followService=(FollowService) SpringContextUtil.getBean("followService");
 	/**
 	 * ÓÃ»§µÇÂ¼
 	 * @URL http://192.168.1.13:8088/track/rest/app/clientLogin?user_name=**&password=** 
@@ -55,7 +57,7 @@ public class UserInfoRestful {
 			@QueryParam("user_name") String userName,
     		@QueryParam("password") String password) 
 	{
-		Token token=appService.clientLogin(userName,password);
+		Token token=clientService.clientLogin(userName,password);
 		if(token==null){
 			return "ERROR";
 		}
@@ -77,7 +79,7 @@ public class UserInfoRestful {
 			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException 
 	{
-		appService.logout(userId);
+		clientService.logout(userId);
 		return "success";
 	}	
 	/**
@@ -92,7 +94,7 @@ public class UserInfoRestful {
 	@Produces("text/html")
 	public String clientSignup(String message) throws JSONException{
 		JSONObject obj = JSONObject.fromObject(message);
-		int flag=appService.signup((String)obj.get("user_name"),(String)obj.get("password"),(String)obj.get("phone"));
+		int flag=clientService.signup((String)obj.get("user_name"),(String)obj.get("password"),(String)obj.get("phone"));
 		if(flag==0)return "success";
 		else if(flag==1)return "existing phone";
 		else if(flag==2)return "existing user name";
@@ -115,7 +117,7 @@ public class UserInfoRestful {
 			@QueryParam("who") int userId) throws ClassNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
 	
-		Client client=appService.getClientById(userId);
+		Client client=clientService.getClientById(userId);
 		if(client==null)return null;
 		String shortFormat = "yyyy-MM-dd";  
 		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
@@ -144,7 +146,7 @@ public class UserInfoRestful {
 	{
 		if(sign==null)return null;
 		JSONObject obj=JSONObject.fromObject(message);
-		Client client=appService.getClientByUserName(obj.getString("user_name"));
+		Client client=clientService.getClientByUserName(obj.getString("user_name"));
 		if(client==null){
 			return "username error!";
 		}
@@ -154,7 +156,7 @@ public class UserInfoRestful {
 			client.setGender(obj.getString("gender"));
 			client.setPassword(obj.getString("password"));
 			client.setPhone(obj.getString("phone"));
-			appService.updateClient(client);
+			clientService.updateClient(client);
 			return "success";
 		}
 	}
@@ -177,7 +179,7 @@ public class UserInfoRestful {
 			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
 		//if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "status wrong"; 
-		List<Client> list=appService.getMyFriendInformationById(userId);
+		List<Client> list=followService.getMyFriendInformationById(userId);
 		if(list!=null)
 		{ 
 			String shortFormat = "yyyy-MM-dd";  
@@ -206,7 +208,7 @@ public class UserInfoRestful {
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
 		//if(!appService.checkSign(userId, "track/rest/app/getFollowingInformationById", sign))return "status wrong"; 
 		
-		List<ReturnFollow> list=appService.getFollowingInformationById(userId);
+		List<ReturnFollow> list=followService.getFollowingInformationById(userId);
 		JSONArray ja=JSONArray.fromObject(list);
 		return ja.toString();
 	}
@@ -229,7 +231,7 @@ public class UserInfoRestful {
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
 		/*if(!appService.checkSign(userId, "track/rest/app/getFollowerInformationById", sign))return "status wrong"; */
 	
-		List<ReturnFollow> list=appService.getFollowerInformationById(userId);
+		List<ReturnFollow> list=followService.getFollowerInformationById(userId);
 		JSONArray ja=JSONArray.fromObject(list);
 		return ja.toString();
 	}
@@ -246,7 +248,7 @@ public class UserInfoRestful {
 	public String getInfo(
 			@QueryParam("user_id") int userId){
 		/*if(!appService.checkSign(userId, "track/rest/app/getInfo", sign))return "status wrong"; */
-		ReturnUserInfo rui=appService.getSomeoneInfo(userId);
+		ReturnUserInfo rui=followService.getSomeoneInfo(userId);
 		JSONObject obj=JSONObject.fromObject(rui);
 		return obj.toString();
 	}
@@ -270,7 +272,7 @@ public class UserInfoRestful {
 		//if(!appService.checkSign(userId, "track/rest/app/newFollow", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		int followId= Integer.parseInt(tsinfo.getString("followId"));
-		String res=appService.followSomeone(userId,followId);
+		String res=followService.followSomeone(userId,followId);
 		String msgContent="NewFollower";
 		String sfollowId=String.valueOf(followId);
         jpushService.senMessageByAlias(sfollowId, msgContent);
@@ -296,7 +298,7 @@ public class UserInfoRestful {
 		//if(!appService.checkSign(userId, "track/rest/app/deleteFollow", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		int followId= Integer.parseInt(tsinfo.getString("followId"));	
-		String res=appService.unFollowSomeone(userId,followId);
+		String res=followService.unFollowSomeone(userId,followId);
 		return res;
 	}
 	/**
@@ -314,16 +316,16 @@ public class UserInfoRestful {
 			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		/*if(!appService.checkSign(userId, "track/rest/app/homepage", sign))return "status wrong"; */
-		Client client=appService.getClientById(userId);
+		Client client=clientService.getClientById(userId);
 		String phone=client.getPhone();
 		String email=client.getEmail();
 		int followed=0;
 		int following=0;
-		if(appService.getFollowerInformationById(userId)!=null){
-			followed=appService.getFollowerInformationById(userId).size();
+		if(followService.getFollowerInformationById(userId)!=null){
+			followed=followService.getFollowerInformationById(userId).size();
 		}
-		if(appService.getFollowingInformationById(userId)!=null){
-			following=appService.getFollowingInformationById(userId).size();
+		if(followService.getFollowingInformationById(userId)!=null){
+			following=followService.getFollowingInformationById(userId).size();
 		}
 		JSONObject obj=new JSONObject();
 		obj.put("phone", phone);

@@ -12,7 +12,8 @@ import java.util.List;
 import com.aliyun.oss.OSSClient;
 
 import model.Feed;
-import service.AppService;
+
+import service.WebService;
 
 public class FeedAction extends BaseAction{
 
@@ -24,16 +25,13 @@ public class FeedAction extends BaseAction{
 	private String feedId;
 	private int picCount;
 	
-	private AppService appService;
-	
-	public AppService getAppService() {
-		return appService;
-	}
 
-	public void setAppService(AppService appService) {
-		this.appService = appService;
-	}
 	
+	private WebService webService;
+	
+	public void setWebService(WebService webService) {
+		this.webService = webService;
+	}
 	
 	public void setFeedId(String feedId) {
 		this.feedId = feedId;
@@ -46,7 +44,7 @@ public class FeedAction extends BaseAction{
 
 	public String getBestFeed(){
 		Date date=new Date(System.currentTimeMillis());
-		List<Feed> feeds=appService.getTodayFeedList(date);
+		List<Feed> feeds=webService.getTodayFeedList(date);
 		Collections.sort(feeds,new Comparator<Feed>() {
             @Override
             public int compare(Feed f1,Feed f2) {
@@ -85,7 +83,7 @@ public class FeedAction extends BaseAction{
 	}
 
 	public void setBestFeed() throws ParseException, IOException{
-		String res=appService.setBestFeed(feedId);
+		String res=webService.setBestFeed(feedId);
 		response().getWriter().write(res);
 	}
 	
