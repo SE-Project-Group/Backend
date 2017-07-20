@@ -202,13 +202,11 @@ public class UserInfoRestful {
 	 */
 	@GET
 	@Path("getFollowingInformationById")
-
 	@Produces("text/html")
-	public String getFollowingInformationById(@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
-		//if(!appService.checkSign(userId, "track/rest/app/getFollowingInformationById", sign))return "status wrong"; 
-		
-		List<ReturnFollow> list=followService.getFollowingInformationById(userId);
+	public String getFollowingInformationById(
+			@QueryParam("user_id") int userId,
+			@QueryParam("who") int who)throws JSONException{
+		List<ReturnFollow> list=followService.getFollowingInformationById(userId,who);
 		JSONArray ja=JSONArray.fromObject(list);
 		return ja.toString();
 	}
@@ -224,14 +222,11 @@ public class UserInfoRestful {
 	 */
 	@GET
 	@Path("getFollowerInformationById")
-
 	@Produces("text/html")
 	public String getFollowerInformationById(
 			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
-		/*if(!appService.checkSign(userId, "track/rest/app/getFollowerInformationById", sign))return "status wrong"; */
-	
-		List<ReturnFollow> list=followService.getFollowerInformationById(userId);
+			@QueryParam("who") int who)throws JSONException{
+		List<ReturnFollow> list=followService.getFollowerInformationById(userId,who);
 		JSONArray ja=JSONArray.fromObject(list);
 		return ja.toString();
 	}
@@ -246,9 +241,10 @@ public class UserInfoRestful {
 	@Path("getInfo")
 	@Produces("text/html")
 	public String getInfo(
-			@QueryParam("user_id") int userId){
+			@QueryParam("user_id") int userId,
+			@QueryParam("who") int who){
 		/*if(!appService.checkSign(userId, "track/rest/app/getInfo", sign))return "status wrong"; */
-		ReturnUserInfo rui=followService.getSomeoneInfo(userId);
+		ReturnUserInfo rui=followService.getSomeoneInfo(userId,who);
 		JSONObject obj=JSONObject.fromObject(rui);
 		return obj.toString();
 	}
@@ -300,38 +296,5 @@ public class UserInfoRestful {
 		int followId= Integer.parseInt(tsinfo.getString("followId"));	
 		String res=followService.unFollowSomeone(userId,followId);
 		return res;
-	}
-	/**
-	 * ¸öÈËÖ÷Ò³
-	 * @param userId
-	 * @param sign
-	 * @return
-	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException
-	 */
-	@GET
-	@Path("homepage")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String homepage(
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
-		/*if(!appService.checkSign(userId, "track/rest/app/homepage", sign))return "status wrong"; */
-		Client client=clientService.getClientById(userId);
-		String phone=client.getPhone();
-		String email=client.getEmail();
-		int followed=0;
-		int following=0;
-		if(followService.getFollowerInformationById(userId)!=null){
-			followed=followService.getFollowerInformationById(userId).size();
-		}
-		if(followService.getFollowingInformationById(userId)!=null){
-			following=followService.getFollowingInformationById(userId).size();
-		}
-		JSONObject obj=new JSONObject();
-		obj.put("phone", phone);
-		obj.put("email", email);
-		obj.put("following", following);
-		obj.put("followed", followed);
-		return obj.toString();
 	}
 }

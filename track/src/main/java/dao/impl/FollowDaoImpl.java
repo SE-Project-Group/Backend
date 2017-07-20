@@ -95,5 +95,25 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 		return false;
 	}
 
+	@Override
+	public String getRelationship(int userId1, int userId2) {
+		if(userId1==0) return "stranger";
+		if(userId1==userId2) return "";
+		List<Follow> follows1 = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.userId=? and f.followId=?", userId1,userId2);
+		List<Follow> follows2 = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.userId=? and f.followId=?", userId2,userId1);
+		int size1=follows1.size();
+		int size2=follows2.size();
+		if(size1>0&&size2>0){
+			return "friend";
+		}
+		else if(size1>0&&size2==0){
+			return "following";
+		}
+		else if(size1==0&&size2>0){
+			return "follower";
+		}
+		else return "stranger";
+	}
+
 
 }
