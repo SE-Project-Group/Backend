@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.Client;
 
-import service.AppService;
+import service.ClientService;
 
 public class ClientAction extends BaseAction{
 	
@@ -25,7 +25,7 @@ public class ClientAction extends BaseAction{
 	
 	private String email;
 	
-	private AppService appService;
+	private ClientService clientService;
 
 	public int getUserId() {
 		return userId;
@@ -83,37 +83,36 @@ public class ClientAction extends BaseAction{
 		this.email = email;
 	}
 	
-	public void setAppService(AppService appService) {
-		this.appService = appService;
+	public void setClientService(ClientService clientService) {
+		this.clientService = clientService;
 	}
-	
 	public String allClient(){
-		List<Client> clients=appService.getAllClients();
+		List<Client> clients=clientService.getAllClients();
 		request().setAttribute("clients", clients);
 		return SUCCESS;
 	}
 	
 	public String addClient(){
 		Client client=new Client(phone,gender,birthday,userName,password,email);
-		appService.insertClient(client);
+		clientService.insertClient(client);
 		return SUCCESS;
 	}
 	
 	public String updateClient(){
-		Client client=appService.getClientById(userId);
+		Client client=clientService.getClientById(userId);
 		client.setBirthday(birthday);
 		client.setEmail(email);
 		client.setGender(gender);
 		client.setPassword(password);
 		client.setPhone(phone);
 		client.setUserName(userName);
-		appService.updateClient(client);
+		clientService.updateClient(client);
 		return SUCCESS;
 	}
 	
 	public String deleteClient(){
-		Client client=appService.getClientById(userId);
-		appService.deleteClient(client);
+		Client client=clientService.getClientById(userId);
+	    clientService.deleteClient(client);
 		return SUCCESS;
 	}
 }

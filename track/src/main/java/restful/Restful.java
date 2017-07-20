@@ -15,14 +15,14 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jettison.json.JSONException;
 
 
-import service.AppService;
+
 import util.SpringContextUtil;
 
 
 
 @Path("/app")
 public class Restful {
-	private AppService appService=(AppService) SpringContextUtil.getBean("appService");
+	
 	//private JPushService jpushService=(JPushService) SpringContextUtil.getBean("jpushService");
 	
 }
