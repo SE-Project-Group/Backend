@@ -50,19 +50,19 @@ public interface FeedService {
 	 * @param radius
 	 * @return
 	 */
-	public List<ReturnFeed>findFeedAround(double longitude,double latitude,double radius);
+	public List<ReturnFeed>findFeedAround(double longitude,double latitude,double radius,int userId);
 	/**
 	 * 找出time之后的所有的public的feed
 	 * @param time
 	 * @return
 	 */
-	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time);
+	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time,int userId);
 	/**
 	 * 找出time之前的所有的public的feed
 	 * @param time
 	 * @return
 	 */
-	public List<ReturnFeed> findPublicFeedsBeforeTime(Timestamp time);
+	public List<ReturnFeed> findPublicFeedsBeforeTime(Timestamp time,int userId);
 	
 	/**
 	 * 登录状态下获取动态
@@ -120,5 +120,5 @@ public interface FeedService {
 	 * transfer
 	 * 
 	 */
-	public List<ReturnFeed> feedToReturnFeed(List<Feed> feeds);
+	public List<ReturnFeed> feedToReturnFeed(List<Feed> feeds,int userid);
 }

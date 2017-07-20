@@ -80,27 +80,27 @@ private ClientDao clientDao;
 	}
 
 	@Override
-	public List<ReturnFeed> findFeedAround(double longitude, double latitude, double radius) {
+	public List<ReturnFeed> findFeedAround(double longitude, double latitude, double radius,int userId) {
 		// TODO Auto-generated method stub
 		Point point = new Point(longitude,latitude);   
         Distance distance = new Distance(radius,Metrics.KILOMETERS);  
         Circle circle = new Circle(point,distance);   
         List<Feed>feeds= feedRepository.findFeedsAround(circle);
-        return feedToReturnFeed(feeds);
+        return feedToReturnFeed(feeds,userId);
 	}
 
 	@Override
-	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time) {
+	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time,int userId) {
 		// TODO Auto-generated method stub
 		List<Feed>feeds= feedRepository.findPublicFeedsAfterTime(time);
-		return feedToReturnFeed(feeds);
+		return feedToReturnFeed(feeds,userId);
 	}
 
 	@Override
-	public List<ReturnFeed> findPublicFeedsBeforeTime(Timestamp time) {
+	public List<ReturnFeed> findPublicFeedsBeforeTime(Timestamp time,int userId) {
 		// TODO Auto-generated method stub
 		List<Feed>feeds= feedRepository.findPublicFeedsBeforeTime(time);
-		return feedToReturnFeed(feeds);
+		return feedToReturnFeed(feeds,userId);
 	}
 
 	@Override
@@ -231,12 +231,20 @@ List<Follow> follows=followDao.getFriendById(userid);
 	}
 
 	@Override
-	public List<ReturnFeed> feedToReturnFeed(List<Feed> feeds) {
+	public List<ReturnFeed> feedToReturnFeed(List<Feed> feeds,int userid) {
 		// TODO Auto-generated method stub
 		List<ReturnFeed>res=new ArrayList<ReturnFeed>();
         SignedUrlFactory factory = new SignedUrlFactory();
 		for(int i=0;i<feeds.size();i++){
 			Feed curFeed=feeds.get(i);
+			List<Like> likelist=new ArrayList<Like>();
+			likelist=curFeed.getLikeList();
+			boolean liked=false;
+			int size=likelist.size();
+			for(int j=0;j<size;j++){
+				if(likelist.get(j).getUserId()==userid)
+					liked=true;
+			}
 			ReturnFeed returnFeed=new ReturnFeed();
 			Client client=clientDao.getClientById(curFeed.getUserId());
 			returnFeed.setFeed_id(curFeed.get_id());
@@ -245,6 +253,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 			returnFeed.setOwner_name(client.getUserName());
 			returnFeed.setText(curFeed.getText());
 			returnFeed.setDate(curFeed.getTime());
+			returnFeed.setLiked(liked);
 			returnFeed.setLike_cnt(curFeed.getLikeCount());
 			returnFeed.setShare_cnt(curFeed.getShareCount());
 			returnFeed.setComment_cnt(curFeed.getCommentCount());;
