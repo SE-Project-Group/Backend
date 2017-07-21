@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 -- 表的结构 `administrator`
 --
 
+DROP TABLE IF EXISTS `administrator`;
 CREATE TABLE IF NOT EXISTS `administrator` (
   `adminId` int(11) NOT NULL AUTO_INCREMENT,
   `adminName` char(20) DEFAULT NULL,
@@ -47,6 +48,7 @@ INSERT INTO `administrator` (`adminId`, `adminName`, `password`) VALUES
 -- 表的结构 `bestfeed`
 --
 
+DROP TABLE IF EXISTS `bestfeed`;
 CREATE TABLE IF NOT EXISTS `bestfeed` (
   `feedId` varchar(30) NOT NULL DEFAULT '',
   `date` date NOT NULL DEFAULT '0000-00-00',
@@ -66,7 +68,7 @@ INSERT INTO `bestfeed` (`feedId`, `date`) VALUES
 --
 -- 表的结构 `client`
 --
-
+DROP TABLE IF EXISTS `client`;
 CREATE TABLE IF NOT EXISTS `client` (
   `userId` int(11) NOT NULL AUTO_INCREMENT,
   `phone` char(20) DEFAULT NULL,
@@ -92,7 +94,7 @@ INSERT INTO `client` (`userId`, `phone`, `gender`, `birthday`, `userName`, `pass
 --
 -- 表的结构 `follow`
 --
-
+DROP TABLE IF EXISTS `follow`;
 CREATE TABLE IF NOT EXISTS `follow` (
   `userId` int(11) NOT NULL,
   `followId` int(11) NOT NULL DEFAULT '0',
@@ -111,3 +113,13 @@ INSERT INTO `follow` (`userId`, `followId`, `isFriend`) VALUES
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+DROP TABLE IF EXISTS `clientextrainfo`;
+CREATE TABLE IF NOT EXISTS `clientextrainfo` (
+  `userId` int(11) NOT NULL,
+   `career` char(20) DEFAULT NULL,
+   `education` char(20) DEFAULT NULL,
+   `hobbyone` char(20) DEFAULT NULL,
+   `hobbytwo` char(20) DEFAULT NULL,
+   `hobbythree` char(20) DEFAULT NULL,
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
