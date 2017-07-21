@@ -68,7 +68,7 @@ public class FeedRestful {
 		extra.put("_id", feed.get_id());
 			jpushService.senPushByAlias(smention,"Your friend mentions you!",feed.getText(),extra);	 
 		 String res= "success";
-		 return res;
+		 return feed.get_id();
      }
 	/**
 	 * ¸üÐÂ¶¯Ì¬
