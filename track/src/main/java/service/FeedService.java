@@ -3,7 +3,9 @@ package service;
 import java.sql.Timestamp;
 import java.util.List;
 
+import model.Comment;
 import model.Feed;
+import model.ReturnComment;
 import model.ReturnFeed;
 
 public interface FeedService {
@@ -113,6 +115,13 @@ public interface FeedService {
 	 */
 	 
 	public int incLikeFeed(String _id,int userId);
+	
+	/**
+	 * 取消赞
+	 * @param _id
+	 * @param userId
+	 */
+	public void decLikeFeed(String _id,int userId);
 	/*comment*/
 	/**
 	 * 为id为_id的feed加入评论，内容为text，评论人为userid，自动生成评论id，记录评论时间以及回复的谁
@@ -123,6 +132,12 @@ public interface FeedService {
 	 * @return 被评论人的userId
 	 */
 	public int newComment(String _id,int userId,String text,int replyId);
+	/**
+	 * 查找指定动态的评论列表
+	 * @param feedId
+	 * @return
+	 */
+	public List<Comment> findCommentList(String feedId);
 	
 	/**
 	 * 
@@ -130,4 +145,5 @@ public interface FeedService {
 	 * 
 	 */
 	public List<ReturnFeed> feedToReturnFeed(List<Feed> feeds,int userid);
+	public List<ReturnComment> commentToReturnComment(List<Comment> comments);
 }

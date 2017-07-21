@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import org.codehaus.jettison.json.JSONException;
 
 import model.Client;
+import model.ReturnClient;
 import model.ReturnFollow;
 import model.ReturnUserInfo;
 import model.Token;
@@ -114,16 +115,11 @@ public class UserInfoRestful {
 	@Path("/queryPersonalInfo")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String queryPersonalInfo(
-			@QueryParam("who") int userId) throws ClassNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException
+			@QueryParam("user_id") int userId) throws ClassNotFoundException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-	
 		Client client=clientService.getClientById(userId);
-		if(client==null)return null;
-		String shortFormat = "yyyy-MM-dd";  
-		Map<String, JsonValueProcessor> processors = new HashMap<String, JsonValueProcessor>();  
-		processors.put("java.sql.Date", new SQLDateProcessor(shortFormat)); 
-		JSONObject json = JSONUtil.toJson(client,processors);
-		return json.toString();
+		ReturnClient returnClient=clientService.clientToReturnClient(client);
+		return JSONObject.fromObject(returnClient).toString();
 	}
 	/**
 	 * 修改用户个人信息
@@ -144,21 +140,14 @@ public class UserInfoRestful {
 			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign) throws JSONException, ParseException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
-		if(sign==null)return null;
 		JSONObject obj=JSONObject.fromObject(message);
-		Client client=clientService.getClientByUserName(obj.getString("user_name"));
-		if(client==null){
-			return "username error!";
-		}
-		else { 
-			client.setBirthday(java.sql.Date.valueOf(obj.getString("birthday")));
-			client.setEmail(obj.getString("email"));
-			client.setGender(obj.getString("gender"));
-			client.setPassword(obj.getString("password"));
-			client.setPhone(obj.getString("phone"));
-			clientService.updateClient(client);
-			return "success";
-		}
+		Client client=clientService.getClientById(userId);
+		client.setUserName(obj.getString("user_name"));
+		client.setBirthday(java.sql.Date.valueOf(obj.getString("birthday")));
+		client.setEmail(obj.getString("email"));
+		client.setGender(obj.getString("gender"));
+		clientService.updateClient(client);
+		return "success";
 	}
 
 	/**
@@ -201,9 +190,9 @@ public class UserInfoRestful {
 	 * @throws ClassNotFoundException
 	 */
 	@GET
-	@Path("getFollowingInformationById")
+	@Path("getFollowing")
 	@Produces("text/html")
-	public String getFollowingInformationById(
+	public String getFollowing(
 			@QueryParam("user_id") int userId,
 			@QueryParam("who") int who)throws JSONException{
 		List<ReturnFollow> list=followService.getFollowingInformationById(userId,who);
@@ -221,9 +210,9 @@ public class UserInfoRestful {
 	 * @throws ClassNotFoundException
 	 */
 	@GET
-	@Path("getFollowerInformationById")
+	@Path("getFollower")
 	@Produces("text/html")
-	public String getFollowerInformationById(
+	public String getFollower(
 			@QueryParam("user_id") int userId,
 			@QueryParam("who") int who)throws JSONException{
 		List<ReturnFollow> list=followService.getFollowerInformationById(userId,who);
@@ -238,12 +227,11 @@ public class UserInfoRestful {
 	 * @return
 	 */
 	@GET
-	@Path("getInfo")
+	@Path("getHomeInfo")
 	@Produces("text/html")
-	public String getInfo(
+	public String getHomeInfo(
 			@QueryParam("user_id") int userId,
 			@QueryParam("who") int who){
-		/*if(!appService.checkSign(userId, "track/rest/app/getInfo", sign))return "status wrong"; */
 		ReturnUserInfo rui=followService.getSomeoneInfo(userId,who);
 		JSONObject obj=JSONObject.fromObject(rui);
 		return obj.toString();
@@ -291,7 +279,6 @@ public class UserInfoRestful {
 	public String deleteFollow(String tstring,
 			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/deleteFollow", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		int followId= Integer.parseInt(tsinfo.getString("followId"));	
 		String res=followService.unFollowSomeone(userId,followId);

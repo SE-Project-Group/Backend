@@ -63,10 +63,11 @@ public class TokenFilter implements Filter{
 		uris.add("/track/rest/app/user/clientSignup");
 		uris.add("/track/rest/app/feed/feedAround");
 		uris.add("/track/rest/app/feed/getPublicFeedAfterTime");
-		uris.add("/track/rest/app/user/getInfo");
-		uris.add("/track/rest/app/user/getFollowingInformationById");
-		uris.add("/track/rest/app/user/getFollowerInformationById");
-
+		uris.add("/track/rest/app/user/getHomeInfo");
+		uris.add("/track/rest/app/user/getFollowing");
+		uris.add("/track/rest/app/user/getFollower");
+		uris.add("/track/rest/app/user/queryPersonalInfo");
+		uris.add("/track/rest/app/feed/commentList");
 		/*uris.add("/track/rest/app/incLikeFeed");*/
 
 		uris.add("/track/rest/app/feed/getFeedsNotLoggedIn");
