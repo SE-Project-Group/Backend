@@ -63,7 +63,10 @@ public void update(Feed feed);
  * 取出circle内动态
  */
 public List<Feed> findFeedsAround(Circle circle);
-
+/*
+ * 取出同一用户circle内动态
+ */
+public List<Feed> findFeedsAroundSpecUser(Circle circle,int userId);
 /*
  * 返回time之后的分享范围为public的20条feed
  */

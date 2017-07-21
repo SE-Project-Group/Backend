@@ -18,6 +18,7 @@ public class ReturnFeed implements Serializable {
     private String owner_name;
     private String text;
     private String date;
+    private boolean liked;
     private int like_cnt;
     private int share_cnt;
     private int comment_cnt;
@@ -76,6 +77,13 @@ public class ReturnFeed implements Serializable {
         this.date = date;
     }
 
+    public boolean getLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
     public int getLike_cnt() {
         return like_cnt;
     }

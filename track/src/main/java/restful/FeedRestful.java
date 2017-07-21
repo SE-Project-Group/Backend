@@ -131,7 +131,7 @@ public class FeedRestful {
 			@QueryParam("sign") String sign )throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
 		 List<Feed> feeds=feedService.findFeedByUserId(userId);
-		 List<ReturnFeed> res=feedService.feedToReturnFeed(feeds);
+		 List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
 		 return JSONArray.fromObject(res).toString();
 	}
 	/**
@@ -150,7 +150,7 @@ public class FeedRestful {
 			@QueryParam("who") int who)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
 		 List<Feed> feeds=feedService.findPublicFeedsById(who);
-		 List<ReturnFeed>res=feedService.feedToReturnFeed(feeds);
+		 List<ReturnFeed>res=feedService.feedToReturnFeed(feeds,0);
 		 return JSONArray.fromObject(res).toString();
 	}	
 	/**
@@ -172,7 +172,7 @@ public class FeedRestful {
 			@QueryParam("who") int who)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
 		List<Feed> feeds=feedService.getFeedsLoggedIn(userId,who);
-		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds);
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
 		return JSONArray.fromObject(res).toString();	 
 	}	
 	/**
@@ -195,7 +195,7 @@ public class FeedRestful {
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
-		List<ReturnFeed> list=feedService.findPublicFeedsAfterTime(ts);
+		List<ReturnFeed> list=feedService.findPublicFeedsAfterTime(ts,userId);
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
@@ -218,7 +218,7 @@ public class FeedRestful {
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
-		List<ReturnFeed> list=feedService.findPublicFeedsBeforeTime(ts);
+		List<ReturnFeed> list=feedService.findPublicFeedsBeforeTime(ts,userId);
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
@@ -239,7 +239,18 @@ public class FeedRestful {
 			@QueryParam("latitude") double latitude,
 			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
-		List<ReturnFeed>feeds=feedService.findFeedAround(longitude, latitude, 10);
+		List<ReturnFeed>feeds=feedService.findFeedAround(longitude, latitude, 10,userId);
+		return JSONArray.fromObject(feeds).toString();
+	}
+	@GET
+	@Path("/compareFeedSameLocation")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String compareFeedSameLocation(
+			@QueryParam("longitude") double longitude,
+			@QueryParam("latitude") double latitude,
+			@QueryParam("user_id") int userId,
+			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+		List<ReturnFeed>feeds=feedService.findFeedAroundSpecUser(longitude, latitude, 10,userId);
 		return JSONArray.fromObject(feeds).toString();
 	}
 	/**
@@ -327,7 +338,7 @@ public class FeedRestful {
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
 		List<Feed> feeds=feedService.getFriendFeedList(ts,userId);
-		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds);
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
 		return JSONArray.fromObject(res).toString();
 	}
 	/**
@@ -352,7 +363,7 @@ public class FeedRestful {
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
 		List<Feed> feeds=feedService.getAllFeedList(ts);
-		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds);
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
 		return JSONArray.fromObject(res).toString();
 	}
     /**
@@ -377,7 +388,7 @@ public class FeedRestful {
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);
 		List<Feed> feeds=feedService.getFollowingFeedList(ts,userId);
-		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds);
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
 		return JSONArray.fromObject(res).toString();
 	}
 }
