@@ -23,7 +23,9 @@ import org.codehaus.jettison.json.JSONException;
 
 import com.google.gson.Gson;
 
+import model.Comment;
 import model.Feed;
+import model.ReturnComment;
 import model.ReturnFeed;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -67,7 +69,6 @@ public class FeedRestful {
 		Map<String,String>extra=new HashMap<String,String>();
 		extra.put("_id", feed.get_id());
 			jpushService.senPushByAlias(smention,"Your friend mentions you!",feed.getText(),extra);	 
-		 String res= "success";
 		 return feed.get_id();
      }
 	/**
@@ -267,25 +268,36 @@ public class FeedRestful {
      @Path("/incLikeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String incLikeFeed(String feedInfo,
-			 @QueryParam("user_id") int userId,
-			 @QueryParam("sign") String sign) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+	 public String incLikeFeed(String feedInfo){
 		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 int user_id=newfeed.getInt("user_id");
 		 String owner=String.valueOf(feedService.incLikeFeed(_id,user_id));
 		 String msgContent="NewLike";
-		/* long s = System.currentTimeMillis();
-	     List<String>name=new ArrayList<String>();
-	     long e = System.currentTimeMillis(); 
-	     for(int i=0;i<100000;i++)
-	     {name.add("zhao");}
-	     long start = System.currentTimeMillis();*/
-		// Map<String,String>uri=new HashMap<String,String>();
-		// uri.put("uri", "http://test");
-         jpushService.senMessageByAlias(owner,msgContent);
-        /* long end = System.currentTimeMillis();       // 记录结束时间
-         System.out.println(end-start); */      
+         jpushService.senMessageByAlias(owner,msgContent);    
+		 return "success";
+     }
+	 
+	 /**
+	  * 取消赞
+	  * @param feedInfo
+	  * @param userId
+	  * @param sign
+	  * @return
+	  * @throws JSONException
+	  * @throws NoSuchAlgorithmException
+	  * @throws UnsupportedEncodingException
+	  */
+	 
+	 @PUT
+     @Path("/decLikeFeed")
+	 @Consumes(MediaType.APPLICATION_JSON)
+	 @Produces("text/html")
+	 public String decLikeFeed(String feedInfo){
+		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
+		 String _id= newfeed.getString("_id");
+		 int user_id=newfeed.getInt("user_id");
+		 feedService.decLikeFeed(_id,user_id);  
 		 return "success";
      }
 	/**
@@ -317,6 +329,22 @@ public class FeedRestful {
 			 return "success";
 	}
 	/**
+	 * 获取某动态的评论列表
+	 * @param feedId
+	 * @return
+	 * @throws JSONException
+	 */
+	
+	@GET
+	@Path("/commentList")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String commentList(
+			 @QueryParam("feed_id") String feedId)throws JSONException{
+		List<Comment>comments=feedService.findCommentList(feedId);
+		List<ReturnComment>res=feedService.commentToReturnComment(comments);
+		return JSONArray.fromObject(res).toString();
+	}
+	/**
 	 * 获取好友的动态列表
 	 * @param tstring
 	 * @param userId
@@ -328,7 +356,6 @@ public class FeedRestful {
 	 */
 	@GET
 	@Path("getFriendFeedList")
-	 @Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
 	public String getFriendFeedList(
 			@QueryParam("time") String time,
@@ -353,7 +380,6 @@ public class FeedRestful {
 	 */
 	@GET
 	@Path("getAllFeedList")
-	 @Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
 	public String getAllFeedList(
 			@QueryParam("user_id") int userId,
@@ -378,7 +404,6 @@ public class FeedRestful {
      */
 	@GET
 	@Path("getFollowingFeedList")
-	 @Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
 	public String getFollowingFeedList(
 			@QueryParam("user_id") int userId,

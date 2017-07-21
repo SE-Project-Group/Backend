@@ -17,6 +17,7 @@ import model.Comment;
 import model.Feed;
 import model.Follow;
 import model.Like;
+import model.ReturnComment;
 import model.ReturnFeed;
 import model.SignedUrlFactory;
 import service.FeedService;
@@ -220,6 +221,22 @@ List<Follow> follows=followDao.getFriendById(userid);
 		int userid=feed.getUserId();
 		return userid;
 	}
+	
+	@Override
+	public void decLikeFeed(String _id, int userId) {
+		Feed feed=feedRepository.findOne(_id);
+		int likeCount=feed.getLikeCount()-1;
+		feed.setLikeCount(likeCount);
+		List<Like> likelist=feed.getLikeList();
+		for(Like like:likelist){
+			if(like.getUserId()==userId){
+				likelist.remove(like);
+				break;
+			}
+		}
+		feed.setLikeList(likelist);
+		feedRepository.update(feed);
+	}
 
 	@Override
 	public int newComment(String _id, int userId, String text, int replyId) {
@@ -235,6 +252,12 @@ List<Follow> follows=followDao.getFriendById(userid);
 		feedRepository.update(feed);
 		int feeduserid=feed.getUserId();
 		return feeduserid;
+	}
+	
+	@Override
+	public List<Comment> findCommentList(String feedId) {
+		Feed feed=feedRepository.findOne(feedId);
+		return feed.getCommentList();
 	}
 
 	@Override
@@ -274,4 +297,24 @@ List<Follow> follows=followDao.getFriendById(userid);
 		 return res;
 	}
 
+	
+
+	@Override
+	public List<ReturnComment> commentToReturnComment(List<Comment> comments) {
+		SignedUrlFactory signedUrlFactory=new SignedUrlFactory();
+		List<ReturnComment> res=new ArrayList<ReturnComment>();
+		for(Comment comment:comments){
+			int user_id=comment.getUserId();
+			String portrait_url=signedUrlFactory.getPortraitUrl(user_id);
+			String user_name=clientDao.getClientById(user_id).getUserName();
+			String comment_text=comment.getText();
+			int reply_id=comment.getReplyId();
+			String time=comment.getTime();
+			ReturnComment returnComment=new ReturnComment(portrait_url,user_id,user_name,comment_text,reply_id,time);
+			res.add(returnComment);
+		}
+		return res;
+	}
+
+	
 }

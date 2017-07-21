@@ -1,11 +1,14 @@
 package service.impl;
 
 
+import java.sql.Date;
 import java.util.List;
 
 import dao.ClientDao;
 import dao.TokenDao;
 import model.Client;
+import model.ReturnClient;
+import model.SignedUrlFactory;
 import model.Token;
 import service.ClientService;
 
@@ -96,6 +99,18 @@ private ClientDao clientDao;
 	public void logout(int userId) {
 		// TODO Auto-generated method stub
 		tokenDao.deleteToken(userId);
+	}
+	
+	@Override
+	public ReturnClient clientToReturnClient(Client client){
+		String user_name=client.getUserName();
+		String birthday=client.getBirthday().toString();
+		String gender=client.getGender();
+		String email=client.getEmail();
+		SignedUrlFactory signedUrlFactory=new SignedUrlFactory();
+		String portrait_url=signedUrlFactory.getPortraitUrl(client.getUserId());
+		ReturnClient returnClient=new ReturnClient(user_name,gender,birthday,email,portrait_url);
+		return returnClient;
 	}
 
 }

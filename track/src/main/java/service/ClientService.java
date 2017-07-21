@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 
 import model.Client;
+import model.ReturnClient;
 import model.Token;
 
 public interface ClientService {
@@ -71,4 +72,11 @@ public interface ClientService {
 	 * @param userId
 	 */
 	public void logout(int userId);
+	
+	/**
+	 * clientתReturnClient
+	 * @param client
+	 * @return
+	 */
+	public ReturnClient clientToReturnClient(Client client);
 }
