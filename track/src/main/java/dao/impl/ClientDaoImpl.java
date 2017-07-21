@@ -67,6 +67,7 @@ public class ClientDaoImpl extends HibernateDaoSupport implements ClientDao{
 	@Override
 	public Client getClientByUserName(String userName) {
 		String hql="from Client as c where c.userName=?";
+		@SuppressWarnings("unchecked")
 		List<Client> clients=(List<Client>)getHibernateTemplate().find(hql,new String[]{userName});
 		Client client = clients.size() > 0 ? clients.get(0) : null;
 		return client;

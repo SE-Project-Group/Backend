@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="model.ClientExtraInfo" table="clientextrainfo">
+		<id name="userId" type="int">
+			<column name="userId" />
+			<generator class="assigned" />
+		</id>
+		<property name="career" type="java.lang.String">
+			<column name="career" />
+		</property>
+		<property name="education" type="java.lang.String">
+			<column name="education" />
+		</property>
+		<property name="hobbyone" type="java.lang.String">
+			<column name="hobbyone" />
+		</property>
+		<property name="hobbytwo" type="java.lang.String">
+			<column name="hobbytwo" />
+		</property>
+		<property name="hobbythree" type="java.lang.String">
+			<column name="hobbythree" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -56,6 +56,7 @@
 				<value>model/Client.hbm.xml</value>
 				<value>model/Follow.hbm.xml</value>
 				<value>model/BestFeed.hbm.xml</value>
+				<value>model/ClientExtraInfo.hbm.xml</value>		
 			</list>
 		</property>
 		<!-- Hibernate SessionFactory -->

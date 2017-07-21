@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.aliyun.oss.OSSClient;
-import com.aliyun.oss.model.GeneratePresignedUrlRequest;
 
 public class SignedUrlFactory {
 	private final static String accessKeyId = "LTAIdLRXuEkhtIYE";

@@ -12,7 +12,11 @@ import java.util.List;
  */
 
 public class ReturnFeed implements Serializable {
-    private String feed_id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6632301979080420874L;
+	private String feed_id;
     private int owner_id;
     private String portrait_url;
     private String owner_name;

@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import dao.FollowDao;
-import model.Client;
 import model.Follow;
 
 
@@ -73,6 +72,7 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 	
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> getFollowerIdById(int id) {
 		// TODO Auto-generated method stub
@@ -86,6 +86,7 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 		return res;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean isFriend(int userId, int friendId) {
 		List<Follow> follows = (List<Follow>) getHibernateTemplate().find("from Follow as f where f.userId=? and f.followId=? and f.isFriend=?", userId,friendId,1);
@@ -95,6 +96,7 @@ public class FollowDaoImpl extends HibernateDaoSupport implements FollowDao{
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public String getRelationship(int userId1, int userId2) {
 		if(userId1==0) return "stranger";
