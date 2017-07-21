@@ -27,6 +27,7 @@ public class ReturnFeed implements Serializable {
     private double longitude;
     private List<String> picUrls;
 
+
     public String getFeed_id() {
         return feed_id;
     }
@@ -138,4 +139,5 @@ public class ReturnFeed implements Serializable {
     public void setPicUrls(List<String> picUrls) {
         this.picUrls = picUrls;
     }
+
 }

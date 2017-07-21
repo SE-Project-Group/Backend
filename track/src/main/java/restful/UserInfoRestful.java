@@ -201,9 +201,9 @@ public class UserInfoRestful {
 	 * @throws ClassNotFoundException
 	 */
 	@GET
-	@Path("getFollowingInformationById")
+	@Path("getFollowing")
 	@Produces("text/html")
-	public String getFollowingInformationById(
+	public String getFollowing(
 			@QueryParam("user_id") int userId,
 			@QueryParam("who") int who)throws JSONException{
 		List<ReturnFollow> list=followService.getFollowingInformationById(userId,who);
@@ -221,9 +221,9 @@ public class UserInfoRestful {
 	 * @throws ClassNotFoundException
 	 */
 	@GET
-	@Path("getFollowerInformationById")
+	@Path("getFollower")
 	@Produces("text/html")
-	public String getFollowerInformationById(
+	public String getFollower(
 			@QueryParam("user_id") int userId,
 			@QueryParam("who") int who)throws JSONException{
 		List<ReturnFollow> list=followService.getFollowerInformationById(userId,who);
@@ -291,7 +291,6 @@ public class UserInfoRestful {
 	public String deleteFollow(String tstring,
 			@QueryParam("user_id") int userId,
 			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/deleteFollow", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		int followId= Integer.parseInt(tsinfo.getString("followId"));	
 		String res=followService.unFollowSomeone(userId,followId);
