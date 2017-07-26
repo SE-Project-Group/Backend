@@ -59,9 +59,9 @@ public class ClientDaoImpl extends HibernateDaoSupport implements ClientDao{
 		@SuppressWarnings("unchecked")
 		List<Client> clientsPhone=(List<Client>)getHibernateTemplate().find(hqlPhone,phone);
 		if(clientsUsername.size()==0&&clientsPhone.size()==0)return 0;
-		else if(clientsUsername.size()==0&&clientsPhone.size()>0)return 1;
-		else if(clientsUsername.size()>0&&clientsPhone.size()>0)return 3;
-		else return 2;
+		else if(clientsUsername.size()==0&&clientsPhone.size()>0)return -1;
+		else if(clientsUsername.size()>0&&clientsPhone.size()>0)return -3;
+		else return -2;
 	}
 
 	@Override

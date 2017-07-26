@@ -95,10 +95,10 @@ public class UserInfoRestful {
 	@Produces("text/html")
 	public String clientSignup(String message) throws JSONException{
 		JSONObject obj = JSONObject.fromObject(message);
-		int flag=clientService.signup((String)obj.get("user_name"),(String)obj.get("password"),(String)obj.get("phone"));
-		if(flag==0)return "success";
-		else if(flag==1)return "existing phone";
-		else if(flag==2)return "existing user name";
+		int userId=clientService.signup((String)obj.get("user_name"),(String)obj.get("password"),(String)obj.get("phone"));
+		if(userId>0)return String.valueOf(userId);
+		else if(userId==-1)return "existing phone";
+		else if(userId==-2)return "existing user name";
 		else return "existing phone and user name";
 	}
 	

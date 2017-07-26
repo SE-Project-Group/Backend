@@ -85,6 +85,7 @@ private ClientDao clientDao;
 			client.setPassword(password);
 			client.setPhone(phone);
 			clientDao.insert(client);
+			flag=clientDao.getClientByUserName(clientName).getUserId();
 		}
 		return flag;
 	}
