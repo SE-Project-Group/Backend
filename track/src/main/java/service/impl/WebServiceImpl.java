@@ -3,6 +3,7 @@ package service.impl;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -51,14 +52,24 @@ private ManagerDao managerDao;
 	@Override
 	public List<Feed> getTodayFeedList(Date date) {
 		// TODO Auto-generated method stub
-         List<Feed>feeds= feedRepository.getTodayFeedList(date);
+        List<Feed>feeds= feedRepository.getTodayFeedList(date);
 		
+		return feeds;
+	}
+	
+	@Override
+	public List<Feed> getTodayBestFeedList(Date date) {
+		List<BestFeed> bestFeeds = bestFeedDao.getAllByDate(date);
+		List<Feed> feeds=new ArrayList<Feed>();
+		for(BestFeed bf:bestFeeds){
+			Feed feed=feedRepository.findOne(bf.getFeedId());
+			feeds.add(feed);
+		}
 		return feeds;
 	}
 
 	@Override
 	public String setBestFeed(String feedId) throws ParseException {
-		// TODO Auto-generated method stub
 		Calendar calendar = Calendar.getInstance();
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
 		String dateString = df.format(calendar.getTime());
@@ -77,5 +88,14 @@ private ManagerDao managerDao;
         bestFeedDao.insert(bestFeed);
         return "Set successfully!";
 	}
+
+	@Override
+	public String unsetBestFeed(String feedId) throws ParseException {
+		BestFeed bestFeed=bestFeedDao.getBestFeedById(feedId);
+		bestFeedDao.delete(bestFeed);
+		return "Unset successfully!";
+	}
+
+	
 
 }

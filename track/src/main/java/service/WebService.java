@@ -27,6 +27,12 @@ public  interface WebService {
 	 * @return
 	 */
 	public List<Feed> getTodayFeedList(Date date);
+	/**
+	 * 找出日期为date的所有最佳分享
+	 * @param date
+	 * @return
+	 */
+	public List<Feed> getTodayBestFeedList(Date date);
 	/*
 	 * best feed
 	 * 
@@ -38,4 +44,11 @@ public  interface WebService {
 	 * @throws ParseException
 	 */
 	public String setBestFeed(String feedId) throws ParseException;
+	/**
+	 * 取消最佳分享
+	 * @param feedId
+	 * @return
+	 * @throws ParseException
+	 */
+	public String unsetBestFeed(String feedId) throws ParseException;
 }

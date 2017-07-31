@@ -11,6 +11,14 @@ import model.BestFeed;
 public class BestFeedDaoImpl extends HibernateDaoSupport implements BestFeedDao{
 
 	@Override
+	public BestFeed getBestFeedById(String feedId) {
+		@SuppressWarnings("unchecked")
+		List<BestFeed> bestFeeds = (List<BestFeed>) getHibernateTemplate().find("from BestFeed as bf where bf.feedId=?", feedId);
+		BestFeed bestFeed = bestFeeds.size() > 0 ? bestFeeds.get(0) : null;
+		return bestFeed;
+	}
+	
+	@Override
 	public void insert(BestFeed bestFeed) {
 		getHibernateTemplate().save(bestFeed);
 	}
@@ -26,5 +34,7 @@ public class BestFeedDaoImpl extends HibernateDaoSupport implements BestFeedDao{
 		List<BestFeed> bestFeeds = (List<BestFeed>) getHibernateTemplate().find("from BestFeed as bf where bf.date=?", date);
 		return bestFeeds;
 	}
+
+	
 
 }

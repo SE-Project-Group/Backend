@@ -32,12 +32,17 @@
 		</action>
 		
 		<!-- bestFeed -->
-		<action name="bestFeed" class="action.FeedAction" method="getBestFeed">
+		<action name="getTodayFeed" class="action.FeedAction" method="getTodayFeed">
 			<result name="success">/track/jsp/bestFeed.jsp</result>
+		</action>
+		<action name="getBestFeed" class="action.FeedAction" method="getBestFeed">
+			<result name="success">/track/jsp/modifyBestFeed.jsp</result>
 		</action>
 		<action name="getPicture" class="action.FeedAction" method="getURL">
 		</action>
 		<action name="setBestFeed" class="action.FeedAction" method="setBestFeed">
+		</action>
+		<action name="unsetBestFeed" class="action.FeedAction" method="unsetBestFeed">
 		</action>
 		
 		<!-- Logout -->

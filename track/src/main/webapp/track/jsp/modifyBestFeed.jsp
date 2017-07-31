@@ -38,8 +38,8 @@
 			<div class="sidebar-nav navbar-collapse">
 				<ul class="nav" id="side-menu">
 					<li><a href="allClient"><i class="fa fa-user fa-fw"></i> Client Management</a></li>
-					<li><a href="getTodayFeed" class="active"><i class="fa fa-table fa-fw"></i> Best Feeds</a></li>
-					<li><a href="inputDate.jsp"><i class="fa fa-table fa-fw"></i> Modify Best Feeds</a></li>
+					<li><a href="getTodayFeed"><i class="fa fa-table fa-fw"></i> Best Feeds</a></li>
+					<li><a href="inputDate.jsp" class="active"><i class="fa fa-table fa-fw"></i> Modify Best Feeds</a></li>
 					<li><a href="managerLogout">&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogout</a></li>	
 				</ul>
 			</div>
@@ -51,12 +51,8 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Best Feed</h1>
+					<h1 class="page-header">Modify Best Feed</h1>
 				</div>
-			</div>
-			<div>
-			<a href="https://www.jiguang.cn/"  target="_blank">
-			Click here to send push to your user!!!</a>
 			</div>
 			<!-- /.row -->
 			<div class="row">
@@ -90,8 +86,8 @@
 													data-feedid="<%=feed.get_id()%>",
 													data-count="<%=feed.getPicCount()%>">show picture
 												</button>
-												<button class="btn btn-default setBest" type="button"
-													data-feedid="<%=feed.get_id()%>">set best feed
+												<button class="btn btn-default unset" type="button"
+													data-feedid="<%=feed.get_id()%>">unset
 												</button>
 											</td>
 										</tr>
@@ -113,7 +109,7 @@
 		<!-- /#page-wrapper -->
 	</div>
 	<!-- /#wrapper -->
-
+	
 	<div class="modal fade" id="modal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -143,14 +139,14 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<script src="<%=path%>/track/js/jquery.min.js"></script>
 	<script src="<%=path%>/track/js/bootstrap.min.js"></script>
 	<script src="<%=path%>/track/js/jquery.dataTables.min.js"></script>
 	<script src="<%=path%>/track/js/dataTables.bootstrap.min.js"></script>
 	<script src="<%=path%>/track/js/track2.js"></script>
 	<script src="<%=path%>/track/js/bootbox.min.js"></script>
-	<script src="<%=path%>/track/js/bestFeed.js"></script>
+	<script src="<%=path%>/track/js/modifyBestFeed.js"></script>
 
 	<script>
 		$(document).ready(function() {

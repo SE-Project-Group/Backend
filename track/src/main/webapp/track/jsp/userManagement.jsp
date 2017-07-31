@@ -38,7 +38,8 @@
 			<div class="sidebar-nav navbar-collapse">
 				<ul class="nav" id="side-menu">
 					<li><a href="allClient" class="active"><i class="fa fa-user fa-fw"></i> Client Management</a></li>
-					<li><a href="bestFeed"><i class="fa fa-table fa-fw"></i> Best Feeds</a></li>
+					<li><a href="getTodayFeed"><i class="fa fa-table fa-fw"></i> Best Feeds</a></li>
+					<li><a href="inputDate.jsp"><i class="fa fa-table fa-fw "></i> Modify Best Feeds</a></li>
 					<li><a href="managerLogout">&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLogout</a></li>	
 				</ul>
 			</div>
@@ -176,6 +177,35 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="date" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="dateitle"></h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<form role="form">
+								<div class="form-group">
+									<img id="picture" src="E:/book1.jpg" height="300px" length="350px">
+								</div>
+							
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="query">Query</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script src="<%=path%>/track/js/jquery.min.js"></script>
 	<script src="<%=path%>/track/js/bootstrap.min.js"></script>
@@ -184,7 +214,7 @@
 	<script src="<%=path%>/track/js/track2.js"></script>
 	<script src="<%=path%>/track/js/bootbox.min.js"></script>
 
-	<script src="<%=path%>/track/js/client2.1.js"></script>
+	<script src="<%=path%>/track/js/userManagement.js"></script>
 
 	<script>
 		$(document).ready(function() {

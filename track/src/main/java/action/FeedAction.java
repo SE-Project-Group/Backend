@@ -24,7 +24,7 @@ public class FeedAction extends BaseAction{
 	
 	private String feedId;
 	private int picCount;
-	
+	private Date date;
 
 	
 	private WebService webService;
@@ -41,15 +41,23 @@ public class FeedAction extends BaseAction{
 	public void setPicCount(int picCount) {
 		this.picCount = picCount;
 	}
+	
+	public Date getDate() {
+		return date;
+	}
 
-	public String getBestFeed(){
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String getTodayFeed(){
 		Date date=new Date(System.currentTimeMillis());
 		List<Feed> feeds=webService.getTodayFeedList(date);
 		Collections.sort(feeds,new Comparator<Feed>() {
             @Override
             public int compare(Feed f1,Feed f2) {
-                if(f1.getLikeCount()>f2.getLikeCount())return 1;
-                else if(f1.getLikeCount()<f2.getLikeCount())return -1;
+                if(f1.getLikeCount()>f2.getLikeCount())return -1;
+                else if(f1.getLikeCount()<f2.getLikeCount())return 1;
                 else return 0;
             }
         });
@@ -58,6 +66,12 @@ public class FeedAction extends BaseAction{
 			res.add(feeds.get(i));
 		}
 		request().setAttribute("feeds", res);
+		return SUCCESS;
+	}
+	
+	public String getBestFeed(){
+		List<Feed> feeds=webService.getTodayBestFeedList(date);
+		request().setAttribute("feeds", feeds);
 		return SUCCESS;
 	}
 	
@@ -86,5 +100,12 @@ public class FeedAction extends BaseAction{
 		String res=webService.setBestFeed(feedId);
 		response().getWriter().write(res);
 	}
+	
+	public void unsetBestFeed() throws ParseException, IOException{
+		String res=webService.unsetBestFeed(feedId);
+		response().getWriter().write(res);
+	}
+
+
 	
 }
