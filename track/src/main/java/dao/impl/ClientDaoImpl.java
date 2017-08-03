@@ -3,6 +3,7 @@ package dao.impl;
 import dao.ClientDao;
 
 import model.Client;
+import model.SignedUrlFactory;
 
 import java.util.List;
 
@@ -71,6 +72,12 @@ public class ClientDaoImpl extends HibernateDaoSupport implements ClientDao{
 		List<Client> clients=(List<Client>)getHibernateTemplate().find(hql,new String[]{userName});
 		Client client = clients.size() > 0 ? clients.get(0) : null;
 		return client;
+	}
+
+	@Override
+	public String getPortraitUrl(int userId) {
+		SignedUrlFactory signedUrlFactory =new SignedUrlFactory();
+		return signedUrlFactory.getPortraitUrl(userId);
 	}
 
 }

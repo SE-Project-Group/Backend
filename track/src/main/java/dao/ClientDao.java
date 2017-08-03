@@ -14,4 +14,5 @@ public interface ClientDao {
 	public boolean checkLogin(String clientName,String password);
 	public int checkSignup(String clientName,String password,String phone);
 	public Client getClientByUserName(String userName);
+	public String getPortraitUrl(int userId);
 }

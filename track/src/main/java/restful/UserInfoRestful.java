@@ -284,4 +284,12 @@ public class UserInfoRestful {
 		String res=followService.unFollowSomeone(userId,followId);
 		return res;
 	}
+	
+	@GET
+	@Path("getPortraitUrl")
+	@Produces("text/html")
+	public String getPortraitUrl(
+			@QueryParam("user_id") int userId){
+		return clientService.getPortraitUrl(userId);
+	}
 }

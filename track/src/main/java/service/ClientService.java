@@ -79,4 +79,11 @@ public interface ClientService {
 	 * @return
 	 */
 	public ReturnClient clientToReturnClient(Client client);
+	
+	/**
+	 * »ñÈ¡Í·Ïñurl
+	 * @param userId
+	 * @return
+	 */
+	public String getPortraitUrl(int userId);
 }

@@ -114,4 +114,9 @@ private ClientDao clientDao;
 		return returnClient;
 	}
 
+	@Override
+	public String getPortraitUrl(int userId) {
+		return clientDao.getPortraitUrl(userId);
+	}
+
 }
