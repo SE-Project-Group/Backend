@@ -3,8 +3,10 @@ package restful;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +25,16 @@ import org.codehaus.jettison.json.JSONException;
 
 import com.google.gson.Gson;
 
+import model.Client;
 import model.Comment;
 import model.Feed;
 import model.ReturnComment;
 import model.ReturnFeed;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import service.ClientService;
 import service.FeedService;
+import service.FollowService;
 import service.JPushService;
 import util.SpringContextUtil;
 
@@ -38,6 +43,8 @@ public class FeedRestful {
 	
 	private JPushService jpushService=(JPushService) SpringContextUtil.getBean("jpushService");
 	private FeedService feedService=(FeedService) SpringContextUtil.getBean("feedService");
+	private ClientService clientService=(ClientService) SpringContextUtil.getBean("clientService");
+	private FollowService followService=(FollowService) SpringContextUtil.getBean("followService");
 	/**
 	 * 发布新动态
 	 * @param feedInfo
@@ -58,17 +65,49 @@ public class FeedRestful {
 		 Feed feed=gson.fromJson(feedInfo,Feed.class);
 		 feedService.newFeed(feed);
 		 Collection<String> alias=jpushService.getFollowerIdById(userId);
-		 String msgContent="Your Friend Has new msg";
+		 Map<String,String>resmap=new HashMap<String,String>();
+			
+	
+		
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	     String time=df.format(new Date(System.currentTimeMillis()));
+	     resmap.put("time", time);
+
+		 Gson json=new Gson(); 
+		 
+		 
+		 String msgContent=json.toJson(resmap);
+		 msgContent="NewFollowFeedMessage#"+ msgContent;
 		 jpushService.senMessageByAlias(alias, msgContent);
+		 
 		 List<Integer>mention=feed.getMentionList();
 		 List<String> smention = new ArrayList<String>(mention.size()) ;
 				 for (Integer myInt : mention) { 
 					 smention.add(String.valueOf(myInt)); 
 				 }
-		Map<String,String>extra=new HashMap<String,String>();
-		extra.put("_id", feed.get_id());
-			jpushService.senPushByAlias(smention,"Your friend mentions you!",feed.getText(),extra);	 
-		 return feed.get_id();
+		Map<String,String>mresmap=new HashMap<String,String>();
+
+		resmap.put("user_id",String.valueOf( userId));
+		
+		Client user=clientService.getClientById(userId);
+		 String user_name=user.getUserName();
+		 resmap.put("user_name",user_name);
+		 
+		/* String portrait_url=clientService.getPortraitUrl(userId);
+		 resmap.put("portrait_url", portrait_url);*/
+		
+	     resmap.put("time", time);
+		
+	     String _id=feed.get_id();
+	     resmap.put("feed_id",_id);
+	     
+          Gson mjson=new Gson(); 
+		 
+		 
+		 String amsgContent=mjson.toJson(mresmap);
+		 amsgContent="NewMentionMessage#"+amsgContent;
+		 jpushService.senMessageByAlias(smention, amsgContent);
+		 return _id;
      }
 	/**
 	 * 更新动态
@@ -261,8 +300,35 @@ public class FeedRestful {
 		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 int user_id=newfeed.getInt("user_id");
-		 String owner=String.valueOf(feedService.incLikeFeed(_id,user_id));
-		 String msgContent="NewLike";
+		 int iowner=feedService.incLikeFeed(_id,user_id);
+		 String owner=String.valueOf(iowner);
+		 Map<String,String>resmap=new HashMap<String,String>();
+		
+		 
+		 resmap.put("user_id",String.valueOf( user_id));
+		
+		 Client user=clientService.getClientById(user_id);
+		 String user_name=user.getUserName();
+		 resmap.put("user_name",user_name);
+		 
+		/* String portrait_url=clientService.getPortraitUrl(user_id);
+		 resmap.put("portrait_url", portrait_url);*/
+		
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	     String time=df.format(new Date(System.currentTimeMillis()));
+	     resmap.put("time", time);
+		
+	     String relationship=followService.getRelationship(iowner, user_id);
+	     resmap.put("relationship",relationship);
+	     resmap.put("feed_id",_id);
+	     
+	     
+
+		 Gson json=new Gson(); 
+		 
+		 
+		 String msgContent=json.toJson(resmap);
+		 msgContent="NewLikeMessage#"+msgContent;
          jpushService.senMessageByAlias(owner,msgContent);    
 		 return "success";
      }
@@ -306,12 +372,40 @@ public class FeedRestful {
 	public String newComment(String commentInfo)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		JSONObject newfeed=JSONObject.fromObject(commentInfo);
 		String _id= newfeed.getString("_id");
-		int id=newfeed.getInt("user_id");
+		int user_id=newfeed.getInt("user_id");
 		String text=newfeed.getString("text");
 		int replyId=newfeed.getInt("reply_id");
+		int iowner=feedService.newComment( _id, user_id, text,  replyId);
+		 String owner=String.valueOf(iowner);
+		 Map<String,String>resmap=new HashMap<String,String>();
+			
+		 
+		 resmap.put("user_id",String.valueOf( user_id));
 		
-		 String owner=String.valueOf(feedService.newComment( _id, id, text,  replyId));
-			String msgContent="NewLike";
+		 Client user=clientService.getClientById(user_id);
+		 String user_name=user.getUserName();
+		 resmap.put("user_name",user_name);
+		 
+		/* String portrait_url=clientService.getPortraitUrl(user_id);
+		 resmap.put("portrait_url", portrait_url);*/
+		
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	     String time=df.format(new Date(System.currentTimeMillis()));
+	     resmap.put("time", time);
+		
+	     resmap.put("comment_text",text);
+	     
+	     String relationship=followService.getRelationship(iowner, user_id);
+	     resmap.put("relationship",relationship);
+	     resmap.put("feed_id",_id);
+	     
+	     resmap.put("reply_id",String.valueOf(replyId));
+
+		 Gson json=new Gson(); 
+		 
+		 
+		 String msgContent=json.toJson(resmap);
+		 msgContent="NewCommentMessage#"+msgContent;
 	          jpushService.senMessageByAlias(owner, msgContent);
 			 return "success";
 	}

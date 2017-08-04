@@ -155,4 +155,10 @@ private ClientDao clientDao;
 		return rui;
 	}
 
+	@Override
+	public String getRelationship(int userId1, int userId2) {
+		// TODO Auto-generated method stub
+		return followDao.getRelationship(userId1, userId2);
+	}
+
 }
