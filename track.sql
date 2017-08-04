@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `birthday` date DEFAULT NULL,
   `userName` char(20) DEFAULT NULL,
   `password` char(20) DEFAULT NULL,
-  `email` char(20) DEFAULT NULL,
+  `email` char(40) DEFAULT NULL,
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10000 ;
 
