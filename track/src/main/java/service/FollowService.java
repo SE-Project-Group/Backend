@@ -54,4 +54,12 @@ public interface FollowService {
 	 * @return
 	 */
 	public ReturnUserInfo getSomeoneInfo(int userId,int who);
+	
+	/**
+	 * 获取两个用户之间的关系
+	 * @param userId1
+	 * @param userId2
+	 * @return
+	 */
+	public String getRelationship(int userId1,int userId2);
 }
