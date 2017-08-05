@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.model.GeneratePresignedUrlRequest;
+import com.aliyun.oss.model.GetObjectRequest;
 
 public class SignedUrlFactory {
 	private final static String accessKeyId = "LTAIdLRXuEkhtIYE";
@@ -20,7 +23,13 @@ public class SignedUrlFactory {
 		List<String> list = new ArrayList<>();
 		for(int i = 1; i <= picCount; i++){
 			String key = feedId + "_" + String.valueOf(i);
-			URL url = client.generatePresignedUrl(bucket, key, expiration);
+			String style = "style/thumbnail";
+			
+			GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(bucket, key, HttpMethod.GET);
+		    req.setExpiration(expiration);
+		    req.setProcess(style);
+		    
+			URL url = client.generatePresignedUrl(req);
 			list.add(url.toString());
 		}
 		
@@ -31,7 +40,13 @@ public class SignedUrlFactory {
 		Date expiration = new Date((new java.util.Date().getTime() + 3600 * 1000));
 		OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
 		String key = user_id + "_portrait";
-		URL url = client.generatePresignedUrl(bucket, key, expiration);
+		String style = "style/thumbnail_portrait";
+		
+		GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(bucket, key, HttpMethod.GET);
+	    req.setExpiration(expiration);
+	    req.setProcess(style);
+	    
+		URL url = client.generatePresignedUrl(req);
 		return url.toString();
 	}
 }
