@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `birthday` date DEFAULT NULL,
   `userName` char(20) DEFAULT NULL,
   `password` char(20) DEFAULT NULL,
-  `email` char(20) DEFAULT NULL,
+  `email` char(40) DEFAULT NULL,
   PRIMARY KEY (`userId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10000 ;
 
@@ -85,9 +85,7 @@ CREATE TABLE IF NOT EXISTS `client` (
 --
 
 INSERT INTO `client` (`userId`, `phone`, `gender`, `birthday`, `userName`, `password`, `email`) VALUES
-(2, '777', 'sss', '2013-01-15', '123', '123', '1656'),
-(4, '888', '888', '1997-03-13', '888', '888', '888'),
-(9999, '9999', '26', '2017-07-04', '9999', '9999', '9999');
+(1001, '15821913316', 'male', '2013-01-15', 'irving', '123456', 'thor.wang@sjtu.edu.cn');
 
 -- --------------------------------------------------------
 
@@ -106,9 +104,6 @@ CREATE TABLE IF NOT EXISTS `follow` (
 -- 转存表中的数据 `follow`
 --
 
-INSERT INTO `follow` (`userId`, `followId`, `isFriend`) VALUES
-(2, 4, 1),
-(4, 2, 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
