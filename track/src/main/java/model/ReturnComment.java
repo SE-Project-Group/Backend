@@ -7,14 +7,16 @@ public class ReturnComment {
 	private String comment_text;
 	private int reply_id;
 	private String time;
+	private int comment_id;
 	   
-	public ReturnComment(String portrait_url,int user_id,String user_name,String comment_text,int reply_id,String time){
+	public ReturnComment(String portrait_url,int user_id,String user_name,String comment_text,int reply_id,String time,int comment_id){
 		this.portrait_url=portrait_url;
 		this.user_id=user_id;
 		this.user_name=user_name;
 		this.comment_text=comment_text;
 		this.reply_id=reply_id;
 		this.time=time;
+		this.comment_id=comment_id;
 	}
 	
 	public String getPortrait_url() {
@@ -56,5 +58,13 @@ public class ReturnComment {
 
 	public void setTime(String time) {
 		this.time = time;
+	}
+
+	public int getComment_id() {
+		return comment_id;
+	}
+
+	public void setComment_id(int comment_id) {
+		this.comment_id = comment_id;
 	}
 }

@@ -77,8 +77,7 @@ public class UserInfoRestful {
 	@Path("/clientLogout")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String clientLogout(
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException 
+			@QueryParam("user_id") int userId) throws NoSuchAlgorithmException, UnsupportedEncodingException 
 	{
 		clientService.logout(userId);
 		return "success";
@@ -137,8 +136,7 @@ public class UserInfoRestful {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
 	public String modifyPersonalInfo(String message,
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign) throws JSONException, ParseException, NoSuchAlgorithmException, UnsupportedEncodingException
+			@QueryParam("user_id") int userId) throws JSONException, ParseException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
 		JSONObject obj=JSONObject.fromObject(message);
 		Client client=clientService.getClientById(userId);
@@ -165,8 +163,7 @@ public class UserInfoRestful {
 
 	@Produces("text/html")
 	public String getMyFriendInformationById(
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
+			@QueryParam("user_id") int userId)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException, ClassNotFoundException{
 		//if(!appService.checkSign(userId, "track/rest/app/getMyFriendInformationById", sign))return "status wrong"; 
 		List<Client> list=followService.getMyFriendInformationById(userId);
 		if(list!=null)
@@ -251,8 +248,7 @@ public class UserInfoRestful {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
 	public String newFollow(String tstring,
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+			@QueryParam("user_id") int userId)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		//if(!appService.checkSign(userId, "track/rest/app/newFollow", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		int followId= Integer.parseInt(tsinfo.getString("followId"));
@@ -277,8 +273,7 @@ public class UserInfoRestful {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces("text/html")
 	public String deleteFollow(String tstring,
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+			@QueryParam("user_id") int userId)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
 		int followId= Integer.parseInt(tsinfo.getString("followId"));	
 		String res=followService.unFollowSomeone(userId,followId);

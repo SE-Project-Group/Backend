@@ -310,7 +310,8 @@ List<Follow> follows=followDao.getFriendById(userid);
 			String comment_text=comment.getText();
 			int reply_id=comment.getReplyId();
 			String time=comment.getTime();
-			ReturnComment returnComment=new ReturnComment(portrait_url,user_id,user_name,comment_text,reply_id,time);
+			int comment_id=comment.getCommentId();
+			ReturnComment returnComment=new ReturnComment(portrait_url,user_id,user_name,comment_text,reply_id,time,comment_id);
 			res.add(returnComment);
 		}
 		return res;

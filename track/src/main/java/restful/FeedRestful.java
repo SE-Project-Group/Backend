@@ -3,8 +3,10 @@ package restful;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,13 +25,16 @@ import org.codehaus.jettison.json.JSONException;
 
 import com.google.gson.Gson;
 
+import model.Client;
 import model.Comment;
 import model.Feed;
 import model.ReturnComment;
 import model.ReturnFeed;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import service.ClientService;
 import service.FeedService;
+import service.FollowService;
 import service.JPushService;
 import util.SpringContextUtil;
 
@@ -38,6 +43,8 @@ public class FeedRestful {
 	
 	private JPushService jpushService=(JPushService) SpringContextUtil.getBean("jpushService");
 	private FeedService feedService=(FeedService) SpringContextUtil.getBean("feedService");
+	private ClientService clientService=(ClientService) SpringContextUtil.getBean("clientService");
+	private FollowService followService=(FollowService) SpringContextUtil.getBean("followService");
 	/**
 	 * 发布新动态
 	 * @param feedInfo
@@ -53,23 +60,54 @@ public class FeedRestful {
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
 	 public String newFeed(String feedInfo,
-			 @QueryParam("user_id") int userId,
-			 @QueryParam("sign") String sign) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+			 @QueryParam("user_id") int userId) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		 Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedInfo,Feed.class);
 		 feedService.newFeed(feed);
 		 Collection<String> alias=jpushService.getFollowerIdById(userId);
-		 String msgContent="Your Friend Has new msg";
+		 Map<String,String>resmap=new HashMap<String,String>();
+			
+	
+		
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	     String time=df.format(new Date(System.currentTimeMillis()));
+	     resmap.put("time", time);
+
+		 Gson json=new Gson(); 
+		 
+		 
+		 String msgContent=json.toJson(resmap);
+		 msgContent="NewFollowFeedMessage#"+ msgContent;
 		 jpushService.senMessageByAlias(alias, msgContent);
+		 
 		 List<Integer>mention=feed.getMentionList();
 		 List<String> smention = new ArrayList<String>(mention.size()) ;
 				 for (Integer myInt : mention) { 
 					 smention.add(String.valueOf(myInt)); 
 				 }
-		Map<String,String>extra=new HashMap<String,String>();
-		extra.put("_id", feed.get_id());
-			jpushService.senPushByAlias(smention,"Your friend mentions you!",feed.getText(),extra);	 
-		 return feed.get_id();
+		Map<String,String>mresmap=new HashMap<String,String>();
+
+		resmap.put("user_id",String.valueOf( userId));
+		
+		Client user=clientService.getClientById(userId);
+		 String user_name=user.getUserName();
+		 resmap.put("user_name",user_name);
+		 
+		/* String portrait_url=clientService.getPortraitUrl(userId);
+		 resmap.put("portrait_url", portrait_url);*/
+		
+	     resmap.put("time", time);
+		
+	     String _id=feed.get_id();
+	     resmap.put("feed_id",_id);
+	     
+          Gson mjson=new Gson(); 
+		 
+		 
+		 String amsgContent=mjson.toJson(mresmap);
+		 amsgContent="NewMentionMessage#"+amsgContent;
+		 jpushService.senMessageByAlias(smention, amsgContent);
+		 return _id;
      }
 	/**
 	 * 更新动态
@@ -85,9 +123,7 @@ public class FeedRestful {
     @Path("/updateFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String updateFeed(String feedinfo,
-			 @QueryParam("user_id") int userId,
-			 @QueryParam("sign") String sign ) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+	 public String updateFeed(String feedinfo) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		 Gson gson=new Gson();
 		 Feed feed=gson.fromJson(feedinfo,Feed.class);	 
 		 feedService.updateFeed(feed);
@@ -107,9 +143,7 @@ public class FeedRestful {
     @Path("/removeFeed")
 	 @Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	 public String removeFeed(String feedInfo,
-			 @QueryParam("user_id") int userId,
-			 @QueryParam("sign") String sign ) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+	 public String removeFeed(String feedInfo) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		String _id= newfeed.getString("_id");
 		feedService.removeFeed(_id);
@@ -128,8 +162,7 @@ public class FeedRestful {
 	@Path("/myFeed")
 	@Produces("text/html")
 	public  String myFeed(
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign )throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException
+			@QueryParam("user_id") int userId )throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
 		 List<Feed> feeds=feedService.findFeedByUserId(userId);
 		 List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
@@ -169,7 +202,6 @@ public class FeedRestful {
 	@Produces("text/html")
 	public  String getFeedsLoggedIn(
 			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign,
 			@QueryParam("who") int who)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException
 	{
 		List<Feed> feeds=feedService.getFeedsLoggedIn(userId,who);
@@ -192,8 +224,7 @@ public class FeedRestful {
 	@Produces("text/html")
 	public String getPublicFeedAfterTime(
 			@QueryParam("time") String time,
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+			@QueryParam("user_id") int userId)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
 		List<ReturnFeed> list=feedService.findPublicFeedsAfterTime(ts,userId);
@@ -215,8 +246,7 @@ public class FeedRestful {
 	@Produces("text/html")
 	public String getPublicFeedBeforeTime(
 			@QueryParam("time") String time,
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+			@QueryParam("user_id") int userId)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
 		List<ReturnFeed> list=feedService.findPublicFeedsBeforeTime(ts,userId);
@@ -238,8 +268,7 @@ public class FeedRestful {
 	public String feedAround(
 			@QueryParam("longitude") double longitude,
 			@QueryParam("latitude") double latitude,
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+			@QueryParam("user_id") int userId) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		List<ReturnFeed>feeds=feedService.findFeedAround(longitude, latitude, 10,userId);
 		return JSONArray.fromObject(feeds).toString();
 	}
@@ -249,8 +278,7 @@ public class FeedRestful {
 	public String compareFeedSameLocation(
 			@QueryParam("longitude") double longitude,
 			@QueryParam("latitude") double latitude,
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign) throws NoSuchAlgorithmException, UnsupportedEncodingException{
+			@QueryParam("user_id") int userId) throws NoSuchAlgorithmException, UnsupportedEncodingException{
 		List<ReturnFeed>feeds=feedService.findFeedAroundSpecUser(longitude, latitude, 10,userId);
 		return JSONArray.fromObject(feeds).toString();
 	}
@@ -272,8 +300,35 @@ public class FeedRestful {
 		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 int user_id=newfeed.getInt("user_id");
-		 String owner=String.valueOf(feedService.incLikeFeed(_id,user_id));
-		 String msgContent="NewLike";
+		 int iowner=feedService.incLikeFeed(_id,user_id);
+		 String owner=String.valueOf(iowner);
+		 Map<String,String>resmap=new HashMap<String,String>();
+		
+		 
+		 resmap.put("user_id",String.valueOf( user_id));
+		
+		 Client user=clientService.getClientById(user_id);
+		 String user_name=user.getUserName();
+		 resmap.put("user_name",user_name);
+		 
+		/* String portrait_url=clientService.getPortraitUrl(user_id);
+		 resmap.put("portrait_url", portrait_url);*/
+		
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	     String time=df.format(new Date(System.currentTimeMillis()));
+	     resmap.put("time", time);
+		
+	     String relationship=followService.getRelationship(iowner, user_id);
+	     resmap.put("relationship",relationship);
+	     resmap.put("feed_id",_id);
+	     
+	     
+
+		 Gson json=new Gson(); 
+		 
+		 
+		 String msgContent=json.toJson(resmap);
+		 msgContent="NewLikeMessage#"+msgContent;
          jpushService.senMessageByAlias(owner,msgContent);    
 		 return "success";
      }
@@ -314,17 +369,43 @@ public class FeedRestful {
 	@Path("/newComment")
 	@Consumes(MediaType.APPLICATION_JSON)
 	 @Produces("text/html")
-	public String newComment(String commentInfo,
-			 @QueryParam("user_id") int userId,
-			 @QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
+	public String newComment(String commentInfo)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		JSONObject newfeed=JSONObject.fromObject(commentInfo);
 		String _id= newfeed.getString("_id");
-		int id=newfeed.getInt("user_id");
+		int user_id=newfeed.getInt("user_id");
 		String text=newfeed.getString("text");
 		int replyId=newfeed.getInt("reply_id");
+		int iowner=feedService.newComment( _id, user_id, text,  replyId);
+		 String owner=String.valueOf(iowner);
+		 Map<String,String>resmap=new HashMap<String,String>();
+			
+		 
+		 resmap.put("user_id",String.valueOf( user_id));
 		
-		 String owner=String.valueOf(feedService.newComment( _id, id, text,  replyId));
-			String msgContent="NewLike";
+		 Client user=clientService.getClientById(user_id);
+		 String user_name=user.getUserName();
+		 resmap.put("user_name",user_name);
+		 
+		/* String portrait_url=clientService.getPortraitUrl(user_id);
+		 resmap.put("portrait_url", portrait_url);*/
+		
+		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	     String time=df.format(new Date(System.currentTimeMillis()));
+	     resmap.put("time", time);
+		
+	     resmap.put("comment_text",text);
+	     
+	     String relationship=followService.getRelationship(iowner, user_id);
+	     resmap.put("relationship",relationship);
+	     resmap.put("feed_id",_id);
+	     
+	     resmap.put("reply_id",String.valueOf(replyId));
+
+		 Gson json=new Gson(); 
+		 
+		 
+		 String msgContent=json.toJson(resmap);
+		 msgContent="NewCommentMessage#"+msgContent;
 	          jpushService.senMessageByAlias(owner, msgContent);
 			 return "success";
 	}
@@ -359,9 +440,7 @@ public class FeedRestful {
 	@Produces("text/html")
 	public String getFriendFeedList(
 			@QueryParam("time") String time,
-			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/getFriendFeedList", sign))return "status wrong"; 
+			@QueryParam("user_id") int userId){ 
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
 		List<Feed> feeds=feedService.getFriendFeedList(ts,userId);
@@ -383,9 +462,7 @@ public class FeedRestful {
 	@Produces("text/html")
 	public String getAllFeedList(
 			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign,
-			@QueryParam("time") String time)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/getAllFeedList", sign))return "status wrong"; 
+			@QueryParam("time") String time){
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);	
 		List<Feed> feeds=feedService.getAllFeedList(ts);
@@ -407,9 +484,7 @@ public class FeedRestful {
 	@Produces("text/html")
 	public String getFollowingFeedList(
 			@QueryParam("user_id") int userId,
-			@QueryParam("sign") String sign,
-			@QueryParam("time") String time)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		//if(!appService.checkSign(userId, "track/rest/app/getFollowingFeedList", sign))return "status wrong"; 
+			@QueryParam("time") String time){
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);
 		List<Feed> feeds=feedService.getFollowingFeedList(ts,userId);
