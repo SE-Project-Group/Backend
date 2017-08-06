@@ -24,9 +24,9 @@ public class JPushServiceImpl implements JPushService{
 	}
 	
 	  
-	    private final static String appKey = "1ef067ddcbc477cf37235fcc";  
+	    private final static String appKey = "44e21f0a606fd0182958de50";  
 	  
-	    private final static String masterSecret = "499b098b106a0fc2727e44ce";  
+	    private final static String masterSecret = "582079c436f4f6fba28d2281";  
 	    /** 
 	     * 保存离线的时长。秒为单位。最多支持10天（864000秒）。 0 表示该消息不保存离线。即：用户在线马上发出，当前不在线用户将不会收到此消息。 
 	     * 此参数不设置则表示默认，默认为保存1天的离线消息（86400秒)。 
@@ -65,7 +65,7 @@ public class JPushServiceImpl implements JPushService{
 	          
 	    }  
 	    @Override  
-	    public  boolean  senPushByRegesterId(List<String> regeSterIds,String msgContent) {  
+	    public  boolean  sendPushByRegesterId(List<String> regeSterIds,String msgContent) {  
 	        jPushClient = new JPushClient(masterSecret, appKey);  
 	        boolean flag = false;  
 //	      String content = "多个ID测试";  
@@ -92,7 +92,7 @@ public class JPushServiceImpl implements JPushService{
 	        return flag;  
 	    }  
 	    @Override  
-	    public  boolean  senPushByAlias(Collection<String> alias,String msgContent) {  
+	    public  boolean  sendPushByAlias(Collection<String> alias,String msgContent) {  
 	        jPushClient = new JPushClient(masterSecret, appKey);  
 	        boolean flag = false;  
 //	      String content = "多个ID测试";  
@@ -120,7 +120,7 @@ public class JPushServiceImpl implements JPushService{
 	    } 
 	   
 	    @Override  
-	    public  boolean  senPushByAlias(String alias,String msgContent) {  
+	    public  boolean  sendPushByAlias(String alias,String msgContent) {  
 	        jPushClient = new JPushClient(masterSecret, appKey);  
 	        boolean flag = false;  
 //	      String content = "多个ID测试";  
@@ -147,7 +147,7 @@ public class JPushServiceImpl implements JPushService{
 	        return flag;  
 	    } 
 	    @Override  
-	    public  boolean  senPushByAlias(Collection<String> alias,String title, String content,Map<String,String>extra) {  
+	    public  boolean  sendPushByAlias(Collection<String> alias,String title, String content,Map<String,String>extra) {  
 	        jPushClient = new JPushClient(masterSecret, appKey);  
 	        boolean flag = false;  
 //	      String content = "多个ID测试";  
@@ -200,7 +200,7 @@ public class JPushServiceImpl implements JPushService{
 	        return flag; 
 	    }
 	    @Override  
-	    public  boolean  senMessageByAlias(String alias,String msgContent) {  
+	    public  boolean  sendMessageByAlias(String alias,String msgContent) {  
 	        jPushClient = new JPushClient(masterSecret, appKey);  
 	        boolean flag = false;  
 //	      String content = "多个ID测试";  
@@ -227,7 +227,7 @@ public class JPushServiceImpl implements JPushService{
 	        return flag;  
 	    } 
 	    @Override  
-	    public boolean senMessageByAlias(Collection<String> alias, String msgContent){
+	    public boolean sendMessageByAlias(Collection<String> alias, String msgContent){
 	    	 jPushClient = new JPushClient(masterSecret, appKey);  
 		        boolean flag = false;  
 //		      String content = "多个ID测试";  

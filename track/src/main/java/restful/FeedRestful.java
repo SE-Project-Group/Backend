@@ -78,7 +78,7 @@ public class FeedRestful {
 		 
 		 String msgContent=json.toJson(resmap);
 		 msgContent="NewFollowFeedMessage#"+ msgContent;
-		 jpushService.senMessageByAlias(alias, msgContent);
+		 jpushService.sendMessageByAlias(alias, msgContent);
 		 
 		 List<Integer>mention=feed.getMentionList();
 		 List<String> smention = new ArrayList<String>(mention.size()) ;
@@ -106,7 +106,7 @@ public class FeedRestful {
 		 
 		 String amsgContent=mjson.toJson(mresmap);
 		 amsgContent="NewMentionMessage#"+amsgContent;
-		 jpushService.senMessageByAlias(smention, amsgContent);
+		 jpushService.sendMessageByAlias(smention, amsgContent);
 		 return _id;
      }
 	/**
@@ -318,8 +318,8 @@ public class FeedRestful {
 	     String time=df.format(new Date(System.currentTimeMillis()));
 	     resmap.put("time", time);
 		
-	     String relationship=followService.getRelationship(iowner, user_id);
-	     resmap.put("relationship",relationship);
+/*	     String relationship=followService.getRelationship(iowner, user_id);
+	     resmap.put("relationship",relationship);*/
 	     resmap.put("feed_id",_id);
 	     
 	     
@@ -329,7 +329,7 @@ public class FeedRestful {
 		 
 		 String msgContent=json.toJson(resmap);
 		 msgContent="NewLikeMessage#"+msgContent;
-         jpushService.senMessageByAlias(owner,msgContent);    
+         jpushService.sendMessageByAlias(owner,msgContent);    
 		 return "success";
      }
 	 
@@ -406,8 +406,8 @@ public class FeedRestful {
 		 
 		 String msgContent=json.toJson(resmap);
 		 msgContent="NewCommentMessage#"+msgContent;
-	          jpushService.senMessageByAlias(owner, msgContent);
-			 return "success";
+	     jpushService.sendMessageByAlias(owner, msgContent);
+		 return "success";
 	}
 	/**
 	 * 获取某动态的评论列表
