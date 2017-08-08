@@ -83,4 +83,18 @@ public class SignedUrlFactory {
 		URL url = client.generatePresignedUrl(req);
 		return url.toString();
 	}
+	
+	public String getOriginPhoto(String file_name){
+		Date expiration = new Date((new java.util.Date().getTime() + 300 * 1000));  // expiration time is 5 min
+		OSSClient client = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+		String key = file_name;
+		String style = "style/watermark_origin";
+		
+		GeneratePresignedUrlRequest req = new GeneratePresignedUrlRequest(bucket, key, HttpMethod.GET);
+	    req.setExpiration(expiration);
+	    req.setProcess(style);
+	    
+		URL url = client.generatePresignedUrl(req);
+		return url.toString();
+	}
 }
