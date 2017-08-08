@@ -321,7 +321,7 @@ public class FeedRestful {
 /*	     String relationship=followService.getRelationship(iowner, user_id);
 	     resmap.put("relationship",relationship);*/
 	     resmap.put("feed_id",_id);
-	     
+	     resmap.put("status", "");
 	     
 
 		 Gson json=new Gson(); 
@@ -400,7 +400,7 @@ public class FeedRestful {
 	     resmap.put("feed_id",_id);
 	     
 	     resmap.put("reply_id",String.valueOf(replyId));
-
+	     resmap.put("status", "");
 		 Gson json=new Gson(); 
 		 
 		 

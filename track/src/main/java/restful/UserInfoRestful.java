@@ -3,6 +3,8 @@ package restful;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -251,11 +253,18 @@ public class UserInfoRestful {
 			@QueryParam("user_id") int userId)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		//if(!appService.checkSign(userId, "track/rest/app/newFollow", sign))return "status wrong"; 
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
-		int followId= Integer.parseInt(tsinfo.getString("followId"));
+		int followId= tsinfo.getInt("followId");
 		String res=followService.followSomeone(userId,followId);
-		String msgContent="NewFollower";
+		
 		String sfollowId=String.valueOf(followId);
-        jpushService.senMessageByAlias(sfollowId, msgContent);
+		// create jsonObject
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("user_id", userId);
+		String title = "NewFollowerMessage#";
+		String content = jsonObject.toString();
+		String msgContent = title + content;
+		
+        jpushService.sendMessageByAlias(sfollowId, msgContent);
 		return res;
 	}
 	/**
@@ -275,7 +284,7 @@ public class UserInfoRestful {
 	public String deleteFollow(String tstring,
 			@QueryParam("user_id") int userId)throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
 		JSONObject tsinfo = JSONObject.fromObject(tstring);
-		int followId= Integer.parseInt(tsinfo.getString("followId"));	
+		int followId= tsinfo.getInt("followId");	
 		String res=followService.unFollowSomeone(userId,followId);
 		return res;
 	}
