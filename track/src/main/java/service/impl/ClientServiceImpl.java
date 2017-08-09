@@ -2,20 +2,25 @@ package service.impl;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.ClientDao;
+import dao.FollowDao;
 import dao.TokenDao;
 import model.Client;
 import model.ReturnClient;
+import model.ReturnFollow;
 import model.SignedUrlFactory;
 import model.Token;
 import service.ClientService;
 
 public class ClientServiceImpl implements ClientService{
-private ClientDao clientDao;
 	
+	private ClientDao clientDao;
 	private TokenDao tokenDao;
+	private FollowDao followDao;
+	
 	public ClientDao getClientDao() {
 		return clientDao;
 	}
@@ -29,6 +34,14 @@ private ClientDao clientDao;
 
 	public void setTokenDao(TokenDao tokenDao) {
 		this.tokenDao = tokenDao;
+	}
+	
+	public FollowDao getFollowDao() {
+		return followDao;
+	}
+
+	public void setFollowDao(FollowDao followDao) {
+		this.followDao = followDao;
 	}
 
 
@@ -118,5 +131,23 @@ private ClientDao clientDao;
 	public String getPortraitUrl(int userId) {
 		return clientDao.getPortraitUrl(userId);
 	}
+
+	@Override
+	public List<ReturnFollow> searchUser(int userId, String query) {
+		List<Client> clients=clientDao.searchClient(query);
+		List<ReturnFollow> returnFollows=new ArrayList<ReturnFollow>();
+		for(Client client:clients){
+			int id=client.getUserId();
+			String userName=client.getUserName();
+			SignedUrlFactory signedUrlFactory=new SignedUrlFactory();
+			String portraitUrl=signedUrlFactory.getPortraitUrl(id);
+			String state=followDao.getRelationship(userId, id);
+			ReturnFollow returnFollow=new ReturnFollow(userName,portraitUrl,id,state);
+			returnFollows.add(returnFollow);
+		}
+		return returnFollows;
+	}
+
+
 
 }

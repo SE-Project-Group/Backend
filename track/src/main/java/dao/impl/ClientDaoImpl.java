@@ -80,4 +80,23 @@ public class ClientDaoImpl extends HibernateDaoSupport implements ClientDao{
 		return signedUrlFactory.getPortraitUrl(userId);
 	}
 
+	@Override
+	public List<Client> searchClient(String query) {
+		String hql1="from Client as c where c.userName like ?";
+		String hql2="from Client as c where c.userName=?";
+		List<Client> clients1=(List<Client>)getHibernateTemplate().find(hql2,query);
+		List<Client> clients2=(List<Client>)getHibernateTemplate().find(hql1,"%"+query+"%");
+		if(clients1.size()>0){
+			for(int i=0;i<clients2.size();i++){
+				Client client=clients2.get(i);
+				if(query.equals(client.getUserName())){
+					clients2.remove(i);
+					break;
+				}
+			}
+			clients2.add(0, clients1.get(0));
+		}
+		return clients2;
+	}
+
 }

@@ -296,4 +296,15 @@ public class UserInfoRestful {
 			@QueryParam("user_id") int userId){
 		return clientService.getPortraitUrl(userId);
 	}
+	
+	@GET
+	@Path("searchUser")
+	@Produces("text/html")
+	public String searchUser(
+			@QueryParam("user_id") int userId,
+			@QueryParam("query") String query){
+		List<ReturnFollow> returnFollows=clientService.searchUser(userId,query);
+		JSONArray ja=JSONArray.fromObject(returnFollows);
+		return ja.toString();
+	}
 }

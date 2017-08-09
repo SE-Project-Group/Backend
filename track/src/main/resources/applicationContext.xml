@@ -98,6 +98,7 @@
 	 <bean id="clientService" class="service.impl.ClientServiceImpl">
 		<property name="clientDao" ref="clientDao"></property>
 		<property name="tokenDao" ref="tokenDao"></property>
+		<property name="followDao" ref="followDao"></property>
 	</bean>	
 	
 	 <bean id="feedService" class="service.impl.FeedServiceImpl">

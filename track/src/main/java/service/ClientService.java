@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.Client;
 import model.ReturnClient;
+import model.ReturnFollow;
 import model.Token;
 
 public interface ClientService {
@@ -86,4 +87,12 @@ public interface ClientService {
 	 * @return
 	 */
 	public String getPortraitUrl(int userId);
+	
+	/**
+	 * 当前用户为userId，查询username为query的用户
+	 * @param userId
+	 * @param query
+	 * @return
+	 */
+	public List<ReturnFollow> searchUser(int userId, String query);
 }
