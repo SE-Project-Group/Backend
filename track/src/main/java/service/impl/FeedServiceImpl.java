@@ -317,5 +317,8 @@ List<Follow> follows=followDao.getFriendById(userid);
 		return res;
 	}
 
-	
+	public List<Feed> searchFeed(String query){
+		List<Feed> feeds=feedRepository.searchFeed(query);
+		return feeds;
+	}
 }

@@ -86,4 +86,6 @@ public List<Feed> findFeedsByTime(Timestamp time);
  */
 public List<Feed> getTodayFeedList(Date date);
 
+public List<Feed> searchFeed(String query);
+
 }

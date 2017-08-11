@@ -146,4 +146,6 @@ public interface FeedService {
 	 */
 	public List<ReturnFeed> feedToReturnFeed(List<Feed> feeds,int userid);
 	public List<ReturnComment> commentToReturnComment(List<Comment> comments);
+
+	public List<Feed> searchFeed(String query);
 }

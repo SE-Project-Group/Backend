@@ -173,7 +173,9 @@ public class FeedRepositoryImpl implements FeedRepository{
 		return  mongoTemplate.find(new Query(Criteria.where("userId").is(userId).and("shareArea").is("friend")), Feed.class);
 	}
 	 
-
-		
+   @Override
+	public List<Feed> searchFeed(String query){
+	   return  mongoTemplate.find(new Query(Criteria.where("text").regex(query)), Feed.class);
+	}
 
 }
