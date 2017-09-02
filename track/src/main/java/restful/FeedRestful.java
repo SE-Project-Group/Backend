@@ -300,6 +300,11 @@ public class FeedRestful {
 		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 int user_id=newfeed.getInt("user_id");
+		 Feed feed=feedService.getFeed(_id);
+		 String shareId=feed.getShareId();
+		 if(!shareId.equals("")){
+			 _id=shareId;
+		 }
 		 int iowner=feedService.incLikeFeed(_id,user_id);
 		 String owner=String.valueOf(iowner);
 		 Map<String,String>resmap=new HashMap<String,String>();
@@ -489,7 +494,8 @@ public class FeedRestful {
 		ts=Timestamp.valueOf(time);
 		List<Feed> feeds=feedService.getFollowingFeedList(ts,userId);
 		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
-		return JSONArray.fromObject(res).toString();
+		/*List<ReturnShareFeed> res2=feedService.getFollowingShareFeedList(ts, userId);*/
+		return JSONArray.fromObject(res).toString()/*+JSONArray.fromObject(res2).toString()*/;
 	}
 	
 	@GET
@@ -500,5 +506,18 @@ public class FeedRestful {
 		
 		return JSONArray.fromObject(feeds).toString();
 		
+	}
+	
+	@POST
+	@Path("shareFeed")
+	@Produces("text/html")
+	public String shareFeed(
+			String info,
+			@QueryParam("user_id") int userId){
+		JSONObject obj=JSONObject.fromObject(info);
+		String feedId=obj.getString("feed_id");
+		String text=obj.getString("text");
+		feedService.shareFeed(userId,feedId,text);
+		return "success";
 	}
 }

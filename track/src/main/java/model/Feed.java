@@ -32,6 +32,8 @@ public class Feed implements Serializable {
     private List<Like> likeList;
     private List<Comment> commentList;
     
+    private String shareId;
+    
     
    public Feed(){
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -41,6 +43,7 @@ public class Feed implements Serializable {
     	this.likeCount=0;
     	this.likeList=new ArrayList<Like>();
     	this.commentList=new ArrayList<Comment>();
+    	this.shareId="";
     }
    public String get_id() {
        return _id;
@@ -134,5 +137,11 @@ public class Feed implements Serializable {
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	public String getShareId() {
+		return shareId;
+	}
+	public void setShareId(String shareId) {
+		this.shareId = shareId;
 	}
 }

@@ -31,6 +31,11 @@ public class ReturnFeed implements Serializable {
     private double latitude;
     private double longitude;
     private List<String> picUrls;
+    private String share_feed_id;
+    private int share_owner_id;
+    private String share_owner_name;
+    private String share_portrait_url;
+    private String share_text;
 
 
     public String getFeed_id() {
@@ -151,5 +156,45 @@ public class ReturnFeed implements Serializable {
     public void setPicUrls(List<String> picUrls) {
         this.picUrls = picUrls;
     }
+
+	public int getShare_owner_id() {
+		return share_owner_id;
+	}
+
+	public void setShare_owner_id(int share_owner_id) {
+		this.share_owner_id = share_owner_id;
+	}
+
+	public String getShare_text() {
+		return share_text;
+	}
+
+	public void setShare_text(String share_text) {
+		this.share_text = share_text;
+	}
+
+	public String getShare_feed_id() {
+		return share_feed_id;
+	}
+
+	public void setShare_feed_id(String share_feed_id) {
+		this.share_feed_id = share_feed_id;
+	}
+
+	public String getShare_owner_name() {
+		return share_owner_name;
+	}
+
+	public void setShare_owner_name(String share_owner_name) {
+		this.share_owner_name = share_owner_name;
+	}
+
+	public String getShare_portrait_url() {
+		return share_portrait_url;
+	}
+
+	public void setShare_portrait_url(String share_portrait_url) {
+		this.share_portrait_url = share_portrait_url;
+	}
 
 }

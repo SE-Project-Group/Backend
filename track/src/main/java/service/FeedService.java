@@ -14,6 +14,15 @@ public interface FeedService {
 	 * 
 	 * Feed
 	 */
+	
+	/**
+	 * 查找feed
+	 * @param feedId
+	 * @return
+	 */
+	
+	public Feed getFeed(String feedId);
+	
 	/**
 	 * 新建feed
 	 * @param feed
@@ -106,6 +115,18 @@ public interface FeedService {
 	 * @return
 	 */
 	public List<Feed> getFollowingFeedList(Timestamp time,int userid);
+	
+	
+	/**
+	 * 
+	 * 
+	 * @param time
+	 * @param userId
+	 * @return
+	 */
+	
+/*	public List<ReturnShareFeed> getFollowingShareFeedList(Timestamp time,int userId);*/
+	
 	/*like*/
 	/**
 	 * 为id为_id的feed增加赞数并记录下点赞人的userid和点赞时间
@@ -140,6 +161,12 @@ public interface FeedService {
 	public List<Comment> findCommentList(String feedId);
 	
 	/**
+	 * 转发
+	 * @param userId
+	 * @param feedId
+	 */
+	public void shareFeed(int userId, String feedId,String text);
+	/**
 	 * 
 	 * transfer
 	 * 
@@ -148,4 +175,5 @@ public interface FeedService {
 	public List<ReturnComment> commentToReturnComment(List<Comment> comments);
 
 	public List<Feed> searchFeed(String query);
+	
 }

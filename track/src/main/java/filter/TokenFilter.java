@@ -70,7 +70,6 @@ public class TokenFilter implements Filter{
 		/*uris.add("/track/rest/app/incLikeFeed");*/
 
 		uris.add("/track/rest/app/feed/getFeedsNotLoggedIn");
-
 	}
 
 	

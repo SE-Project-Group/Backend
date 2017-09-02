@@ -28,6 +28,7 @@ private ClientDao clientDao;
 	private FollowDao followDao;
 	
 	private FeedRepository feedRepository;
+	
 	public ClientDao getClientDao() {
 		return clientDao;
 	}
@@ -49,6 +50,12 @@ private ClientDao clientDao;
 	public void setFeedRepository(FeedRepository feedRepository) {
 		this.feedRepository = feedRepository;
 	}
+	
+	@Override
+	public Feed getFeed(String feedId){
+		return feedRepository.findOne(feedId);
+	}
+	
 	@Override
 	public void newFeed(Feed feed) {
 		// TODO Auto-generated method stub
@@ -205,6 +212,40 @@ List<Follow> follows=followDao.getFriendById(userid);
 		}
 		return feeds;
 	}
+	
+/*	@Override
+	public List<ReturnShareFeed> getFollowingShareFeedList(Timestamp time,int userId){
+		List<Follow> follows=followDao.getFollowingById(userId);
+		int follownum=follows.size();
+		int[] following=new int[follownum];
+		
+		for(int i=0;i<follownum;i++){
+			Follow follow=follows.get(i);
+			following[i]=follow.getFollowId();
+		}
+		List<Feed>feeds= feedRepository.findFeedsByTime(time);		
+		for(int i=0;i<feeds.size();i++){
+			//System.out.println("feednum:"+feeds.size());
+			Feed feed=feeds.get(i);
+			int feeduserid=feed.getUserId();
+			//System.out.println("feeduserid:"+feeduserid);
+			boolean result=false;
+			for(int j=0;j<follownum;j++){
+				if(following[j]==feeduserid)result=true;
+				//System.out.println("following:"+following[j]);
+			}
+			//System.out.println("result:"+result);
+			if(result==false){
+				feeds.remove(i);
+				i--;
+			}
+			else if(!feed.getShareArea().equals("public")){
+				feeds.remove(i);
+				i--;
+			}
+		}
+		return feeds;
+	}*/
 
 	@Override
 	public int incLikeFeed(String _id, int userId) {
@@ -259,40 +300,97 @@ List<Follow> follows=followDao.getFriendById(userid);
 		Feed feed=feedRepository.findOne(feedId);
 		return feed.getCommentList();
 	}
+	
+	@Override
+	public void shareFeed(int userId, String feedId,String text) {
+		Feed feed=new Feed();
+		feed.setUserId(userId);
+		feed.setText(text);
+		feed.setShareId(feedId);
+		feed.setShareArea("public");
+		Feed shareFeed=feedRepository.findOne(feedId);
+		int shareCnt=shareFeed.getShareCount();
+		shareFeed.setShareCount(shareCnt+1);
+		feedRepository.update(shareFeed);
+		feedRepository.insert(feed);
+	}
 
 	@Override
 	public List<ReturnFeed> feedToReturnFeed(List<Feed> feeds,int userid) {
 		// TODO Auto-generated method stub
 		List<ReturnFeed>res=new ArrayList<ReturnFeed>();
-        SignedUrlFactory factory = new SignedUrlFactory();
+        SignedUrlFactory signedUrlFactory = new SignedUrlFactory();
 		for(int i=0;i<feeds.size();i++){
 			Feed curFeed=feeds.get(i);
-			List<Like> likelist=new ArrayList<Like>();
-			likelist=curFeed.getLikeList();
-			boolean liked=false;
-			int size=likelist.size();
-			for(int j=0;j<size;j++){
-				if(likelist.get(j).getUserId()==userid)
-					liked=true;
+			String shareId=curFeed.getShareId();
+			if(!shareId.equals("")){	
+				int userId=curFeed.getUserId();
+				Client client=clientDao.getClientById(userId);
+				String portrait=signedUrlFactory.getPortraitUrl(userId);
+				
+				
+				Feed shareFeed=getFeed(shareId);
+				String shareText=shareFeed.getText();
+				int shareUserId=shareFeed.getUserId();
+				String sharePortrait=signedUrlFactory.getPortraitUrl(shareUserId);
+				Client shareClient=clientDao.getClientById(shareUserId);
+				String shareUserName=shareClient.getUserName();
+				List<Like> likelist=new ArrayList<Like>();
+				likelist=shareFeed.getLikeList();
+				boolean liked=false;
+				int size=likelist.size();
+				for(int j=0;j<size;j++){
+					if(likelist.get(j).getUserId()==userid)
+						liked=true;
+				}
+				ReturnFeed returnFeed=new ReturnFeed();
+				returnFeed.setFeed_id(curFeed.get_id());
+				returnFeed.setPicUrls(signedUrlFactory.getPicUrls(shareFeed.get_id(), shareFeed.getPicCount()));
+				returnFeed.setOwner_id(userId);
+				returnFeed.setOwner_name(client.getUserName());
+				returnFeed.setText(curFeed.getText());
+				returnFeed.setDate(curFeed.getTime());
+				returnFeed.setLiked(liked);
+				returnFeed.setLike_cnt(shareFeed.getLikeCount());
+				returnFeed.setShare_cnt(shareFeed.getShareCount());
+				returnFeed.setComment_cnt(curFeed.getCommentCount());;
+				returnFeed.setPic_cnt(shareFeed.getPicCount());
+				returnFeed.setPortrait_url(portrait);
+				returnFeed.setShare_feed_id(shareId);
+				returnFeed.setShare_owner_id(shareUserId);
+				returnFeed.setShare_owner_name(shareUserName);
+				returnFeed.setShare_portrait_url(sharePortrait);
+				returnFeed.setShare_text(shareText);
+				res.add(returnFeed);
 			}
-			ReturnFeed returnFeed=new ReturnFeed();
-			Client client=clientDao.getClientById(curFeed.getUserId());
-			returnFeed.setFeed_id(curFeed.get_id());
-			returnFeed.setPicUrls(factory.getPicUrls(curFeed.get_id(), curFeed.getPicCount()));
-			returnFeed.setOwner_id(client.getUserId());
-			returnFeed.setOwner_name(client.getUserName());
-			returnFeed.setText(curFeed.getText());
-			returnFeed.setDate(curFeed.getTime());
-			returnFeed.setLiked(liked);
-			returnFeed.setLike_cnt(curFeed.getLikeCount());
-			returnFeed.setShare_cnt(curFeed.getShareCount());
-			returnFeed.setComment_cnt(curFeed.getCommentCount());;
-			returnFeed.setPic_cnt(curFeed.getPicCount());
-			returnFeed.setPosition(curFeed.getPosition());
-			returnFeed.setLatitude(curFeed.getLocation().getLatitude());
-			returnFeed.setLongitude(curFeed.getLocation().getLongitude());
-			returnFeed.setPortrait_url(factory.getPortraitUrl(curFeed.getUserId()));
-			res.add(returnFeed);
+			else{
+				List<Like> likelist=new ArrayList<Like>();
+				likelist=curFeed.getLikeList();
+				boolean liked=false;
+				int size=likelist.size();
+				for(int j=0;j<size;j++){
+					if(likelist.get(j).getUserId()==userid)
+						liked=true;
+				}
+				ReturnFeed returnFeed=new ReturnFeed();
+				Client client=clientDao.getClientById(curFeed.getUserId());
+				returnFeed.setFeed_id(curFeed.get_id());
+				returnFeed.setPicUrls(signedUrlFactory.getPicUrls(curFeed.get_id(), curFeed.getPicCount()));
+				returnFeed.setOwner_id(client.getUserId());
+				returnFeed.setOwner_name(client.getUserName());
+				returnFeed.setText(curFeed.getText());
+				returnFeed.setDate(curFeed.getTime());
+				returnFeed.setLiked(liked);
+				returnFeed.setLike_cnt(curFeed.getLikeCount());
+				returnFeed.setShare_cnt(curFeed.getShareCount());
+				returnFeed.setComment_cnt(curFeed.getCommentCount());;
+				returnFeed.setPic_cnt(curFeed.getPicCount());
+				returnFeed.setPosition(curFeed.getPosition());
+				returnFeed.setLatitude(curFeed.getLocation().getLatitude());
+				returnFeed.setLongitude(curFeed.getLocation().getLongitude());
+				returnFeed.setPortrait_url(signedUrlFactory.getPortraitUrl(curFeed.getUserId()));
+				res.add(returnFeed);
+			}
 		}
 		 return res;
 	}
@@ -321,4 +419,6 @@ List<Follow> follows=followDao.getFriendById(userid);
 		List<Feed> feeds=feedRepository.searchFeed(query);
 		return feeds;
 	}
+
+	
 }
