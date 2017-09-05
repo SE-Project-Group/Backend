@@ -23,7 +23,7 @@ import model.SignedUrlFactory;
 import service.FeedService;
 
 public class FeedServiceImpl implements FeedService{
-private ClientDao clientDao;
+	private ClientDao clientDao;
 	
 	private FollowDao followDao;
 	
@@ -337,7 +337,6 @@ List<Follow> follows=followDao.getFriendById(userid);
 				Feed shareFeed=getFeed(shareId);
 				String shareText=shareFeed.getText();
 				int shareUserId=shareFeed.getUserId();
-				String sharePortrait=signedUrlFactory.getPortraitUrl(shareUserId);
 				Client shareClient=clientDao.getClientById(shareUserId);
 				String shareUserName=shareClient.getUserName();
 				List<Like> likelist=new ArrayList<Like>();
@@ -364,7 +363,6 @@ List<Follow> follows=followDao.getFriendById(userid);
 				returnFeed.setShare_feed_id(shareId);
 				returnFeed.setShare_owner_id(shareUserId);
 				returnFeed.setShare_owner_name(shareUserName);
-				returnFeed.setShare_portrait_url(sharePortrait);
 				returnFeed.setShare_text(shareText);
 				res.add(returnFeed);
 			}
@@ -423,6 +421,30 @@ List<Follow> follows=followDao.getFriendById(userid);
 	public List<Feed> searchFeed(String query){
 		List<Feed> feeds=feedRepository.searchFeed(query);
 		return feeds;
+	}
+
+	@Override
+	public String getOriginPhoto(String fileName) {
+		return feedRepository.getOriginPhoto(fileName);
+	}
+
+	@Override
+	public String getBigPhotoUrls(String feedId) {
+		Feed feed=getFeed(feedId);
+		if(feed==null){
+			return "failed";
+		}
+		int picCount=feed.getPicCount();
+		List<String>list=feedRepository.getBigPhotoUrls(feedId,picCount);
+		String res="";
+		if(list.size()==0){
+			return res;
+		}
+		res=list.get(0);
+		for(int i=1;i<list.size();i++){
+			res=res+","+list.get(i);
+		}
+		return res;
 	}
 
 	

@@ -16,6 +16,7 @@ import model.Comment;
 import model.Feed;
 import model.Like;
 import model.Location;
+import model.SignedUrlFactory;
 
 public class FeedRepositoryImpl implements FeedRepository{
 	 private MongoTemplate mongoTemplate; 
@@ -176,6 +177,18 @@ public class FeedRepositoryImpl implements FeedRepository{
    @Override
 	public List<Feed> searchFeed(String query){
 	   return  mongoTemplate.find(new Query(Criteria.where("text").regex(query)), Feed.class);
+	}
+
+	@Override
+	public String getOriginPhoto(String fileName) {
+		SignedUrlFactory signedUrlFactory=new SignedUrlFactory();
+		return signedUrlFactory.getOriginPhoto(fileName);
+	}
+
+	@Override
+	public List<String> getBigPhotoUrls(String feedId,int picCount) {
+		SignedUrlFactory signedUrlFactory=new SignedUrlFactory();
+		return signedUrlFactory.getBigPicUrls(feedId, picCount);
 	}
 
 }

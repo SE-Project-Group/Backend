@@ -16,4 +16,5 @@ public interface ClientDao {
 	public Client getClientByUserName(String userName);
 	public String getPortraitUrl(int userId);
 	public List<Client> searchClient(String query);
+	public String getBigPortraitUrl(int userId);
 }

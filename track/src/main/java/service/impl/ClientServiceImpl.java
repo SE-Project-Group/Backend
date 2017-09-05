@@ -148,6 +148,15 @@ public class ClientServiceImpl implements ClientService{
 		return returnFollows;
 	}
 
+	@Override
+	public String getBigPortraitUrl(int userId) {
+		Client client=getClientById(userId);
+		if(client==null){
+			return "failed";
+		}
+		return clientDao.getBigPortraitUrl(userId);
+	}
+
 
 
 }

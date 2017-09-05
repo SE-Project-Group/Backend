@@ -99,4 +99,10 @@ public class ClientDaoImpl extends HibernateDaoSupport implements ClientDao{
 		return clients2;
 	}
 
+	@Override
+	public String getBigPortraitUrl(int userId) {
+		SignedUrlFactory signedUrlFactory=new SignedUrlFactory();
+		return signedUrlFactory.getBigPortraitUrl(userId);
+	}
+
 }

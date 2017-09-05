@@ -176,4 +176,8 @@ public interface FeedService {
 
 	public List<Feed> searchFeed(String query);
 	
+	public String getOriginPhoto(String fileName);
+	
+	public String getBigPhotoUrls(String feedId);
+
 }

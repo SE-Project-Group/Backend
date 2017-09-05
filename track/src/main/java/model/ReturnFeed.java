@@ -34,7 +34,6 @@ public class ReturnFeed implements Serializable {
     private String share_feed_id;
     private int share_owner_id;
     private String share_owner_name;
-    private String share_portrait_url;
     private String share_text;
 
 
@@ -187,14 +186,6 @@ public class ReturnFeed implements Serializable {
 
 	public void setShare_owner_name(String share_owner_name) {
 		this.share_owner_name = share_owner_name;
-	}
-
-	public String getShare_portrait_url() {
-		return share_portrait_url;
-	}
-
-	public void setShare_portrait_url(String share_portrait_url) {
-		this.share_portrait_url = share_portrait_url;
 	}
 
 }

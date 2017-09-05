@@ -309,10 +309,9 @@ public class UserInfoRestful {
 	}
 	
 	@GET
-	@Path("getOriginPhoto")
+	@Path("getBigPortraitUrl")
 	@Produces("text/html")
-	public String getOriginPhoto(
-			@QueryParam("fileName") String fileName){
-		return "";
+	public String getBigPortraitUrl(@QueryParam("user_id") int userId){
+		return clientService.getBigPortraitUrl(userId);
 	}
 }

@@ -88,4 +88,12 @@ public List<Feed> getTodayFeedList(Date date);
 
 public List<Feed> searchFeed(String query);
 
+/**
+ * ªÒ»°‘≠Õº
+ * @param fileName
+ * @return
+ */
+public String getOriginPhoto(String fileName);
+
+public List<String> getBigPhotoUrls(String feedId,int picCount);
 }

@@ -95,4 +95,7 @@ public interface ClientService {
 	 * @return
 	 */
 	public List<ReturnFollow> searchUser(int userId, String query);
+	
+	
+	public String getBigPortraitUrl(int userId);
 }

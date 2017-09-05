@@ -525,4 +525,20 @@ public class FeedRestful {
 		}
 		return "failed";
 	}
+	
+	@GET
+	@Path("getOriginPhoto")
+	@Produces("text/html")
+	public String getOriginPhoto(@QueryParam("fileName") String fileName){
+		return feedService.getOriginPhoto(fileName);
+	}
+	
+	@GET
+	@Path("getBigPhotoUrls")
+	@Produces("text/html")
+	public String getBigPhotoUrls(@QueryParam("feed_id") String feedId){
+		return feedService.getBigPhotoUrls(feedId);
+	}
+	
+	
 }
