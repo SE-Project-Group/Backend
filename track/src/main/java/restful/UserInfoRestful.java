@@ -307,4 +307,12 @@ public class UserInfoRestful {
 		JSONArray ja=JSONArray.fromObject(returnFollows);
 		return ja.toString();
 	}
+	
+	@GET
+	@Path("getOriginPhoto")
+	@Produces("text/html")
+	public String getOriginPhoto(
+			@QueryParam("fileName") String fileName){
+		return "";
+	}
 }

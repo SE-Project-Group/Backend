@@ -118,8 +118,8 @@ public class ClientServiceImpl implements ClientService{
 	@Override
 	public ReturnClient clientToReturnClient(Client client){
 		String user_name=client.getUserName();
-		String birthday=client.getBirthday().toString();
-		String gender=client.getGender();
+		String birthday=client.getBirthday()==null?null:client.getBirthday().toString();
+		String gender=client.getGender()==null?null:client.getGender();
 		String email=client.getEmail();
 		SignedUrlFactory signedUrlFactory=new SignedUrlFactory();
 		String portrait_url=signedUrlFactory.getPortraitUrl(client.getUserId());

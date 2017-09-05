@@ -165,7 +165,7 @@ public interface FeedService {
 	 * @param userId
 	 * @param feedId
 	 */
-	public void shareFeed(int userId, String feedId,String text);
+	public boolean shareFeed(int userId, String feedId,String text);
 	/**
 	 * 
 	 * transfer

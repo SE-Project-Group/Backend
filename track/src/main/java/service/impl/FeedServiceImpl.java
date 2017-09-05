@@ -302,7 +302,10 @@ List<Follow> follows=followDao.getFriendById(userid);
 	}
 	
 	@Override
-	public void shareFeed(int userId, String feedId,String text) {
+	public boolean shareFeed(int userId, String feedId,String text) {
+		if(getFeed(feedId)==null){
+			return false;
+		}
 		Feed feed=new Feed();
 		feed.setUserId(userId);
 		feed.setText(text);
@@ -313,6 +316,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 		shareFeed.setShareCount(shareCnt+1);
 		feedRepository.update(shareFeed);
 		feedRepository.insert(feed);
+		return true;
 	}
 
 	@Override
