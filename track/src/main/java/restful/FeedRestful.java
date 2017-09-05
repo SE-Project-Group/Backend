@@ -380,7 +380,10 @@ public class FeedRestful {
 		int user_id=newfeed.getInt("user_id");
 		String text=newfeed.getString("text");
 		int replyId=newfeed.getInt("reply_id");
-		int iowner=feedService.newComment( _id, user_id, text,  replyId);
+		String  ownercommentid=feedService.newComment( _id, user_id, text,  replyId);
+		String oc[]=ownercommentid.split(",");
+		int iowner=Integer.valueOf(oc[0]);
+		//int comment_id=Integer.valueOf(oc[1]);
 		 String owner=String.valueOf(iowner);
 		 Map<String,String>resmap=new HashMap<String,String>();
 			
@@ -404,7 +407,7 @@ public class FeedRestful {
 	     resmap.put("relationship",relationship);
 	     resmap.put("feed_id",_id);
 	     
-	     resmap.put("reply_id",String.valueOf(replyId));
+	     resmap.put("comment_id",oc[1]);
 	     resmap.put("status", "");
 		 Gson json=new Gson(); 
 		 

@@ -152,7 +152,7 @@ public interface FeedService {
 	 * @param replyId为0为回复的评论，不为0则为回复id为replyId的评论
 	 * @return 被评论人的userId
 	 */
-	public int newComment(String _id,int userId,String text,int replyId);
+	public String newComment(String _id,int userId,String text,int replyId);
 	/**
 	 * 查找指定动态的评论列表
 	 * @param feedId

@@ -280,19 +280,20 @@ List<Follow> follows=followDao.getFriendById(userid);
 	}
 
 	@Override
-	public int newComment(String _id, int userId, String text, int replyId) {
+	public String newComment(String _id, int userId, String text, int replyId) {
 		// TODO Auto-generated method stub
 		Feed feed=feedRepository.findOne(_id);
 		int commentcount=feed.getCommentCount()+1;
 		feed.setCommentCount(commentcount);
 		List<Comment> commentList=feed.getCommentList();
 		Comment newcomment=new Comment(userId,replyId,text);
-		newcomment.setCommentId(feed.getCommentCount());
+		int commentid=feed.getCommentCount();
+		newcomment.setCommentId(commentid);
 		commentList.add(newcomment);
 		feed.setCommentList(commentList);
 		feedRepository.update(feed);
 		int feeduserid=feed.getUserId();
-		return feeduserid;
+		return Integer.toString(feeduserid)+","+Integer.toString(commentid);
 	}
 	
 	@Override

@@ -67,7 +67,8 @@ public class TokenFilter implements Filter{
 		uris.add("/track/rest/app/feed/commentList");
 		uris.add("/track/rest/app/user/getPortraitUrl");
 		uris.add("/track/rest/app/user/searchUser");
-		/*uris.add("/track/rest/app/incLikeFeed");*/
+		uris.add("/track/rest/app/feed/searchFeed");
+
 
 		uris.add("/track/rest/app/feed/getFeedsNotLoggedIn");
 		
