@@ -179,5 +179,7 @@ public interface FeedService {
 	public String getOriginPhoto(String fileName);
 	
 	public String getBigPhotoUrls(String feedId);
-
+	
+	public List<ReturnFeed> myLikeFeeds(int userid);
+	public List<ReturnFeed> myCommentFeeds(int userid);
 }

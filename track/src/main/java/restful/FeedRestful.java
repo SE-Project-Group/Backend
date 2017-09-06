@@ -541,4 +541,27 @@ public class FeedRestful {
 	}
 	
 	
+	@GET
+	@Path("myLikeFeeds")
+	@Produces("text/html")
+	public String myLikeFeeds(
+			@QueryParam("user_id") int userId){
+		
+		List<ReturnFeed> feeds=feedService.myLikeFeeds(userId);
+		
+		/*List<ReturnShareFeed> res2=feedService.getFollowingShareFeedList(ts, userId);*/
+		return JSONArray.fromObject(feeds).toString()/*+JSONArray.fromObject(res2).toString()*/;
+	}
+	
+	@GET
+	@Path("myCommentFeeds")
+	@Produces("text/html")
+	public String myCommentFeeds(
+			@QueryParam("user_id") int userId){
+		
+		List<ReturnFeed> feeds=feedService.myCommentFeeds(userId);
+		
+		/*List<ReturnShareFeed> res2=feedService.getFollowingShareFeedList(ts, userId);*/
+		return JSONArray.fromObject(feeds).toString()/*+JSONArray.fromObject(res2).toString()*/;
+	}
 }

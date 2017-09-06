@@ -447,5 +447,47 @@ List<Follow> follows=followDao.getFriendById(userid);
 		return res;
 	}
 
+	@Override
+	public List<ReturnFeed> myLikeFeeds(int userid) {
+		List<Feed>feeds= feedRepository.findAll();
+		for(int i=0;i<feeds.size();i++){
+			Feed tmp=feeds.get(i);
+			int result=0;
+			List<Like>likelist=tmp.getLikeList();
+			for (int j=0;j<tmp.getLikeCount();j++){
+				
+			if(	likelist.get(j).getUserId()==userid)
+				result=1;
+			}
+			if(result==0){
+				feeds.remove(i);
+				i--;
+			}
+			else{}
+		}
+		return feedToReturnFeed(feeds,userid);
+	}
+
+	@Override
+	public List<ReturnFeed> myCommentFeeds(int userid) {
+		List<Feed>feeds= feedRepository.findAll();
+		for(int i=0;i<feeds.size();i++){
+			Feed tmp=feeds.get(i);
+			int result=0;
+			List<Comment>commentlist=tmp.getCommentList();
+			for (int j=0;j<tmp.getCommentCount();j++){
+				
+			if(	commentlist.get(j).getUserId()==userid)
+				result=1;
+			}
+			if(result==0){
+				feeds.remove(i);
+				i--;
+			}
+			else{}
+		}
+		return feedToReturnFeed(feeds,userid);
+	}
+
 	
 }
