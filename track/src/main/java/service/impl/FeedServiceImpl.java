@@ -489,5 +489,17 @@ List<Follow> follows=followDao.getFriendById(userid);
 		return feedToReturnFeed(feeds,userid);
 	}
 
+	@Override
+	public List<ReturnFeed> myShareFeeds(int userId) {
+		List<Feed>feeds=feedRepository.findByUserId(userId);
+		for(int i=0;i<feeds.size();i++){
+			if(feeds.get(i).getShareId().equals("")){
+				feeds.remove(i);
+				i--;
+			}
+		}
+		return feedToReturnFeed(feeds,userId);
+	}
+
 	
 }

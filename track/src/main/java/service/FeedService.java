@@ -182,4 +182,5 @@ public interface FeedService {
 	
 	public List<ReturnFeed> myLikeFeeds(int userid);
 	public List<ReturnFeed> myCommentFeeds(int userid);
+	public List<ReturnFeed> myShareFeeds(int userId);
 }

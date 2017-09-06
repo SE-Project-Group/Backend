@@ -564,4 +564,13 @@ public class FeedRestful {
 		/*List<ReturnShareFeed> res2=feedService.getFollowingShareFeedList(ts, userId);*/
 		return JSONArray.fromObject(feeds).toString()/*+JSONArray.fromObject(res2).toString()*/;
 	}
+	
+	@GET
+	@Path("myShareFeeds")
+	@Produces("text/html")
+	public String myShareFeeds(
+			@QueryParam("user_id") int userId){	
+		List<ReturnFeed> res=feedService.myShareFeeds(userId);
+		return JSONArray.fromObject(res).toString();
+	}
 }
