@@ -481,7 +481,7 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public String getOriginPhoto(String fileName) {
+	public String getOriginPhotoUrl(String fileName) {
 		return feedRepository.getOriginPhoto(fileName);
 	}
 

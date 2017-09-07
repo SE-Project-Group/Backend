@@ -550,10 +550,10 @@ public class FeedRestful {
 	}
 	
 	@GET
-	@Path("getOriginPhoto")
+	@Path("getOriginPhotoUrl")
 	@Produces("text/html")
-	public String getOriginPhoto(@QueryParam("fileName") String fileName){
-		return feedService.getOriginPhoto(fileName);
+	public String getOriginPhotoUrl(@QueryParam("fileName") String fileName){
+		return feedService.getOriginPhotoUrl(fileName);
 	}
 	
 	@GET
