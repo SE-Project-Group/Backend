@@ -100,6 +100,7 @@ public class FeedRestful {
 		
 	     String _id=feed.get_id();
 	     resmap.put("feed_id",_id);
+	     resmap.put("text", feed.getText());
 	     
           Gson mjson=new Gson(); 
 		 
