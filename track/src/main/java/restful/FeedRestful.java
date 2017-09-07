@@ -495,10 +495,22 @@ public class FeedRestful {
 			@QueryParam("time") String time){
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);
-		List<Feed> feeds=feedService.getFollowingFeedList(ts,userId);
+		List<Feed> feeds=feedService.getFollowingFeedsBeforeTime(ts,userId);
 		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
-		/*List<ReturnShareFeed> res2=feedService.getFollowingShareFeedList(ts, userId);*/
-		return JSONArray.fromObject(res).toString()/*+JSONArray.fromObject(res2).toString()*/;
+		return JSONArray.fromObject(res).toString();
+	}
+	
+	@GET
+	@Path("getFollowingFeedsAfterTime")
+	@Produces("text/html")
+	public String getFollowingFeedsAfterTime(
+			@QueryParam("user_id") int userId,
+			@QueryParam("time") String time){
+		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
+		ts=Timestamp.valueOf(time);
+		List<Feed> feeds=feedService.getFollowingFeedsAfterTime(ts,userId);
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
+		return JSONArray.fromObject(res).toString();
 	}
 	
 	@GET

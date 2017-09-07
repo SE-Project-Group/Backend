@@ -114,7 +114,15 @@ public interface FeedService {
 	 * @param userid
 	 * @return
 	 */
-	public List<Feed> getFollowingFeedList(Timestamp time,int userid);
+	public List<Feed> getFollowingFeedsAfterTime(Timestamp time,int userid);
+	
+	/**
+	 * 找出time之前的所有id为userid的人关注的人的动态
+	 * @param time
+	 * @param userid
+	 * @return
+	 */
+	public List<Feed> getFollowingFeedsBeforeTime(Timestamp time,int userid);
 	
 	
 	/**
