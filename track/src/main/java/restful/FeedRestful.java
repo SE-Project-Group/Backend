@@ -527,10 +527,12 @@ public class FeedRestful {
 	@GET
 	@Path("searchFeed")
 	@Produces("text/html")
-	public String searchFeed(@QueryParam("query") String query){
+	public String searchFeed(
+			@QueryParam("query") String query,
+			@QueryParam("user_id") int user_id){
 		List<Feed> feeds=feedService.searchFeed(query);
-		
-		return JSONArray.fromObject(feeds).toString();
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds, user_id);
+		return JSONArray.fromObject(res).toString();
 		
 	}
 	
