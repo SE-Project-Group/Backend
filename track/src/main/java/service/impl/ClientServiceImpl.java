@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.netbeans.lib.cvsclient.commandLine.command.update;
+
 import dao.ClientDao;
 import dao.FollowDao;
 import dao.TokenDao;
@@ -157,6 +159,14 @@ public class ClientServiceImpl implements ClientService{
 		return clientDao.getBigPortraitUrl(userId);
 	}
 
-
-
+	@Override
+	public boolean changePwd(int userId,String oldPwd, String newPwd) {
+		Client client=getClientById(userId);
+		if(client.getPassword().equals(oldPwd)){
+			client.setPassword(newPwd);
+			updateClient(client);
+			return true;
+		}
+		return false;
+	}
 }

@@ -98,4 +98,6 @@ public interface ClientService {
 	
 	
 	public String getBigPortraitUrl(int userId);
+	
+	public boolean changePwd(int userId,String oldPwd,String newPwd);
 }
