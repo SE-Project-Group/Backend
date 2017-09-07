@@ -353,21 +353,27 @@ public class FeedServiceImpl implements FeedService{
 	}
 	
 	@Override
-	public boolean shareFeed(int userId, String feedId,String text) {
+	public String shareFeed(int userId, String feedId,String text) {
 		if(getFeed(feedId)==null){
-			return false;
+			return "failed";
+		}
+		Feed shareFeed=getFeed(feedId);
+		if(!shareFeed.getShareId().equals("")){
+			return shareFeed(userId,shareFeed.getShareId(),text);
+		}	
+		if(!shareFeed.getShareArea().equals("public")){
+			return "not allowed";
 		}
 		Feed feed=new Feed();
 		feed.setUserId(userId);
 		feed.setText(text);
 		feed.setShareId(feedId);
 		feed.setShareArea("public");
-		Feed shareFeed=feedRepository.findOne(feedId);
 		int shareCnt=shareFeed.getShareCount();
 		shareFeed.setShareCount(shareCnt+1);
 		feedRepository.update(shareFeed);
 		feedRepository.insert(feed);
-		return true;
+		return "success";
 	}
 
 	@Override

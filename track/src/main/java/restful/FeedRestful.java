@@ -532,10 +532,7 @@ public class FeedRestful {
 		JSONObject obj=JSONObject.fromObject(info);
 		String feedId=obj.getString("feed_id");
 		String text=obj.getString("text");
-		if(feedService.shareFeed(userId,feedId,text)){
-			return "success";
-		}
-		return "failed";
+		return feedService.shareFeed(userId,feedId,text);
 	}
 	
 	@GET

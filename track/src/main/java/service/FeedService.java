@@ -173,7 +173,7 @@ public interface FeedService {
 	 * @param userId
 	 * @param feedId
 	 */
-	public boolean shareFeed(int userId, String feedId,String text);
+	public String shareFeed(int userId, String feedId,String text);
 	/**
 	 * 
 	 * transfer
