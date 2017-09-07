@@ -1,7 +1,13 @@
 package service.impl;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.geo.Circle;
@@ -84,7 +90,9 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public List<Feed> findPublicFeedsById(int userId) {
 		// TODO Auto-generated method stub
-		return feedRepository.findPublicFeedsByUserId(userId);
+		List<Feed>res=feedRepository.findPublicFeedsByUserId(userId);
+		Collections.reverse(res);
+		return res;
 	}
 
 	@Override
@@ -108,6 +116,7 @@ public class FeedServiceImpl implements FeedService{
 	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time,int userId) {
 		// TODO Auto-generated method stub
 		List<Feed>feeds= feedRepository.findPublicFeedsAfterTime(time);
+		Collections.reverse(feeds);
 		return feedToReturnFeed(feeds,userId);
 	}
 
@@ -115,6 +124,7 @@ public class FeedServiceImpl implements FeedService{
 	public List<ReturnFeed> findPublicFeedsBeforeTime(Timestamp time,int userId) {
 		// TODO Auto-generated method stub
 		List<Feed>feeds= feedRepository.findPublicFeedsBeforeTime(time);
+		Collections.reverse(feeds);
 		return feedToReturnFeed(feeds,userId);
 	}
 
@@ -122,7 +132,9 @@ public class FeedServiceImpl implements FeedService{
 	public List<Feed> getFeedsLoggedIn(int userId, int who) {
 		// TODO Auto-generated method stub
 		if(userId==who){		//self
-			return findFeedByUserId(who);
+			List<Feed>res=findFeedByUserId(who);
+			Collections.reverse(res);
+			return res;
 		}
 		else if(followDao.isFriend(userId,who)){
 			List<Feed>list1=feedRepository.findPublicFeedsByUserId(who);
@@ -130,17 +142,19 @@ public class FeedServiceImpl implements FeedService{
 			for(int i=0;i<list1.size();i++){
 				list2.add(list1.get(i));
 			}
-			return list2;
+			return sortFeed(list2);
 		}
 		else{
-			return findPublicFeedsById(who);
+			List<Feed>res=findPublicFeedsById(who);
+			Collections.reverse(res);
+			return res;
 		}
 	}
 
 	@Override
 	public List<Feed> getFriendFeedList(Timestamp time, int userid) {
 		// TODO Auto-generated method stub
-List<Follow> follows=followDao.getFriendById(userid);
+		List<Follow> follows=followDao.getFriendById(userid);
 		
 		int friendnum=follows.size();
 		int[] friend=new int[friendnum];
@@ -166,6 +180,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 				i--;
 			}
 		}
+		Collections.reverse(feeds);
 		return feeds;
 	}
 
@@ -173,6 +188,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 	public List<Feed> getAllFeedList(Timestamp time) {
 		// TODO Auto-generated method stub
 		List<Feed>feeds= feedRepository.findFeedsByTime(time);
+		Collections.reverse(feeds);
 		return feeds;
 	}
 
@@ -210,6 +226,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 				i--;
 			}
 		}
+		Collections.reverse(feeds);
 		return feeds;
 	}
 	
@@ -420,6 +437,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 
 	public List<Feed> searchFeed(String query){
 		List<Feed> feeds=feedRepository.searchFeed(query);
+		Collections.reverse(feeds);
 		return feeds;
 	}
 
@@ -465,6 +483,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 			}
 			else{}
 		}
+		Collections.reverse(feeds);
 		return feedToReturnFeed(feeds,userid);
 	}
 
@@ -486,6 +505,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 			}
 			else{}
 		}
+		Collections.reverse(feeds);
 		return feedToReturnFeed(feeds,userid);
 	}
 
@@ -498,7 +518,28 @@ List<Follow> follows=followDao.getFriendById(userid);
 				i--;
 			}
 		}
+		Collections.reverse(feeds);
 		return feedToReturnFeed(feeds,userId);
+	}
+
+	@Override
+	public List<Feed> sortFeed(List<Feed> feeds) {
+		Collections.sort(feeds, new Comparator<Feed>() {
+            public int compare(Feed feed1,Feed feed2) {
+            	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+					Date time1=df.parse(feed1.getTime());
+					Date time2=df.parse(feed2.getTime());
+					if(time1.getTime()>time2.getTime()){
+						return 0;
+					}
+					else return 1;
+				} catch (ParseException e) {
+					return 0;
+				}
+            }
+        });
+		return feeds;
 	}
 
 	

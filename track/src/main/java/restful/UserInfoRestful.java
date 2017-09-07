@@ -329,4 +329,16 @@ public class UserInfoRestful {
 		}
 		return "failed";
 	}
+	
+	@GET
+	@Path("verifyPhone")
+	@Produces("text/html")
+	public String verifyPhone(
+			@QueryParam("user_id") int userId,
+			@QueryParam("phone") String phone){
+		if(clientService.verifyPhone(userId,phone)){
+			return "true";
+		}
+		return "false";
+	}
 }

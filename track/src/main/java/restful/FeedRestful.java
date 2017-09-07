@@ -488,9 +488,9 @@ public class FeedRestful {
      * @throws UnsupportedEncodingException
      */
 	@GET
-	@Path("getFollowingFeedList")
+	@Path("getFollowingFeedsBeforeTime")
 	@Produces("text/html")
-	public String getFollowingFeedList(
+	public String getFollowingFeedsBeforeTime(
 			@QueryParam("user_id") int userId,
 			@QueryParam("time") String time){
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
@@ -566,9 +566,9 @@ public class FeedRestful {
 	}
 	
 	@GET
-	@Path("myShareFeeds")
+	@Path("getMyShareFeeds")
 	@Produces("text/html")
-	public String myShareFeeds(
+	public String getMyShareFeeds(
 			@QueryParam("user_id") int userId){	
 		List<ReturnFeed> res=feedService.myShareFeeds(userId);
 		return JSONArray.fromObject(res).toString();

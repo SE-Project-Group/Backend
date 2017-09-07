@@ -169,4 +169,13 @@ public class ClientServiceImpl implements ClientService{
 		}
 		return false;
 	}
+
+	@Override
+	public boolean verifyPhone(int userId, String phone) {
+		Client client=getClientById(userId);
+		if(client.getPhone().equals(phone)){
+			return true;
+		}
+		return false;
+	}
 }
