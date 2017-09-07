@@ -302,6 +302,7 @@ public class FeedRestful {
 		 int user_id=newfeed.getInt("user_id");
 		 Feed feed=feedService.getFeed(_id);
 		 String shareId=feed.getShareId();
+		 String newId=_id;
 		 if(!shareId.equals("")){
 			 _id=shareId;
 		 }
@@ -325,7 +326,7 @@ public class FeedRestful {
 		
 /*	     String relationship=followService.getRelationship(iowner, user_id);
 	     resmap.put("relationship",relationship);*/
-	     resmap.put("feed_id",_id);
+	     resmap.put("feed_id",newId);
 	     resmap.put("status", "");
 	     
 
@@ -357,6 +358,11 @@ public class FeedRestful {
 		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 int user_id=newfeed.getInt("user_id");
+		 Feed feed=feedService.getFeed(_id);
+		 String shareId=feed.getShareId();
+		 if(!shareId.equals("")){
+			 _id=shareId;
+		 }
 		 feedService.decLikeFeed(_id,user_id);  
 		 return "success";
      }
@@ -380,6 +386,11 @@ public class FeedRestful {
 		int user_id=newfeed.getInt("user_id");
 		String text=newfeed.getString("text");
 		int replyId=newfeed.getInt("reply_id");
+		Feed feed=feedService.getFeed(_id);
+		String shareId=feed.getShareId();
+		if(!shareId.equals("")){
+			_id=shareId;
+		}
 		String  ownercommentid=feedService.newComment( _id, user_id, text,  replyId);
 		String oc[]=ownercommentid.split(",");
 		int iowner=Integer.valueOf(oc[0]);
