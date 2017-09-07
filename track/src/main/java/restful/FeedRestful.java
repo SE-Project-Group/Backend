@@ -523,7 +523,7 @@ public class FeedRestful {
 		
 	}
 	
-	@POST
+	@PUT
 	@Path("shareFeed")
 	@Produces("text/html")
 	public String shareFeed(
@@ -531,7 +531,7 @@ public class FeedRestful {
 			@QueryParam("user_id") int userId){
 		JSONObject obj=JSONObject.fromObject(info);
 		String feedId=obj.getString("feed_id");
-		String text=obj.getString("text");
+		String text=obj.getString("share_text");
 		return feedService.shareFeed(userId,feedId,text);
 	}
 	
