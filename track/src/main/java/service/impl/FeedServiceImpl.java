@@ -84,7 +84,9 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public List<Feed> findFeedByUserId(int userId) {
 		// TODO Auto-generated method stub
-		return feedRepository.findByUserId(userId);
+		List<Feed>feeds=feedRepository.findByUserId(userId);
+		Collections.reverse(feeds);
+		return feeds;
 	}
 
 	@Override
@@ -210,7 +212,11 @@ public class FeedServiceImpl implements FeedService{
 		int count=0;
 		for(int i=feeds.size()-1;i>=0;i--){
 			Feed feed=feeds.get(i);
-			if(!feed.getShareArea().equals("public")){
+			String shareArea=feed.getShareArea();
+			if(shareArea.equals("private")){
+				continue;
+			}
+			else if(shareArea.equals("friend")&&!followDao.isFriend(userid, feed.getUserId())){
 				continue;
 			}
 			int feeduserid=feed.getUserId();
@@ -244,7 +250,11 @@ public class FeedServiceImpl implements FeedService{
 		int count=0;
 		for(int i=feeds.size()-1;i>=0;i--){
 			Feed feed=feeds.get(i);
-			if(!feed.getShareArea().equals("public")){
+			String shareArea=feed.getShareArea();
+			if(shareArea.equals("private")){
+				continue;
+			}
+			else if(shareArea.equals("friend")&&!followDao.isFriend(userid, feed.getUserId())){
 				continue;
 			}
 			int feeduserid=feed.getUserId();

@@ -595,4 +595,20 @@ public class FeedRestful {
 		List<ReturnFeed> res=feedService.myShareFeeds(userId);
 		return JSONArray.fromObject(res).toString();
 	}
+	
+	@GET
+	@Path("getFeedDetail")
+	@Produces("text/html")
+	public String getFeedDetail(
+			@QueryParam("user_id") int userId,
+			@QueryParam("feed_id") String feedId){	
+		Feed feed=feedService.getFeed(feedId);
+		if(feed==null){
+			return "failed";
+		}
+		List<Feed> feeds=new ArrayList<Feed>();
+		feeds.add(feed);
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds, userId);
+		return JSONObject.fromObject(res.get(0)).toString();
+	}
 }
