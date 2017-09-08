@@ -541,17 +541,19 @@ public class FeedRestful {
 		String text=obj.getString("share_text");
 		int owner = obj.getInt("owner");
 		Map<String,String>resmap=new HashMap<String,String>();
-		resmap.put("user_id",String.valueOf(userId));
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	    String time=df.format(new Date(System.currentTimeMillis()));
-	    resmap.put("time", time);
-	    resmap.put("user_name", clientService.getClientById(userId).getUserName());
-	    resmap.put("feed_id", feedId);
-	    resmap.put("share_comment", text);
-		Gson json=new Gson(); 	 
-		String msgContent=json.toJson(resmap);
-		msgContent="NewCommentMessage#"+msgContent;
-		jpushService.sendMessageByAlias(String.valueOf( owner), msgContent);
+		if(userId!=owner){
+			resmap.put("user_id",String.valueOf(userId));
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		    String time=df.format(new Date(System.currentTimeMillis()));
+		    resmap.put("time", time);
+		    resmap.put("user_name", clientService.getClientById(userId).getUserName());
+		    resmap.put("feed_id", feedId);
+		    resmap.put("share_comment", text);
+			Gson json=new Gson(); 	 
+			String msgContent=json.toJson(resmap);
+			msgContent="NewCommentMessage#"+msgContent;
+			jpushService.sendMessageByAlias(String.valueOf( owner), msgContent);
+		}
 		return feedService.shareFeed(userId,feedId,text);
 	}
 	
