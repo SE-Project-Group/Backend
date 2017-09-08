@@ -301,12 +301,6 @@ public class FeedRestful {
 		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 int user_id=newfeed.getInt("user_id");
-		 Feed feed=feedService.getFeed(_id);
-		 String shareId=feed.getShareId();
-		 String newId=_id;
-		 if(!shareId.equals("")){
-			 _id=shareId;
-		 }
 		 int iowner=feedService.incLikeFeed(_id,user_id);
 		 String owner=String.valueOf(iowner);
 		 Map<String,String>resmap=new HashMap<String,String>();
@@ -327,7 +321,7 @@ public class FeedRestful {
 		
 /*	     String relationship=followService.getRelationship(iowner, user_id);
 	     resmap.put("relationship",relationship);*/
-	     resmap.put("feed_id",newId);
+	     resmap.put("feed_id",_id);
 	     resmap.put("status", "");
 	     
 
@@ -359,11 +353,6 @@ public class FeedRestful {
 		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 int user_id=newfeed.getInt("user_id");
-		 Feed feed=feedService.getFeed(_id);
-		 String shareId=feed.getShareId();
-		 if(!shareId.equals("")){
-			 _id=shareId;
-		 }
 		 feedService.decLikeFeed(_id,user_id);  
 		 return "success";
      }

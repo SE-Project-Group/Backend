@@ -419,7 +419,7 @@ public class FeedServiceImpl implements FeedService{
 				Client shareClient=clientDao.getClientById(shareUserId);
 				String shareUserName=shareClient.getUserName();
 				List<Like> likelist=new ArrayList<Like>();
-				likelist=shareFeed.getLikeList();
+				likelist=curFeed.getLikeList();
 				boolean liked=false;
 				int size=likelist.size();
 				for(int j=0;j<size;j++){
