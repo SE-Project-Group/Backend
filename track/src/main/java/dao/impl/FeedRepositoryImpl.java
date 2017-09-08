@@ -75,8 +75,6 @@ public class FeedRepositoryImpl implements FeedRepository{
 
 	@Override
 	public void update(Feed feed) {
-		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		 String itime=	df.format(new Date(System.currentTimeMillis()));
 		// TODO Auto-generated method stub
 		String n_id=feed.get_id();
 		int id=feed.getUserId();
@@ -100,7 +98,6 @@ public class FeedRepositoryImpl implements FeedRepository{
 			 new Update()
 			 .set("_id", n_id)
 			 .set("userId", id)
-			 .set("time", itime)
 			 .set("text", ntext)
 			 .set("showLocation", nshowLocation)
 			 .set("location", nlocation)
