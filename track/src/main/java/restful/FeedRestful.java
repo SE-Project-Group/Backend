@@ -387,11 +387,6 @@ public class FeedRestful {
 		int user_id=newfeed.getInt("user_id");
 		String text=newfeed.getString("text");
 		int replyId=newfeed.getInt("reply_id");
-		Feed feed=feedService.getFeed(_id);
-		String shareId=feed.getShareId();
-		if(!shareId.equals("")){
-			_id=shareId;
-		}
 		String  ownercommentid=feedService.newComment( _id, user_id, text,  replyId);
 		//ocr[0]涓簅wnerID锛宱cr[1]涓篶omment_id锛宱cr[2]涓簉eply_id
 		String ocr[]=ownercommentid.split(",");
