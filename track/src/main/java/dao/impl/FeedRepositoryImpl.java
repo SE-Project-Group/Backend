@@ -80,14 +80,11 @@ public class FeedRepositoryImpl implements FeedRepository{
 		int id=feed.getUserId();
 	    String ntext=feed.getText();   
 	    boolean nshowLocation=feed.getShowLocation();
-	    Location nlocation=feed.getLocation();
 	    String nshareArea=feed.getShareArea();
-	    List<Integer> nmentionList=feed.getMentionList();
 	    int npicCount=feed.getPicCount();
 	    int nshareCount=feed.getShareCount();
 	    int ncommentCount=feed.getCommentCount();
 	    int nlikeCount=feed.getLikeCount();
-	    String nposition=feed.getPosition();
 	    List<Like> nlikeList=feed.getLikeList();
 	    List<Comment> ncommentList=feed.getCommentList();
 	    /*Query query=Query.query(Criteria.where("_id").is(n_id));
@@ -96,7 +93,6 @@ public class FeedRepositoryImpl implements FeedRepository{
 	    mongoTemplate.upsert(
 	    		new Query(Criteria.where("_id").is(n_id)), 
 			 new Update()
-			 .set("_id", n_id)
 			 .set("userId", id)
 			 .set("text", ntext)
 			 .set("showLocation", nshowLocation)
