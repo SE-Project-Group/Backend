@@ -554,6 +554,7 @@ public class FeedRestful {
 		JSONObject obj=JSONObject.fromObject(info);
 		String feedId=obj.getString("feed_id");
 		String text=obj.getString("share_text");
+		int owner = obj.getInt("owner");
 		return feedService.shareFeed(userId,feedId,text);
 	}
 	
