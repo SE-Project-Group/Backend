@@ -207,10 +207,12 @@ public class FeedServiceImpl implements FeedService{
 		
 		   }
 		//System.out.print(follownum);
+
 		List<Feed>feeds= feedRepository.findFeedsAfterTime(time);	
 		List<Feed>res=new ArrayList<Feed>();
 		int count=0;
 		for(int i=feeds.size()-1;i>=0;i--){
+
 			Feed feed=feeds.get(i);
 			String shareArea=feed.getShareArea();
 			if(shareArea.equals("private")){
@@ -231,6 +233,7 @@ public class FeedServiceImpl implements FeedService{
 			if(count==20){
 				break;
 			}
+		
 		}
 		return res;
 	}
@@ -346,6 +349,16 @@ public class FeedServiceImpl implements FeedService{
 		int commentcount=feed.getCommentCount()+1;
 		feed.setCommentCount(commentcount);
 		List<Comment> commentList=feed.getCommentList();
+		int replyowner=0;
+		if(replyId!=0){
+			for(int m=0;m<commentList.size();m++){
+				Comment comment=commentList.get(m);
+				if(comment.getReplyId()==replyId){
+					replyowner=comment.getUserId();
+					break;
+				}
+			}
+		}
 		Comment newcomment=new Comment(userId,replyId,text);
 		int commentid=feed.getCommentCount();
 		newcomment.setCommentId(commentid);
@@ -353,7 +366,7 @@ public class FeedServiceImpl implements FeedService{
 		feed.setCommentList(commentList);
 		feedRepository.update(feed);
 		int feeduserid=feed.getUserId();
-		return Integer.toString(feeduserid)+","+Integer.toString(commentid);
+		return Integer.toString(feeduserid)+","+Integer.toString(commentid)+","+Integer.toString(replyowner);
 	}
 	
 	@Override
