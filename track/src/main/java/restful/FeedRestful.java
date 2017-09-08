@@ -46,7 +46,7 @@ public class FeedRestful {
 	private ClientService clientService=(ClientService) SpringContextUtil.getBean("clientService");
 	private FollowService followService=(FollowService) SpringContextUtil.getBean("followService");
 	/**
-	 * 鍙戝竷鏂板姩鎬�
+	 * 閸欐垵绔烽弬鏉垮З閹拷
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -111,7 +111,7 @@ public class FeedRestful {
 		 return _id;
      }
 	/**
-	 * 鏇存柊鍔ㄦ��
+	 * 閺囧瓨鏌婇崝銊︼拷锟�
 	 * @param feedinfo
 	 * @param userId
 	 * @param sign
@@ -131,7 +131,7 @@ public class FeedRestful {
 		 return "success";
      }	
 	/**
-	 * 鍒犻櫎鍔ㄦ��
+	 * 閸掔娀娅庨崝銊︼拷锟�
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -151,7 +151,7 @@ public class FeedRestful {
 		return "success";
      }	
 	/**
-	 * 鑾峰彇鑷繁鐨勬墍鏈塮eed
+	 * 閼惧嘲褰囬懛顏勭箒閻ㄥ嫭澧嶉張濉甧ed
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -170,7 +170,7 @@ public class FeedRestful {
 		 return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * 鏈櫥褰曠姸鎬佷笅鑾峰彇鏌愪汉鎵�鏈夊叕寮�鍔ㄦ��
+	 * 閺堫亞娅ヨぐ鏇犲Ц閹椒绗呴懢宄板絿閺屾劒姹夐幍锟介張澶婂彆瀵拷閸斻劍锟斤拷
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -189,7 +189,7 @@ public class FeedRestful {
 		 return JSONArray.fromObject(res).toString();
 	}	
 	/**
-	 * 鐧诲綍鐘舵�佷笅鑾峰彇鏌愪汉鍔ㄦ��
+	 * 閻ц缍嶉悩鑸碉拷浣风瑓閼惧嘲褰囬弻鎰眽閸斻劍锟斤拷
 	 * @param userId
 	 * @param sign
 	 * @param who
@@ -210,7 +210,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();	 
 	}	
 	/**
-	 * 鑾峰彇time涔嬪悗鐨勬墍鏈塸ublic鐨刦eed
+	 * 閼惧嘲褰噒ime娑斿鎮楅惃鍕閺堝「ublic閻ㄥ垿eed
 	 * @param time
 	 * @param userId
 	 * @param sign
@@ -232,7 +232,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
-	 * 鑾峰彇time涔嬪悗鐨勬墍鏈塸ublic鐨刦eed
+	 * 閼惧嘲褰噒ime娑斿鎮楅惃鍕閺堝「ublic閻ㄥ垿eed
 	 * @param time
 	 * @param userId
 	 * @param sign
@@ -254,7 +254,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
-	 * 鑾峰彇鍛ㄨ竟鐨勫姩鎬�
+	 * 閼惧嘲褰囬崨銊ㄧ珶閻ㄥ嫬濮╅幀锟�
 	 * @param longitude
 	 * @param latitude
 	 * @param userId
@@ -284,7 +284,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(feeds).toString();
 	}
 	/**
-	 * 涓哄姩鎬佺偣璧�
+	 * 娑撳搫濮╅幀浣哄仯鐠э拷
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -341,7 +341,7 @@ public class FeedRestful {
      }
 	 
 	 /**
-	  * 鍙栨秷璧�
+	  * 閸欐牗绉风挧锟�
 	  * @param feedInfo
 	  * @param userId
 	  * @param sign
@@ -368,7 +368,7 @@ public class FeedRestful {
 		 return "success";
      }
 	/**
-	 * 涓哄姩鎬佹坊鍔犺瘎璁�
+	 * 娑撳搫濮╅幀浣瑰潑閸旂姾鐦庣拋锟�
 	 * @param commentInfo
 	 * @param userId
 	 * @param sign
@@ -393,7 +393,7 @@ public class FeedRestful {
 			_id=shareId;
 		}
 		String  ownercommentid=feedService.newComment( _id, user_id, text,  replyId);
-		//ocr[0]为ownerID，ocr[1]为comment_id，ocr[2]为reply_id
+		//ocr[0]涓簅wnerID锛宱cr[1]涓篶omment_id锛宱cr[2]涓簉eply_id
 		String ocr[]=ownercommentid.split(",");
 		int iowner=Integer.valueOf(ocr[0]);
 		//int comment_id=Integer.valueOf(oc[1]);
@@ -436,7 +436,7 @@ public class FeedRestful {
 		 return "success";
 	}
 	/**
-	 * 鑾峰彇鏌愬姩鎬佺殑璇勮鍒楄〃
+	 * 閼惧嘲褰囬弻鎰З閹胶娈戠拠鍕啈閸掓銆�
 	 * @param feedId
 	 * @return
 	 * @throws JSONException
@@ -452,7 +452,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * 鑾峰彇濂藉弸鐨勫姩鎬佸垪琛�
+	 * 閼惧嘲褰囨總钘夊几閻ㄥ嫬濮╅幀浣稿灙鐞涳拷
 	 * @param tstring
 	 * @param userId
 	 * @param sign
@@ -474,7 +474,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * 鑾峰彇鍏ㄩ儴鐨勫姩鎬佸垪琛�
+	 * 閼惧嘲褰囬崗銊╁劥閻ㄥ嫬濮╅幀浣稿灙鐞涳拷
 	 * @param userId
 	 * @param sign
 	 * @param time
@@ -496,7 +496,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
     /**
-     * 鑾峰彇鎴戝叧娉ㄧ殑浜虹殑鍔ㄦ�佺殑鍒楄〃
+     * 閼惧嘲褰囬幋鎴濆彠濞夈劎娈戞禍铏规畱閸斻劍锟戒胶娈戦崚妤勩��
      * @param tstring
      * @param userId
      * @param sign
@@ -556,21 +556,18 @@ public class FeedRestful {
 		String feedId=obj.getString("feed_id");
 		String text=obj.getString("share_text");
 		int owner = obj.getInt("owner");
-		 Map<String,String>resmap=new HashMap<String,String>();
-		 resmap.put("user_id",String.valueOf(userId));
-		 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	     String time=df.format(new Date(System.currentTimeMillis()));
-	     resmap.put("time", time);
-
-	     resmap.put("user_name", "");
-	     resmap.put("feed_id", "");
-	     resmap.put("share_comment", "");
-		 Gson json=new Gson(); 
-		 
-		 
-		 String msgContent=json.toJson(resmap);
-		 msgContent="NewCommentMessage#"+msgContent;
-		 jpushService.sendMessageByAlias(String.valueOf( owner), msgContent);
+		Map<String,String>resmap=new HashMap<String,String>();
+		resmap.put("user_id",String.valueOf(userId));
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    String time=df.format(new Date(System.currentTimeMillis()));
+	    resmap.put("time", time);
+	    resmap.put("user_name", clientService.getClientById(userId).getUserName());
+	    resmap.put("feed_id", feedId);
+	    resmap.put("share_comment", text);
+		Gson json=new Gson(); 	 
+		String msgContent=json.toJson(resmap);
+		msgContent="NewCommentMessage#"+msgContent;
+		jpushService.sendMessageByAlias(String.valueOf( owner), msgContent);
 		return feedService.shareFeed(userId,feedId,text);
 	}
 	
