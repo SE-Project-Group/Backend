@@ -381,8 +381,9 @@ public class FeedRestful {
 		String text=newfeed.getString("text");
 		int replyId=newfeed.getInt("reply_id");
 		String  ownercommentid=feedService.newComment( _id, user_id, text,  replyId);
-		String oc[]=ownercommentid.split(",");
-		int iowner=Integer.valueOf(oc[0]);
+		//ocr[0]ÎªownerID£¬ocr[1]Îªcomment_id£¬ocr[2]Îªreply_id
+		String ocr[]=ownercommentid.split(",");
+		int iowner=Integer.valueOf(ocr[0]);
 		//int comment_id=Integer.valueOf(oc[1]);
 		 String owner=String.valueOf(iowner);
 		 Map<String,String>resmap=new HashMap<String,String>();
@@ -407,14 +408,19 @@ public class FeedRestful {
 	     resmap.put("relationship",relationship);
 	     resmap.put("feed_id",_id);
 	     
-	     resmap.put("comment_id",oc[1]);
+	     resmap.put("comment_id",ocr[1]);
 	     resmap.put("status", "");
 		 Gson json=new Gson(); 
 		 
 		 
 		 String msgContent=json.toJson(resmap);
 		 msgContent="NewCommentMessage#"+msgContent;
-	     jpushService.sendMessageByAlias(owner, msgContent);
+		 if(user_id==iowner){}
+		 else
+		 if(replyId==0){jpushService.sendMessageByAlias(owner, msgContent);}
+		 else{
+			 jpushService.sendMessageByAlias(ocr[2], msgContent);
+		 }
 		 return "success";
 	}
 	/**
@@ -488,14 +494,14 @@ public class FeedRestful {
      * @throws UnsupportedEncodingException
      */
 	@GET
-	@Path("getFollowingFeedList")
+	@Path("getFollowingFeedsAfterTime")
 	@Produces("text/html")
 	public String getFollowingFeedList(
 			@QueryParam("user_id") int userId,
 			@QueryParam("time") String time){
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);
-		List<Feed> feeds=feedService.getFollowingFeedList(ts,userId);
+		List<Feed> feeds=feedService.getFollowingFeedsAfterTime(ts,userId);
 		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
 		/*List<ReturnShareFeed> res2=feedService.getFollowingShareFeedList(ts, userId);*/
 		return JSONArray.fromObject(res).toString()/*+JSONArray.fromObject(res2).toString()*/;

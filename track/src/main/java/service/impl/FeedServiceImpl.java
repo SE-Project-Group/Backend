@@ -177,7 +177,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 	}
 
 	@Override
-	public List<Feed> getFollowingFeedList(Timestamp time, int userid) {
+	public List<Feed> getFollowingFeedsAfterTime(Timestamp time, int userid) {
 		// TODO Auto-generated method stub
 		List<Follow> follows=followDao.getFollowingById(userid);
 		int follownum=follows.size();
@@ -189,7 +189,8 @@ List<Follow> follows=followDao.getFriendById(userid);
 		
 		   }
 		//System.out.print(follownum);
-		List<Feed>feeds= feedRepository.findFeedsByTime(time);		
+		List<Feed>feeds= feedRepository.findFeedsByTime(time);
+		int m=0;
 		for(int i=0;i<feeds.size();i++){
 			//System.out.println("feednum:"+feeds.size());
 			Feed feed=feeds.get(i);
@@ -209,6 +210,8 @@ List<Follow> follows=followDao.getFriendById(userid);
 				feeds.remove(i);
 				i--;
 			}
+			else m++;
+			if(m>=10)break;
 		}
 		return feeds;
 	}
@@ -286,6 +289,16 @@ List<Follow> follows=followDao.getFriendById(userid);
 		int commentcount=feed.getCommentCount()+1;
 		feed.setCommentCount(commentcount);
 		List<Comment> commentList=feed.getCommentList();
+		int replyowner=0;
+		if(replyId!=0){
+			for(int m=0;m<commentList.size();m++){
+				Comment comment=commentList.get(m);
+				if(comment.getReplyId()==replyId){
+					replyowner=comment.getUserId();
+					break;
+				}
+			}
+		}
 		Comment newcomment=new Comment(userId,replyId,text);
 		int commentid=feed.getCommentCount();
 		newcomment.setCommentId(commentid);
@@ -293,7 +306,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 		feed.setCommentList(commentList);
 		feedRepository.update(feed);
 		int feeduserid=feed.getUserId();
-		return Integer.toString(feeduserid)+","+Integer.toString(commentid);
+		return Integer.toString(feeduserid)+","+Integer.toString(commentid)+","+Integer.toString(replyowner);
 	}
 	
 	@Override

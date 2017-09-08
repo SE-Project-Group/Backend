@@ -114,7 +114,7 @@ public interface FeedService {
 	 * @param userid
 	 * @return
 	 */
-	public List<Feed> getFollowingFeedList(Timestamp time,int userid);
+	public List<Feed> getFollowingFeedsAfterTime(Timestamp time,int userid);
 	
 	
 	/**
