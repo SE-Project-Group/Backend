@@ -570,8 +570,7 @@ public class FeedRestful {
 	public String getBigPhotoUrls(@QueryParam("feed_id") String feedId){
 		return feedService.getBigPhotoUrls(feedId);
 	}
-	
-	
+		
 	@GET
 	@Path("myLikeFeeds")
 	@Produces("text/html")
