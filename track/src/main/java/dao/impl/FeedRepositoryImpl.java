@@ -149,11 +149,21 @@ public class FeedRepositoryImpl implements FeedRepository{
 	}
 
 	@Override
-	public List<Feed> findFeedsByTime(Timestamp time) {
+	public List<Feed> findFeedsAfterTime(Timestamp time) {
 		// TODO Auto-generated method stub
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String stime = df.format(time);
 		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("time").gt(stime)), Feed.class); 
+		
+		return allfeed;
+	}
+	
+	@Override
+	public List<Feed> findFeedsBeforeTime(Timestamp time) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String stime = df.format(time);
+		List<Feed> allfeed=	mongoTemplate.find(new Query(Criteria.where("time").lt(stime)), Feed.class); 
 		
 		return allfeed;
 	}

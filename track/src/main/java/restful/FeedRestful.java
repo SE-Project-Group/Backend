@@ -46,7 +46,7 @@ public class FeedRestful {
 	private ClientService clientService=(ClientService) SpringContextUtil.getBean("clientService");
 	private FollowService followService=(FollowService) SpringContextUtil.getBean("followService");
 	/**
-	 * ·¢²¼ĞÂ¶¯Ì¬
+	 * å‘å¸ƒæ–°åŠ¨æ€
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -100,6 +100,7 @@ public class FeedRestful {
 		
 	     String _id=feed.get_id();
 	     resmap.put("feed_id",_id);
+	     resmap.put("text", feed.getText());
 	     
           Gson mjson=new Gson(); 
 		 
@@ -110,7 +111,7 @@ public class FeedRestful {
 		 return _id;
      }
 	/**
-	 * ¸üĞÂ¶¯Ì¬
+	 * æ›´æ–°åŠ¨æ€
 	 * @param feedinfo
 	 * @param userId
 	 * @param sign
@@ -130,7 +131,7 @@ public class FeedRestful {
 		 return "success";
      }	
 	/**
-	 * É¾³ı¶¯Ì¬
+	 * åˆ é™¤åŠ¨æ€
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -150,7 +151,7 @@ public class FeedRestful {
 		return "success";
      }	
 	/**
-	 * »ñÈ¡×Ô¼ºµÄËùÓĞfeed
+	 * è·å–è‡ªå·±çš„æ‰€æœ‰feed
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -169,7 +170,7 @@ public class FeedRestful {
 		 return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * Î´µÇÂ¼×´Ì¬ÏÂ»ñÈ¡Ä³ÈËËùÓĞ¹«¿ª¶¯Ì¬
+	 * æœªç™»å½•çŠ¶æ€ä¸‹è·å–æŸäººæ‰€æœ‰å…¬å¼€åŠ¨æ€
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -188,7 +189,7 @@ public class FeedRestful {
 		 return JSONArray.fromObject(res).toString();
 	}	
 	/**
-	 * µÇÂ¼×´Ì¬ÏÂ»ñÈ¡Ä³ÈË¶¯Ì¬
+	 * ç™»å½•çŠ¶æ€ä¸‹è·å–æŸäººåŠ¨æ€
 	 * @param userId
 	 * @param sign
 	 * @param who
@@ -209,7 +210,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();	 
 	}	
 	/**
-	 * »ñÈ¡timeÖ®ºóµÄËùÓĞpublicµÄfeed
+	 * è·å–timeä¹‹åçš„æ‰€æœ‰publicçš„feed
 	 * @param time
 	 * @param userId
 	 * @param sign
@@ -231,7 +232,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
-	 * »ñÈ¡timeÖ®ºóµÄËùÓĞpublicµÄfeed
+	 * è·å–timeä¹‹åçš„æ‰€æœ‰publicçš„feed
 	 * @param time
 	 * @param userId
 	 * @param sign
@@ -253,7 +254,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
-	 * »ñÈ¡ÖÜ±ßµÄ¶¯Ì¬
+	 * è·å–å‘¨è¾¹çš„åŠ¨æ€
 	 * @param longitude
 	 * @param latitude
 	 * @param userId
@@ -283,7 +284,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(feeds).toString();
 	}
 	/**
-	 * Îª¶¯Ì¬µãÔŞ
+	 * ä¸ºåŠ¨æ€ç‚¹èµ
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -302,6 +303,7 @@ public class FeedRestful {
 		 int user_id=newfeed.getInt("user_id");
 		 Feed feed=feedService.getFeed(_id);
 		 String shareId=feed.getShareId();
+		 String newId=_id;
 		 if(!shareId.equals("")){
 			 _id=shareId;
 		 }
@@ -325,7 +327,7 @@ public class FeedRestful {
 		
 /*	     String relationship=followService.getRelationship(iowner, user_id);
 	     resmap.put("relationship",relationship);*/
-	     resmap.put("feed_id",_id);
+	     resmap.put("feed_id",newId);
 	     resmap.put("status", "");
 	     
 
@@ -339,7 +341,7 @@ public class FeedRestful {
      }
 	 
 	 /**
-	  * È¡ÏûÔŞ
+	  * å–æ¶ˆèµ
 	  * @param feedInfo
 	  * @param userId
 	  * @param sign
@@ -357,11 +359,16 @@ public class FeedRestful {
 		 JSONObject newfeed = JSONObject.fromObject(feedInfo);
 		 String _id= newfeed.getString("_id");
 		 int user_id=newfeed.getInt("user_id");
+		 Feed feed=feedService.getFeed(_id);
+		 String shareId=feed.getShareId();
+		 if(!shareId.equals("")){
+			 _id=shareId;
+		 }
 		 feedService.decLikeFeed(_id,user_id);  
 		 return "success";
      }
 	/**
-	 * Îª¶¯Ì¬Ìí¼ÓÆÀÂÛ
+	 * ä¸ºåŠ¨æ€æ·»åŠ è¯„è®º
 	 * @param commentInfo
 	 * @param userId
 	 * @param sign
@@ -380,6 +387,11 @@ public class FeedRestful {
 		int user_id=newfeed.getInt("user_id");
 		String text=newfeed.getString("text");
 		int replyId=newfeed.getInt("reply_id");
+		Feed feed=feedService.getFeed(_id);
+		String shareId=feed.getShareId();
+		if(!shareId.equals("")){
+			_id=shareId;
+		}
 		String  ownercommentid=feedService.newComment( _id, user_id, text,  replyId);
 		//ocr[0]ÎªownerID£¬ocr[1]Îªcomment_id£¬ocr[2]Îªreply_id
 		String ocr[]=ownercommentid.split(",");
@@ -424,7 +436,7 @@ public class FeedRestful {
 		 return "success";
 	}
 	/**
-	 * »ñÈ¡Ä³¶¯Ì¬µÄÆÀÂÛÁĞ±í
+	 * è·å–æŸåŠ¨æ€çš„è¯„è®ºåˆ—è¡¨
 	 * @param feedId
 	 * @return
 	 * @throws JSONException
@@ -440,7 +452,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * »ñÈ¡ºÃÓÑµÄ¶¯Ì¬ÁĞ±í
+	 * è·å–å¥½å‹çš„åŠ¨æ€åˆ—è¡¨
 	 * @param tstring
 	 * @param userId
 	 * @param sign
@@ -462,7 +474,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * »ñÈ¡È«²¿µÄ¶¯Ì¬ÁĞ±í
+	 * è·å–å…¨éƒ¨çš„åŠ¨æ€åˆ—è¡¨
 	 * @param userId
 	 * @param sign
 	 * @param time
@@ -484,7 +496,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
     /**
-     * »ñÈ¡ÎÒ¹Ø×¢µÄÈËµÄ¶¯Ì¬µÄÁĞ±í
+     * è·å–æˆ‘å…³æ³¨çš„äººçš„åŠ¨æ€çš„åˆ—è¡¨
      * @param tstring
      * @param userId
      * @param sign
@@ -494,30 +506,52 @@ public class FeedRestful {
      * @throws UnsupportedEncodingException
      */
 	@GET
+<<<<<<< HEAD
+	@Path("getFollowingFeedsAfterTime")
+=======
+	@Path("getFollowingFeedsBeforeTime")
+>>>>>>> 22ff200886c36291873474764a6b0438a6e38674
+	@Produces("text/html")
+	public String getFollowingFeedsBeforeTime(
+			@QueryParam("user_id") int userId,
+			@QueryParam("time") String time){
+		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
+		ts=Timestamp.valueOf(time);
+<<<<<<< HEAD
+		List<Feed> feeds=feedService.getFollowingFeedsAfterTime(ts,userId);
+=======
+		List<Feed> feeds=feedService.getFollowingFeedsBeforeTime(ts,userId);
+>>>>>>> 22ff200886c36291873474764a6b0438a6e38674
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
+		return JSONArray.fromObject(res).toString();
+	}
+	
+	@GET
 	@Path("getFollowingFeedsAfterTime")
 	@Produces("text/html")
-	public String getFollowingFeedList(
+	public String getFollowingFeedsAfterTime(
 			@QueryParam("user_id") int userId,
 			@QueryParam("time") String time){
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);
 		List<Feed> feeds=feedService.getFollowingFeedsAfterTime(ts,userId);
 		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
-		/*List<ReturnShareFeed> res2=feedService.getFollowingShareFeedList(ts, userId);*/
-		return JSONArray.fromObject(res).toString()/*+JSONArray.fromObject(res2).toString()*/;
+		return JSONArray.fromObject(res).toString();
 	}
 	
 	@GET
 	@Path("searchFeed")
 	@Produces("text/html")
-	public String searchFeed(@QueryParam("query") String query){
+	public String searchFeed(
+			@QueryParam("query") String query,
+			@QueryParam("user_id") int user_id){
 		List<Feed> feeds=feedService.searchFeed(query);
-		
-		return JSONArray.fromObject(feeds).toString();
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds, user_id);
+		return JSONArray.fromObject(res).toString();
 		
 	}
 	
-	@POST
+	@PUT
 	@Path("shareFeed")
 	@Produces("text/html")
 	public String shareFeed(
@@ -525,18 +559,15 @@ public class FeedRestful {
 			@QueryParam("user_id") int userId){
 		JSONObject obj=JSONObject.fromObject(info);
 		String feedId=obj.getString("feed_id");
-		String text=obj.getString("text");
-		if(feedService.shareFeed(userId,feedId,text)){
-			return "success";
-		}
-		return "failed";
+		String text=obj.getString("share_text");
+		return feedService.shareFeed(userId,feedId,text);
 	}
 	
 	@GET
-	@Path("getOriginPhoto")
+	@Path("getOriginPhotoUrl")
 	@Produces("text/html")
-	public String getOriginPhoto(@QueryParam("fileName") String fileName){
-		return feedService.getOriginPhoto(fileName);
+	public String getOriginPhotoUrl(@QueryParam("fileName") String fileName){
+		return feedService.getOriginPhotoUrl(fileName);
 	}
 	
 	@GET
@@ -569,5 +600,30 @@ public class FeedRestful {
 		
 		/*List<ReturnShareFeed> res2=feedService.getFollowingShareFeedList(ts, userId);*/
 		return JSONArray.fromObject(feeds).toString()/*+JSONArray.fromObject(res2).toString()*/;
+	}
+	
+	@GET
+	@Path("myShareFeeds")
+	@Produces("text/html")
+	public String myShareFeeds(
+			@QueryParam("user_id") int userId){	
+		List<ReturnFeed> res=feedService.myShareFeeds(userId);
+		return JSONArray.fromObject(res).toString();
+	}
+	
+	@GET
+	@Path("getFeedDetail")
+	@Produces("text/html")
+	public String getFeedDetail(
+			@QueryParam("user_id") int userId,
+			@QueryParam("feed_id") String feedId){	
+		Feed feed=feedService.getFeed(feedId);
+		if(feed==null){
+			return "failed";
+		}
+		List<Feed> feeds=new ArrayList<Feed>();
+		feeds.add(feed);
+		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds, userId);
+		return JSONObject.fromObject(res.get(0)).toString();
 	}
 }

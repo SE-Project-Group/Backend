@@ -115,6 +115,17 @@ public interface FeedService {
 	 * @return
 	 */
 	public List<Feed> getFollowingFeedsAfterTime(Timestamp time,int userid);
+<<<<<<< HEAD
+=======
+	
+	/**
+	 * 找出time之前的所有id为userid的人关注的人的动态
+	 * @param time
+	 * @param userid
+	 * @return
+	 */
+	public List<Feed> getFollowingFeedsBeforeTime(Timestamp time,int userid);
+>>>>>>> 22ff200886c36291873474764a6b0438a6e38674
 	
 	
 	/**
@@ -165,7 +176,7 @@ public interface FeedService {
 	 * @param userId
 	 * @param feedId
 	 */
-	public boolean shareFeed(int userId, String feedId,String text);
+	public String shareFeed(int userId, String feedId,String text);
 	/**
 	 * 
 	 * transfer
@@ -176,10 +187,14 @@ public interface FeedService {
 
 	public List<Feed> searchFeed(String query);
 	
-	public String getOriginPhoto(String fileName);
+	public String getOriginPhotoUrl(String fileName);
 	
 	public String getBigPhotoUrls(String feedId);
 	
 	public List<ReturnFeed> myLikeFeeds(int userid);
 	public List<ReturnFeed> myCommentFeeds(int userid);
+	public List<ReturnFeed> myShareFeeds(int userId);
+	
+	
+	public List<Feed> sortFeed(List<Feed> feeds);
 }

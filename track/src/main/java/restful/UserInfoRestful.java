@@ -314,4 +314,31 @@ public class UserInfoRestful {
 	public String getBigPortraitUrl(@QueryParam("user_id") int userId){
 		return clientService.getBigPortraitUrl(userId);
 	}
+	
+	@PUT
+	@Path("changePwd")
+	@Produces("text/html")
+	public String changePwd(
+			String info,
+			@QueryParam("user_id") int userId){
+		JSONObject jo = JSONObject.fromObject(info);
+		String oldPwd=jo.getString("old_pwd");
+		String newPwd=jo.getString("new_pwd");
+		if(clientService.changePwd(userId,oldPwd,newPwd)){
+			return "success";
+		}
+		return "failed";
+	}
+	
+	@GET
+	@Path("verifyPhone")
+	@Produces("text/html")
+	public String verifyPhone(
+			@QueryParam("user_id") int userId,
+			@QueryParam("phone") String phone){
+		if(clientService.verifyPhone(userId,phone)){
+			return "true";
+		}
+		return "false";
+	}
 }

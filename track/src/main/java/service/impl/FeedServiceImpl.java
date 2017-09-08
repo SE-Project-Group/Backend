@@ -1,7 +1,13 @@
 package service.impl;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.geo.Circle;
@@ -78,13 +84,17 @@ public class FeedServiceImpl implements FeedService{
 	@Override
 	public List<Feed> findFeedByUserId(int userId) {
 		// TODO Auto-generated method stub
-		return feedRepository.findByUserId(userId);
+		List<Feed>feeds=feedRepository.findByUserId(userId);
+		Collections.reverse(feeds);
+		return feeds;
 	}
 
 	@Override
 	public List<Feed> findPublicFeedsById(int userId) {
 		// TODO Auto-generated method stub
-		return feedRepository.findPublicFeedsByUserId(userId);
+		List<Feed>res=feedRepository.findPublicFeedsByUserId(userId);
+		Collections.reverse(res);
+		return res;
 	}
 
 	@Override
@@ -108,6 +118,7 @@ public class FeedServiceImpl implements FeedService{
 	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time,int userId) {
 		// TODO Auto-generated method stub
 		List<Feed>feeds= feedRepository.findPublicFeedsAfterTime(time);
+		Collections.reverse(feeds);
 		return feedToReturnFeed(feeds,userId);
 	}
 
@@ -115,6 +126,7 @@ public class FeedServiceImpl implements FeedService{
 	public List<ReturnFeed> findPublicFeedsBeforeTime(Timestamp time,int userId) {
 		// TODO Auto-generated method stub
 		List<Feed>feeds= feedRepository.findPublicFeedsBeforeTime(time);
+		Collections.reverse(feeds);
 		return feedToReturnFeed(feeds,userId);
 	}
 
@@ -122,7 +134,9 @@ public class FeedServiceImpl implements FeedService{
 	public List<Feed> getFeedsLoggedIn(int userId, int who) {
 		// TODO Auto-generated method stub
 		if(userId==who){		//self
-			return findFeedByUserId(who);
+			List<Feed>res=findFeedByUserId(who);
+			Collections.reverse(res);
+			return res;
 		}
 		else if(followDao.isFriend(userId,who)){
 			List<Feed>list1=feedRepository.findPublicFeedsByUserId(who);
@@ -130,17 +144,19 @@ public class FeedServiceImpl implements FeedService{
 			for(int i=0;i<list1.size();i++){
 				list2.add(list1.get(i));
 			}
-			return list2;
+			return sortFeed(list2);
 		}
 		else{
-			return findPublicFeedsById(who);
+			List<Feed>res=findPublicFeedsById(who);
+			Collections.reverse(res);
+			return res;
 		}
 	}
 
 	@Override
 	public List<Feed> getFriendFeedList(Timestamp time, int userid) {
 		// TODO Auto-generated method stub
-List<Follow> follows=followDao.getFriendById(userid);
+		List<Follow> follows=followDao.getFriendById(userid);
 		
 		int friendnum=follows.size();
 		int[] friend=new int[friendnum];
@@ -148,7 +164,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 			Follow follow=follows.get(i);
 			friend[i]=follow.getFollowId();
 		   }
-		List<Feed>feeds= feedRepository.findFeedsByTime(time);
+		List<Feed>feeds= feedRepository.findFeedsAfterTime(time);
 		
 		for(int i=0;i<feeds.size();i++){
 			Feed feed=feeds.get(i);
@@ -166,13 +182,15 @@ List<Follow> follows=followDao.getFriendById(userid);
 				i--;
 			}
 		}
+		Collections.reverse(feeds);
 		return feeds;
 	}
 
 	@Override
 	public List<Feed> getAllFeedList(Timestamp time) {
 		// TODO Auto-generated method stub
-		List<Feed>feeds= feedRepository.findFeedsByTime(time);
+		List<Feed>feeds= feedRepository.findFeedsAfterTime(time);
+		Collections.reverse(feeds);
 		return feeds;
 	}
 
@@ -189,31 +207,79 @@ List<Follow> follows=followDao.getFriendById(userid);
 		
 		   }
 		//System.out.print(follownum);
+<<<<<<< HEAD
 		List<Feed>feeds= feedRepository.findFeedsByTime(time);
 		int m=0;
 		for(int i=0;i<feeds.size();i++){
 			//System.out.println("feednum:"+feeds.size());
+=======
+		List<Feed>feeds= feedRepository.findFeedsAfterTime(time);	
+		List<Feed>res=new ArrayList<Feed>();
+		int count=0;
+		for(int i=feeds.size()-1;i>=0;i--){
+>>>>>>> 22ff200886c36291873474764a6b0438a6e38674
 			Feed feed=feeds.get(i);
+			String shareArea=feed.getShareArea();
+			if(shareArea.equals("private")){
+				continue;
+			}
+			else if(shareArea.equals("friend")&&!followDao.isFriend(userid, feed.getUserId())){
+				continue;
+			}
 			int feeduserid=feed.getUserId();
-			//System.out.println("feeduserid:"+feeduserid);
 			boolean result=false;
 			for(int j=0;j<follownum;j++){
 				if(following[j]==feeduserid)result=true;
-				//System.out.println("following:"+following[j]);
 			}
-			//System.out.println("result:"+result);
-			if(result==false){
-				feeds.remove(i);
-				i--;
+			if(result==true){
+				res.add(feed);
+				count++;
 			}
-			else if(!feed.getShareArea().equals("public")){
-				feeds.remove(i);
-				i--;
+			if(count==20){
+				break;
 			}
 			else m++;
 			if(m>=10)break;
 		}
-		return feeds;
+		return res;
+	}
+	
+	public List<Feed> getFollowingFeedsBeforeTime(Timestamp time, int userid) {
+		List<Follow> follows=followDao.getFollowingById(userid);
+		int follownum=follows.size();
+		int[] following=new int[follownum];
+		
+		for(int i=0;i<follownum;i++){
+			Follow follow=follows.get(i);
+			following[i]=follow.getFollowId();
+		
+		}
+		List<Feed>feeds= feedRepository.findFeedsBeforeTime(time);		
+		List<Feed>res=new ArrayList<Feed>();
+		int count=0;
+		for(int i=feeds.size()-1;i>=0;i--){
+			Feed feed=feeds.get(i);
+			String shareArea=feed.getShareArea();
+			if(shareArea.equals("private")){
+				continue;
+			}
+			else if(shareArea.equals("friend")&&!followDao.isFriend(userid, feed.getUserId())){
+				continue;
+			}
+			int feeduserid=feed.getUserId();
+			boolean result=false;
+			for(int j=0;j<follownum;j++){
+				if(following[j]==feeduserid)result=true;
+			}
+			if(result==true){
+				res.add(feed);
+				count++;
+			}
+			if(count==20){
+				break;
+			}
+		}
+		return res;
 	}
 	
 /*	@Override
@@ -316,21 +382,27 @@ List<Follow> follows=followDao.getFriendById(userid);
 	}
 	
 	@Override
-	public boolean shareFeed(int userId, String feedId,String text) {
+	public String shareFeed(int userId, String feedId,String text) {
 		if(getFeed(feedId)==null){
-			return false;
+			return "failed";
+		}
+		Feed shareFeed=getFeed(feedId);
+		if(!shareFeed.getShareId().equals("")){
+			return shareFeed(userId,shareFeed.getShareId(),text);
+		}	
+		if(!shareFeed.getShareArea().equals("public")){
+			return "not allowed";
 		}
 		Feed feed=new Feed();
 		feed.setUserId(userId);
 		feed.setText(text);
 		feed.setShareId(feedId);
 		feed.setShareArea("public");
-		Feed shareFeed=feedRepository.findOne(feedId);
 		int shareCnt=shareFeed.getShareCount();
 		shareFeed.setShareCount(shareCnt+1);
 		feedRepository.update(shareFeed);
 		feedRepository.insert(feed);
-		return true;
+		return "success";
 	}
 
 	@Override
@@ -433,11 +505,12 @@ List<Follow> follows=followDao.getFriendById(userid);
 
 	public List<Feed> searchFeed(String query){
 		List<Feed> feeds=feedRepository.searchFeed(query);
+		Collections.reverse(feeds);
 		return feeds;
 	}
 
 	@Override
-	public String getOriginPhoto(String fileName) {
+	public String getOriginPhotoUrl(String fileName) {
 		return feedRepository.getOriginPhoto(fileName);
 	}
 
@@ -478,6 +551,7 @@ List<Follow> follows=followDao.getFriendById(userid);
 			}
 			else{}
 		}
+		Collections.reverse(feeds);
 		return feedToReturnFeed(feeds,userid);
 	}
 
@@ -499,7 +573,41 @@ List<Follow> follows=followDao.getFriendById(userid);
 			}
 			else{}
 		}
+		Collections.reverse(feeds);
 		return feedToReturnFeed(feeds,userid);
+	}
+
+	@Override
+	public List<ReturnFeed> myShareFeeds(int userId) {
+		List<Feed>feeds=feedRepository.findByUserId(userId);
+		for(int i=0;i<feeds.size();i++){
+			if(feeds.get(i).getShareId().equals("")){
+				feeds.remove(i);
+				i--;
+			}
+		}
+		Collections.reverse(feeds);
+		return feedToReturnFeed(feeds,userId);
+	}
+
+	@Override
+	public List<Feed> sortFeed(List<Feed> feeds) {
+		Collections.sort(feeds, new Comparator<Feed>() {
+            public int compare(Feed feed1,Feed feed2) {
+            	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+					Date time1=df.parse(feed1.getTime());
+					Date time2=df.parse(feed2.getTime());
+					if(time1.getTime()>time2.getTime()){
+						return 0;
+					}
+					else return 1;
+				} catch (ParseException e) {
+					return 0;
+				}
+            }
+        });
+		return feeds;
 	}
 
 	

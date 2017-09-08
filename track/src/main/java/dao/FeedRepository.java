@@ -79,7 +79,11 @@ public List<Feed> findPublicFeedsBeforeTime(Timestamp time);
 /*
  * 返回time之后的所有的feed
  */
-public List<Feed> findFeedsByTime(Timestamp time);
+public List<Feed> findFeedsAfterTime(Timestamp time);
+/*
+ * 返回time之前的所有的feed
+ */
+public List<Feed> findFeedsBeforeTime(Timestamp time);
 
 /*
  * 返回日期为date的所有的feed

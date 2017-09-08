@@ -71,6 +71,10 @@ public class TokenFilter implements Filter{
 		uris.add("/track/rest/app/feed/getFeedsNotLoggedIn");
 		uris.add("/track/rest/app/feed/getBigPhotoUrls");
 		uris.add("/track/rest/app/user/getBigPortraitUrl");
+		uris.add("/track/rest/app/feed/getPublicFeedBeforeTime");
+		
+		uris.add("/track/rest/app/feed/getFeedDetail");
+		
 	}
 
 	
