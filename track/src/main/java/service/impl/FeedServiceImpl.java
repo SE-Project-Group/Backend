@@ -207,17 +207,12 @@ public class FeedServiceImpl implements FeedService{
 		
 		   }
 		//System.out.print(follownum);
-<<<<<<< HEAD
-		List<Feed>feeds= feedRepository.findFeedsByTime(time);
-		int m=0;
-		for(int i=0;i<feeds.size();i++){
-			//System.out.println("feednum:"+feeds.size());
-=======
+
 		List<Feed>feeds= feedRepository.findFeedsAfterTime(time);	
 		List<Feed>res=new ArrayList<Feed>();
 		int count=0;
 		for(int i=feeds.size()-1;i>=0;i--){
->>>>>>> 22ff200886c36291873474764a6b0438a6e38674
+
 			Feed feed=feeds.get(i);
 			String shareArea=feed.getShareArea();
 			if(shareArea.equals("private")){
@@ -238,8 +233,7 @@ public class FeedServiceImpl implements FeedService{
 			if(count==20){
 				break;
 			}
-			else m++;
-			if(m>=10)break;
+		
 		}
 		return res;
 	}

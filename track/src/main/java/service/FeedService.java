@@ -115,8 +115,7 @@ public interface FeedService {
 	 * @return
 	 */
 	public List<Feed> getFollowingFeedsAfterTime(Timestamp time,int userid);
-<<<<<<< HEAD
-=======
+
 	
 	/**
 	 * 找出time之前的所有id为userid的人关注的人的动态
@@ -125,7 +124,7 @@ public interface FeedService {
 	 * @return
 	 */
 	public List<Feed> getFollowingFeedsBeforeTime(Timestamp time,int userid);
->>>>>>> 22ff200886c36291873474764a6b0438a6e38674
+
 	
 	
 	/**

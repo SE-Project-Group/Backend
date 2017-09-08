@@ -46,7 +46,7 @@ public class FeedRestful {
 	private ClientService clientService=(ClientService) SpringContextUtil.getBean("clientService");
 	private FollowService followService=(FollowService) SpringContextUtil.getBean("followService");
 	/**
-	 * 发布新动态
+	 * 鍙戝竷鏂板姩鎬�
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -111,7 +111,7 @@ public class FeedRestful {
 		 return _id;
      }
 	/**
-	 * 更新动态
+	 * 鏇存柊鍔ㄦ��
 	 * @param feedinfo
 	 * @param userId
 	 * @param sign
@@ -131,7 +131,7 @@ public class FeedRestful {
 		 return "success";
      }	
 	/**
-	 * 删除动态
+	 * 鍒犻櫎鍔ㄦ��
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -151,7 +151,7 @@ public class FeedRestful {
 		return "success";
      }	
 	/**
-	 * 获取自己的所有feed
+	 * 鑾峰彇鑷繁鐨勬墍鏈塮eed
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -170,7 +170,7 @@ public class FeedRestful {
 		 return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * 未登录状态下获取某人所有公开动态
+	 * 鏈櫥褰曠姸鎬佷笅鑾峰彇鏌愪汉鎵�鏈夊叕寮�鍔ㄦ��
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -189,7 +189,7 @@ public class FeedRestful {
 		 return JSONArray.fromObject(res).toString();
 	}	
 	/**
-	 * 登录状态下获取某人动态
+	 * 鐧诲綍鐘舵�佷笅鑾峰彇鏌愪汉鍔ㄦ��
 	 * @param userId
 	 * @param sign
 	 * @param who
@@ -210,7 +210,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();	 
 	}	
 	/**
-	 * 获取time之后的所有public的feed
+	 * 鑾峰彇time涔嬪悗鐨勬墍鏈塸ublic鐨刦eed
 	 * @param time
 	 * @param userId
 	 * @param sign
@@ -232,7 +232,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
-	 * 获取time之后的所有public的feed
+	 * 鑾峰彇time涔嬪悗鐨勬墍鏈塸ublic鐨刦eed
 	 * @param time
 	 * @param userId
 	 * @param sign
@@ -254,7 +254,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
-	 * 获取周边的动态
+	 * 鑾峰彇鍛ㄨ竟鐨勫姩鎬�
 	 * @param longitude
 	 * @param latitude
 	 * @param userId
@@ -284,7 +284,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(feeds).toString();
 	}
 	/**
-	 * 为动态点赞
+	 * 涓哄姩鎬佺偣璧�
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -341,7 +341,7 @@ public class FeedRestful {
      }
 	 
 	 /**
-	  * 取消赞
+	  * 鍙栨秷璧�
 	  * @param feedInfo
 	  * @param userId
 	  * @param sign
@@ -368,7 +368,7 @@ public class FeedRestful {
 		 return "success";
      }
 	/**
-	 * 为动态添加评论
+	 * 涓哄姩鎬佹坊鍔犺瘎璁�
 	 * @param commentInfo
 	 * @param userId
 	 * @param sign
@@ -393,7 +393,7 @@ public class FeedRestful {
 			_id=shareId;
 		}
 		String  ownercommentid=feedService.newComment( _id, user_id, text,  replyId);
-		//ocr[0]ΪownerID��ocr[1]Ϊcomment_id��ocr[2]Ϊreply_id
+		//ocr[0]为ownerID，ocr[1]为comment_id，ocr[2]为reply_id
 		String ocr[]=ownercommentid.split(",");
 		int iowner=Integer.valueOf(ocr[0]);
 		//int comment_id=Integer.valueOf(oc[1]);
@@ -436,7 +436,7 @@ public class FeedRestful {
 		 return "success";
 	}
 	/**
-	 * 获取某动态的评论列表
+	 * 鑾峰彇鏌愬姩鎬佺殑璇勮鍒楄〃
 	 * @param feedId
 	 * @return
 	 * @throws JSONException
@@ -452,7 +452,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * 获取好友的动态列表
+	 * 鑾峰彇濂藉弸鐨勫姩鎬佸垪琛�
 	 * @param tstring
 	 * @param userId
 	 * @param sign
@@ -474,7 +474,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * 获取全部的动态列表
+	 * 鑾峰彇鍏ㄩ儴鐨勫姩鎬佸垪琛�
 	 * @param userId
 	 * @param sign
 	 * @param time
@@ -496,7 +496,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
     /**
-     * 获取我关注的人的动态的列表
+     * 鑾峰彇鎴戝叧娉ㄧ殑浜虹殑鍔ㄦ�佺殑鍒楄〃
      * @param tstring
      * @param userId
      * @param sign
@@ -506,22 +506,16 @@ public class FeedRestful {
      * @throws UnsupportedEncodingException
      */
 	@GET
-<<<<<<< HEAD
-	@Path("getFollowingFeedsAfterTime")
-=======
+
 	@Path("getFollowingFeedsBeforeTime")
->>>>>>> 22ff200886c36291873474764a6b0438a6e38674
 	@Produces("text/html")
 	public String getFollowingFeedsBeforeTime(
 			@QueryParam("user_id") int userId,
 			@QueryParam("time") String time){
 		Timestamp ts = new Timestamp(System.currentTimeMillis()); 
 		ts=Timestamp.valueOf(time);
-<<<<<<< HEAD
-		List<Feed> feeds=feedService.getFollowingFeedsAfterTime(ts,userId);
-=======
+
 		List<Feed> feeds=feedService.getFollowingFeedsBeforeTime(ts,userId);
->>>>>>> 22ff200886c36291873474764a6b0438a6e38674
 		List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
 		return JSONArray.fromObject(res).toString();
 	}
