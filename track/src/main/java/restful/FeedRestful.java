@@ -46,7 +46,7 @@ public class FeedRestful {
 	private ClientService clientService=(ClientService) SpringContextUtil.getBean("clientService");
 	private FollowService followService=(FollowService) SpringContextUtil.getBean("followService");
 	/**
-	 * ·¢²¼ĞÂ¶¯Ì¬
+	 * å‘å¸ƒæ–°åŠ¨æ€
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -111,7 +111,7 @@ public class FeedRestful {
 		 return _id;
      }
 	/**
-	 * ¸üĞÂ¶¯Ì¬
+	 * æ›´æ–°åŠ¨æ€
 	 * @param feedinfo
 	 * @param userId
 	 * @param sign
@@ -131,7 +131,7 @@ public class FeedRestful {
 		 return "success";
      }	
 	/**
-	 * É¾³ı¶¯Ì¬
+	 * åˆ é™¤åŠ¨æ€
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -151,7 +151,7 @@ public class FeedRestful {
 		return "success";
      }	
 	/**
-	 * »ñÈ¡×Ô¼ºµÄËùÓĞfeed
+	 * è·å–è‡ªå·±çš„æ‰€æœ‰feed
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -170,7 +170,7 @@ public class FeedRestful {
 		 return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * Î´µÇÂ¼×´Ì¬ÏÂ»ñÈ¡Ä³ÈËËùÓĞ¹«¿ª¶¯Ì¬
+	 * æœªç™»å½•çŠ¶æ€ä¸‹è·å–æŸäººæ‰€æœ‰å…¬å¼€åŠ¨æ€
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -189,7 +189,7 @@ public class FeedRestful {
 		 return JSONArray.fromObject(res).toString();
 	}	
 	/**
-	 * µÇÂ¼×´Ì¬ÏÂ»ñÈ¡Ä³ÈË¶¯Ì¬
+	 * ç™»å½•çŠ¶æ€ä¸‹è·å–æŸäººåŠ¨æ€
 	 * @param userId
 	 * @param sign
 	 * @param who
@@ -210,7 +210,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();	 
 	}	
 	/**
-	 * »ñÈ¡timeÖ®ºóµÄËùÓĞpublicµÄfeed
+	 * è·å–timeä¹‹åçš„æ‰€æœ‰publicçš„feed
 	 * @param time
 	 * @param userId
 	 * @param sign
@@ -232,7 +232,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
-	 * »ñÈ¡timeÖ®ºóµÄËùÓĞpublicµÄfeed
+	 * è·å–timeä¹‹åçš„æ‰€æœ‰publicçš„feed
 	 * @param time
 	 * @param userId
 	 * @param sign
@@ -254,7 +254,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(list).toString();
 	}
 	/**
-	 * »ñÈ¡ÖÜ±ßµÄ¶¯Ì¬
+	 * è·å–å‘¨è¾¹çš„åŠ¨æ€
 	 * @param longitude
 	 * @param latitude
 	 * @param userId
@@ -284,7 +284,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(feeds).toString();
 	}
 	/**
-	 * Îª¶¯Ì¬µãÔŞ
+	 * ä¸ºåŠ¨æ€ç‚¹èµ
 	 * @param feedInfo
 	 * @param userId
 	 * @param sign
@@ -341,7 +341,7 @@ public class FeedRestful {
      }
 	 
 	 /**
-	  * È¡ÏûÔŞ
+	  * å–æ¶ˆèµ
 	  * @param feedInfo
 	  * @param userId
 	  * @param sign
@@ -368,7 +368,7 @@ public class FeedRestful {
 		 return "success";
      }
 	/**
-	 * Îª¶¯Ì¬Ìí¼ÓÆÀÂÛ
+	 * ä¸ºåŠ¨æ€æ·»åŠ è¯„è®º
 	 * @param commentInfo
 	 * @param userId
 	 * @param sign
@@ -430,7 +430,7 @@ public class FeedRestful {
 		 return "success";
 	}
 	/**
-	 * »ñÈ¡Ä³¶¯Ì¬µÄÆÀÂÛÁĞ±í
+	 * è·å–æŸåŠ¨æ€çš„è¯„è®ºåˆ—è¡¨
 	 * @param feedId
 	 * @return
 	 * @throws JSONException
@@ -446,7 +446,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * »ñÈ¡ºÃÓÑµÄ¶¯Ì¬ÁĞ±í
+	 * è·å–å¥½å‹çš„åŠ¨æ€åˆ—è¡¨
 	 * @param tstring
 	 * @param userId
 	 * @param sign
@@ -468,7 +468,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
 	/**
-	 * »ñÈ¡È«²¿µÄ¶¯Ì¬ÁĞ±í
+	 * è·å–å…¨éƒ¨çš„åŠ¨æ€åˆ—è¡¨
 	 * @param userId
 	 * @param sign
 	 * @param time
@@ -490,7 +490,7 @@ public class FeedRestful {
 		return JSONArray.fromObject(res).toString();
 	}
     /**
-     * »ñÈ¡ÎÒ¹Ø×¢µÄÈËµÄ¶¯Ì¬µÄÁĞ±í
+     * è·å–æˆ‘å…³æ³¨çš„äººçš„åŠ¨æ€çš„åˆ—è¡¨
      * @param tstring
      * @param userId
      * @param sign
@@ -589,9 +589,9 @@ public class FeedRestful {
 	}
 	
 	@GET
-	@Path("getMyShareFeeds")
+	@Path("myShareFeeds")
 	@Produces("text/html")
-	public String getMyShareFeeds(
+	public String myShareFeeds(
 			@QueryParam("user_id") int userId){	
 		List<ReturnFeed> res=feedService.myShareFeeds(userId);
 		return JSONArray.fromObject(res).toString();
