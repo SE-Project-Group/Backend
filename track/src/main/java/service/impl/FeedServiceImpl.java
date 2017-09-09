@@ -254,11 +254,13 @@ public class FeedServiceImpl implements FeedService{
 		for(int i=feeds.size()-1;i>=0;i--){
 			Feed feed=feeds.get(i);
 			String shareArea=feed.getShareArea();
-			if(shareArea.equals("private")){
-				continue;
-			}
-			else if(shareArea.equals("friend")&&!followDao.isFriend(userid, feed.getUserId())){
-				continue;
+			if(shareArea!=null){
+				if(shareArea.equals("private")){
+					continue;
+				}
+				else if(shareArea.equals("friend")&&!followDao.isFriend(userid, feed.getUserId())){
+					continue;
+				}
 			}
 			int feeduserid=feed.getUserId();
 			boolean result=false;
