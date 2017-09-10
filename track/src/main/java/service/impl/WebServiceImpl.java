@@ -53,8 +53,14 @@ private ManagerDao managerDao;
 	public List<Feed> getTodayFeedList(Date date) {
 		// TODO Auto-generated method stub
         List<Feed>feeds= feedRepository.getTodayFeedList(date);
-		
-		return feeds;
+		List<Feed>res=new ArrayList<Feed>();
+		for(Feed feed:feeds){
+			String shareId=feed.getShareId();
+			if(shareId==null||shareId.equals("")){
+				res.add(feed);
+			}
+		}
+		return res;
 	}
 	
 	@Override

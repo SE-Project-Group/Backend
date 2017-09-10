@@ -1,13 +1,10 @@
-DROP TABLE IF EXISTS `client`;
-DROP TABLE IF EXISTS `administrator`;
-
 -- phpMyAdmin SQL Dump
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-07-12 11:23:12
--- 鏈嶅姟鍣ㄧ増鏈細 5.6.17
+-- Generation Time: 2017-09-10 09:53:32
+-- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -26,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 琛ㄧ殑缁撴瀯 `administrator`
+-- 表的结构 `administrator`
 --
 
 CREATE TABLE IF NOT EXISTS `administrator` (
@@ -35,19 +32,24 @@ CREATE TABLE IF NOT EXISTS `administrator` (
   `password` char(20) DEFAULT NULL,
   PRIMARY KEY (`adminId`),
   UNIQUE KEY `admin_name` (`adminName`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- 杞瓨琛ㄤ腑鐨勬暟鎹� `administrator`
---
-
-INSERT INTO `administrator` (`adminId`, `adminName`, `password`) VALUES
-(1, '123', '123');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
 --
--- 琛ㄧ殑缁撴瀯 `client`
+-- 表的结构 `bestfeed`
+--
+
+CREATE TABLE IF NOT EXISTS `bestfeed` (
+  `feedId` varchar(30) NOT NULL DEFAULT '',
+  `date` date NOT NULL DEFAULT '0000-00-00',
+  PRIMARY KEY (`feedId`,`date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `client`
 --
 
 CREATE TABLE IF NOT EXISTS `client` (
@@ -59,29 +61,20 @@ CREATE TABLE IF NOT EXISTS `client` (
   `password` char(20) DEFAULT NULL,
   `email` char(20) DEFAULT NULL,
   PRIMARY KEY (`userId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10000 ;
-
---
--- 杞瓨琛ㄤ腑鐨勬暟鎹� `client`
---
-
-INSERT INTO `client` (`userId`, `phone`, `gender`, `birthday`, `userName`, `password`, `email`) VALUES
-(2, '777', 'sss', '2013-01-15', '123', '123', '1656'),
-(4, '888', '888', '1997-03-13', '888', '888', '888'),
-(9999, '9999', '26', '2017-07-04', '9999', '9999', '9999');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- 琛ㄧ殑缁撴瀯 `friend`
+-- 表的结构 `follow`
 --
-DROP TABLE IF EXISTS `follow`;
+
 CREATE TABLE IF NOT EXISTS `follow` (
   `userId` int(11) NOT NULL,
-  `followId` int(11) DEFAULT NULL,
+  `followId` int(11) NOT NULL DEFAULT '0',
   `isFriend` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`userId`,`followId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
