@@ -551,7 +551,7 @@ public class FeedRestful {
 		    resmap.put("share_comment", text);
 			Gson json=new Gson(); 	 
 			String msgContent=json.toJson(resmap);
-			msgContent="NewCommentMessage#"+msgContent;
+			msgContent="NewShareMessage#"+msgContent;
 			jpushService.sendMessageByAlias(String.valueOf( owner), msgContent);
 		}
 		return feedService.shareFeed(userId,feedId,text);
