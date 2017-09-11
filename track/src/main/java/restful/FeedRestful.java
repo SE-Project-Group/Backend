@@ -24,6 +24,7 @@ import org.codehaus.jettison.json.JSONException;
 
 import com.google.gson.Gson;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import model.Client;
 import model.Comment;
 import model.Feed;
@@ -127,6 +128,7 @@ public class FeedRestful {
 	{
 		 List<Feed> feeds=feedService.findFeedByUserId(userId);
 		 List<ReturnFeed> res=feedService.feedToReturnFeed(feeds,userId);
+		 Collections.reverse(res);
 		 return JSONArray.fromObject(res).toString();
 	}
 	/**
