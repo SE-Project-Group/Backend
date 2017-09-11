@@ -69,19 +69,6 @@ public class FeedServiceImpl implements FeedService{
 	}
 
 	@Override
-	public void updateFeed(Feed feed) {
-		// TODO Auto-generated method stub
-		feedRepository.update(feed);
-		
-	}
-
-	@Override
-	public void removeFeed(String _id) {
-		// TODO Auto-generated method stub
-		feedRepository.removeOne(_id);
-	}
-
-	@Override
 	public List<Feed> findFeedByUserId(int userId) {
 		// TODO Auto-generated method stub
 		List<Feed>feeds=feedRepository.findByUserId(userId);

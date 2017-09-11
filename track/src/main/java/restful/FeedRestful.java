@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -110,46 +109,7 @@ public class FeedRestful {
 		 jpushService.sendMessageByAlias(smention, amsgContent);
 		 return _id;
      }
-	/**
-	 * 閺囧瓨鏌婇崝銊︼拷锟�
-	 * @param feedinfo
-	 * @param userId
-	 * @param sign
-	 * @return
-	 * @throws JSONException
-	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException
-	 */
-	@PUT
-    @Path("/updateFeed")
-	 @Consumes(MediaType.APPLICATION_JSON)
-	 @Produces("text/html")
-	 public String updateFeed(String feedinfo) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		 Gson gson=new Gson();
-		 Feed feed=gson.fromJson(feedinfo,Feed.class);	 
-		 feedService.updateFeed(feed);
-		 return "success";
-     }	
-	/**
-	 * 閸掔娀娅庨崝銊︼拷锟�
-	 * @param feedInfo
-	 * @param userId
-	 * @param sign
-	 * @return
-	 * @throws JSONException
-	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException
-	 */
-	@DELETE
-    @Path("/removeFeed")
-	 @Consumes(MediaType.APPLICATION_JSON)
-	 @Produces("text/html")
-	 public String removeFeed(String feedInfo) throws JSONException, NoSuchAlgorithmException, UnsupportedEncodingException{
-		JSONObject newfeed = JSONObject.fromObject(feedInfo);
-		String _id= newfeed.getString("_id");
-		feedService.removeFeed(_id);
-		return "success";
-     }	
+
 	/**
 	 * 閼惧嘲褰囬懛顏勭箒閻ㄥ嫭澧嶉張濉甧ed
 	 * @param userId

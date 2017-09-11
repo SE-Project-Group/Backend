@@ -16,7 +16,7 @@ public interface FeedService {
 	 */
 	
 	/**
-	 * 查找feed
+	 * 锟斤拷锟斤拷feed
 	 * @param feedId
 	 * @return
 	 */
@@ -24,38 +24,26 @@ public interface FeedService {
 	public Feed getFeed(String feedId);
 	
 	/**
-	 * 新建feed
+	 * 锟铰斤拷feed
 	 * @param feed
 	 */
 	public void newFeed(Feed feed);
 	
 	/**
-	 * 更新feed
-	 * @param feed
-	 */
-	public void updateFeed(Feed feed);
-	
-	/**
-	 * 删除feed
-	 * @param _id
-	 */
-	public void removeFeed(String _id);
-	
-	/**
-	 * 找出id为userid的用户的所有动态
+	 * 锟揭筹拷id为userid锟斤拷锟矫伙拷锟斤拷锟斤拷锟叫讹拷态
 	 * @param userId
 	 * @return
 	 */
 	public List<Feed>findFeedByUserId(int userId);
 	
 	/**
-	 * 获取某人所有public动态
+	 * 锟斤拷取某锟斤拷锟斤拷锟斤拷public锟斤拷态
 	 * @param userId
 	 * @return
 	 */
 	public List<Feed>findPublicFeedsById(int userId);
 	/**
-	 * 找出半径为radius，中心为longitude，latitude的范围内的动态
+	 * 锟揭筹拷锟诫径为radius锟斤拷锟斤拷锟斤拷为longitude锟斤拷latitude锟侥凤拷围锟节的讹拷态
 	 * @param longitude
 	 * @param latitude
 	 * @param radius
@@ -63,7 +51,7 @@ public interface FeedService {
 	 */
 	public List<ReturnFeed>findFeedAround(double longitude,double latitude,double radius,int userId);
 	/**
-	 * 找出半径为radius，中心为longitude，latitude的范围内该用户的动态
+	 * 锟揭筹拷锟诫径为radius锟斤拷锟斤拷锟斤拷为longitude锟斤拷latitude锟侥凤拷围锟节革拷锟矫伙拷锟侥讹拷态
 	 * @param longitude
 	 * @param latitude
 	 * @param radius
@@ -72,20 +60,20 @@ public interface FeedService {
 	 */
 	public List<ReturnFeed>findFeedAroundSpecUser(double longitude,double latitude,double radius,int userId);
 	/**
-	 * 找出time之后的所有的public的feed
+	 * 锟揭筹拷time之锟斤拷锟斤拷锟斤拷械锟絧ublic锟斤拷feed
 	 * @param time
 	 * @return
 	 */
 	public List<ReturnFeed> findPublicFeedsAfterTime(Timestamp time,int userId);
 	/**
-	 * 找出time之前的所有的public的feed
+	 * 锟揭筹拷time之前锟斤拷锟斤拷锟叫碉拷public锟斤拷feed
 	 * @param time
 	 * @return
 	 */
 	public List<ReturnFeed> findPublicFeedsBeforeTime(Timestamp time,int userId);
 	
 	/**
-	 * 登录状态下获取动态
+	 * 锟斤拷录状态锟铰伙拷取锟斤拷态
 	 * @param userId
 	 * @param who
 	 * @return
@@ -94,7 +82,7 @@ public interface FeedService {
 	
 	
 	/**
-	 * 找出time之后的id为userid的人的所有friend的动态
+	 * 锟揭筹拷time之锟斤拷锟絠d为userid锟斤拷锟剿碉拷锟斤拷锟斤拷friend锟侥讹拷态
 	 * @param time
 	 * @param userid
 	 * @return
@@ -102,14 +90,14 @@ public interface FeedService {
 	public List<Feed> getFriendFeedList(Timestamp time,int userid);
 	
 	/**
-	 * 找出time之后的所有的feed
+	 * 锟揭筹拷time之锟斤拷锟斤拷锟斤拷械锟絝eed
 	 * @param time
 	 * @return
 	 */
 	public List<Feed> getAllFeedList(Timestamp time);
 	
 	/**
-	 * 找出time之后的所有id为userid的人关注的人的动态
+	 * 锟揭筹拷time之锟斤拷锟斤拷锟斤拷锟絠d为userid锟斤拷锟剿癸拷注锟斤拷锟剿的讹拷态
 	 * @param time
 	 * @param userid
 	 * @return
@@ -118,7 +106,7 @@ public interface FeedService {
 
 	
 	/**
-	 * 找出time之前的所有id为userid的人关注的人的动态
+	 * 锟揭筹拷time之前锟斤拷锟斤拷锟斤拷id为userid锟斤拷锟剿癸拷注锟斤拷锟剿的讹拷态
 	 * @param time
 	 * @param userid
 	 * @return
@@ -139,39 +127,39 @@ public interface FeedService {
 	
 	/*like*/
 	/**
-	 * 为id为_id的feed增加赞数并记录下点赞人的userid和点赞时间
+	 * 为id为_id锟斤拷feed锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷录锟铰碉拷锟斤拷锟剿碉拷userid锟酵碉拷锟斤拷时锟斤拷
 	 * @param _id
 	 * @param userId
-	 * @return被点赞人的userId
+	 * @return锟斤拷锟斤拷锟斤拷锟剿碉拷userId
 	 */
 	 
 	public int incLikeFeed(String _id,int userId);
 	
 	/**
-	 * 取消赞
+	 * 取锟斤拷锟斤拷
 	 * @param _id
 	 * @param userId
 	 */
 	public void decLikeFeed(String _id,int userId);
 	/*comment*/
 	/**
-	 * 为id为_id的feed加入评论，内容为text，评论人为userid，自动生成评论id，记录评论时间以及回复的谁
+	 * 为id为_id锟斤拷feed锟斤拷锟斤拷锟斤拷锟桔ｏ拷锟斤拷锟斤拷为text锟斤拷锟斤拷锟斤拷锟斤拷为userid锟斤拷锟皆讹拷锟斤拷锟斤拷锟斤拷锟斤拷id锟斤拷锟斤拷录锟斤拷锟斤拷时锟斤拷锟皆硷拷锟截革拷锟斤拷谁
 	 * @param _id
 	 * @param userId
 	 * @param text
-	 * @param replyId为0为回复的评论，不为0则为回复id为replyId的评论
-	 * @return 被评论人的userId
+	 * @param replyId为0为锟截革拷锟斤拷锟斤拷锟桔ｏ拷锟斤拷为0锟斤拷为锟截革拷id为replyId锟斤拷锟斤拷锟斤拷
+	 * @return 锟斤拷锟斤拷锟斤拷锟剿碉拷userId
 	 */
 	public String newComment(String _id,int userId,String text,int replyId);
 	/**
-	 * 查找指定动态的评论列表
+	 * 锟斤拷锟斤拷指锟斤拷锟斤拷态锟斤拷锟斤拷锟斤拷锟叫憋拷
 	 * @param feedId
 	 * @return
 	 */
 	public List<Comment> findCommentList(String feedId);
 	
 	/**
-	 * 转发
+	 * 转锟斤拷
 	 * @param userId
 	 * @param feedId
 	 */
