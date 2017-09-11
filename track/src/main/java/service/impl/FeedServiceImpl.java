@@ -436,7 +436,7 @@ public class FeedServiceImpl implements FeedService{
 				returnFeed.setText(curFeed.getText());
 				returnFeed.setDate(curFeed.getTime());
 				returnFeed.setLiked(liked);
-				returnFeed.setLike_cnt(shareFeed.getLikeCount());
+				returnFeed.setLike_cnt(curFeed.getLikeCount());
 				returnFeed.setShare_cnt(shareFeed.getShareCount());
 				returnFeed.setComment_cnt(curFeed.getCommentCount());;
 				returnFeed.setPic_cnt(shareFeed.getPicCount());
