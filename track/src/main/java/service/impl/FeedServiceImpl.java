@@ -457,9 +457,11 @@ public class FeedServiceImpl implements FeedService{
 				returnFeed.setShare_cnt(curFeed.getShareCount());
 				returnFeed.setComment_cnt(curFeed.getCommentCount());;
 				returnFeed.setPic_cnt(curFeed.getPicCount());
-				returnFeed.setPosition(curFeed.getPosition());
-				returnFeed.setLatitude(curFeed.getLocation().getLatitude());
-				returnFeed.setLongitude(curFeed.getLocation().getLongitude());
+				if(curFeed.getPosition()!=null){
+					returnFeed.setPosition(curFeed.getPosition());
+					returnFeed.setLatitude(curFeed.getLocation().getLatitude());
+					returnFeed.setLongitude(curFeed.getLocation().getLongitude());
+				}
 				returnFeed.setPortrait_url(signedUrlFactory.getPortraitUrl(curFeed.getUserId()));
 				res.add(returnFeed);
 			}
