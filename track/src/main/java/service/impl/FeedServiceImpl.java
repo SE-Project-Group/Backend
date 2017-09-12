@@ -385,7 +385,8 @@ public class FeedServiceImpl implements FeedService{
 		shareFeed.setShareCount(shareCnt+1);
 		feedRepository.update(shareFeed);
 		feedRepository.insert(feed);
-		return "success";
+		
+		return feed.get_id();
 	}
 
 	@Override
