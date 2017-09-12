@@ -142,7 +142,7 @@ public class UserInfoRestful {
 	{
 		JSONObject obj=JSONObject.fromObject(message);
 		Client client=clientService.getClientById(userId);
-		String username=obj.getString("username");
+		String username=obj.getString("user_name");
 		client.setUserName(username);
 		client.setBirthday(java.sql.Date.valueOf(obj.getString("birthday")));
 		client.setEmail(obj.getString("email"));
