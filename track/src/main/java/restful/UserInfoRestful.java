@@ -43,7 +43,7 @@ public class UserInfoRestful {
 	private ClientService clientService=(ClientService) SpringContextUtil.getBean("clientService");
 	private FollowService followService=(FollowService) SpringContextUtil.getBean("followService");
 	/**
-	 * ÓÃ»§µÇÂ¼
+	 * ï¿½Ã»ï¿½ï¿½ï¿½Â¼
 	 * @URL http://192.168.1.13:8088/track/rest/app/clientLogin?user_name=**&password=** 
 	 * @param userName
 	 * @param password
@@ -68,7 +68,7 @@ public class UserInfoRestful {
 		return json.toString();
 	}
 	/**
-	 * ÓÃ»§µÇ³ö
+	 * ï¿½Ã»ï¿½ï¿½Ç³ï¿½
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -85,7 +85,7 @@ public class UserInfoRestful {
 		return "success";
 	}	
 	/**
-	 * ÓÃ»§×¢²á
+	 * ï¿½Ã»ï¿½×¢ï¿½ï¿½
 	 * @param message
 	 * @return
 	 * @throws JSONException
@@ -104,7 +104,7 @@ public class UserInfoRestful {
 	}
 	
 	/**
-	 * ²éÑ¯ÓÃ»§¸öÈËÐÅÏ¢
+	 * ï¿½ï¿½Ñ¯ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -123,7 +123,7 @@ public class UserInfoRestful {
 		return JSONObject.fromObject(returnClient).toString();
 	}
 	/**
-	 * ÐÞ¸ÄÓÃ»§¸öÈËÐÅÏ¢
+	 * ï¿½Þ¸ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 * @param message
 	 * @param userId
 	 * @param sign
@@ -142,16 +142,23 @@ public class UserInfoRestful {
 	{
 		JSONObject obj=JSONObject.fromObject(message);
 		Client client=clientService.getClientById(userId);
-		client.setUserName(obj.getString("user_name"));
+		String username=obj.getString("username");
+		client.setUserName(username);
 		client.setBirthday(java.sql.Date.valueOf(obj.getString("birthday")));
 		client.setEmail(obj.getString("email"));
 		client.setGender(obj.getString("gender"));
-		clientService.updateClient(client);
-		return "success";
+		Client temp=clientService.getClientByUserName(username);
+		if(temp==null||temp.getUserId()==userId){
+			clientService.updateClient(client);
+			return "success";
+		}
+		else{
+			return "exist name";
+		}
 	}
 
 	/**
-	 * »ñÈ¡ÎÒµÄÅóÓÑµÄÐÅÏ¢
+	 * ï¿½ï¿½È¡ï¿½Òµï¿½ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½Ï¢
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -179,7 +186,7 @@ public class UserInfoRestful {
 		else return "error";
 	}
 	/**
-	 * »ñÈ¡ÎÒ¹Ø×¢µÄÈËµÄÐÅÏ¢
+	 * ï¿½ï¿½È¡ï¿½Ò¹ï¿½×¢ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½Ï¢
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -199,7 +206,7 @@ public class UserInfoRestful {
 		return ja.toString();
 	}
 	/**
-	 * »ñÈ¡¹Ø×¢ÎÒµÄÈËµÄÐÅÏ¢
+	 * ï¿½ï¿½È¡ï¿½ï¿½×¢ï¿½Òµï¿½ï¿½Ëµï¿½ï¿½ï¿½Ï¢
 	 * @param userId
 	 * @param sign
 	 * @return
@@ -219,7 +226,7 @@ public class UserInfoRestful {
 		return ja.toString();
 	}
 	/**
-	 * »ñÈ¡µ¥¸öÓÃ»§µÄÐÅÏ¢
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 * @param userId
 	 * @param sign
 	 * @param id
@@ -236,7 +243,7 @@ public class UserInfoRestful {
 		return obj.toString();
 	}
 	/**
-	 * ¹Ø×¢Ä³ÈË
+	 * ï¿½ï¿½×¢Ä³ï¿½ï¿½
 	 * @param tstring
 	 * @param userId
 	 * @param sign
@@ -268,7 +275,7 @@ public class UserInfoRestful {
 		return res;
 	}
 	/**
-	 * È¡Ïû¶ÔÓÚÄ³ÈËµÄ¹Ø×¢
+	 * È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ËµÄ¹ï¿½×¢
 	 * @param tstring
 	 * @param userId
 	 * @param sign
