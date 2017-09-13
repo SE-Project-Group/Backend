@@ -373,7 +373,7 @@ public class FeedRestful {
 		 
 		 String msgContent=json.toJson(resmap);
 		 msgContent="NewCommentMessage#"+msgContent;
-		 if(user_id==iowner){}
+		 if(user_id==iowner&&replyId==0){}
 		 else
 		 if(replyId==0){jpushService.sendMessageByAlias(owner, msgContent);}
 		 else{
