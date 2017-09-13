@@ -342,7 +342,7 @@ public class FeedServiceImpl implements FeedService{
 		if(replyId!=0){
 			for(int m=0;m<commentList.size();m++){
 				Comment comment=commentList.get(m);
-				if(comment.getReplyId()==replyId){
+				if(comment.getCommentId()==replyId){
 					replyowner=comment.getUserId();
 					break;
 				}
